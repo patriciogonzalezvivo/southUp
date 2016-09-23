@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>PAM</title>
+    <title>South Up</title>
     <!-- 3rd party libraries -->
         <!-- Leaflet -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.3/leaflet.css" />
@@ -46,7 +46,7 @@
             var map = (function () {
                 'use strict';
 
-                var map_start_location = [40.70531887544228, -74.00976419448853, 16];
+                var map_start_location = [0, 180, 3];
 
                 /*** URL parsing ***/
 
@@ -77,6 +77,7 @@
                 var layer = Tangram.leafletLayer({
                     scene: 'scene.yaml',
                     scrollWheelZoom: 'center',
+                    doubleClickZoom: 'center',
                     attribution: '&copy; OSM contributors | <a href="https://mapzen.com" target="_blank">Mapzen</a> | <a href="https://twitter.com/patriciogv" target="_blank">@patriciogv</a>'
                 });
 

@@ -35,7 +35,7 @@ layers:
                     - scalerank: 0
             draw:
                 lines:
-                    style: lns-flip
+                    style: boundaries-region
                     color: gray
                     width: [[0, 0px], [4, 0px], [5, 0.5px], [6, 0.5px], [8, 1px], [14, 1.5px], [16, 3.0px], [17, 10m]]
             water:
@@ -44,9 +44,8 @@ layers:
                     lines:
                         style: lns-flip
                         visible: false
-            # early:
-            #     filter: { scalerank: [0,3,4,5,6,7,8,9,10], $zoom: { max: 8 } }
-            #     draw:
-            #         lines:
-            #             style: lns-flip
-            #             visible: false
+styles:
+    boundaries-region:
+        base: lines
+        mix: lns-flip
+        dash: [6,2]
