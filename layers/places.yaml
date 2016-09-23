@@ -17,8 +17,6 @@ layers:
             draw:
                 text:
                     visible: true
-
-
         country-z4:
             filter:
                 all:
