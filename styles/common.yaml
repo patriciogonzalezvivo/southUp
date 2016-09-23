@@ -1,0 +1,10 @@
+import:
+    - https://tangrams.github.io/blocks/filter/grid.yaml
+    - https://tangrams.github.io/blocks/functions/zoom.yaml
+    
+styles:
+    flip:
+        shaders:
+            blocks:
+                position: |
+                    position.xy *= -1.;

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>PAM</title>
+    <!-- 3rd party libraries -->
+        <!-- Leaflet -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.3/leaflet.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.3/leaflet.js"></script>
+        <!-- bog-standard leaflet URL hash -->
+        <script type="text/javascript" src="https://cdn.rawgit.com/mlevans/leaflet-hash/master/leaflet-hash.js"></script>
+        <!-- Main tangram library -->
+        <script src="https://mapzen.com/tangram/0.10/tangram.min.js"></script>
+    <!-- End of 3rd party libraries -->
+
+    <style>
+        body {
+            margin: 0px;
+            border: 0px;
+            padding: 0px;
+            overflow: hidden;
+        }
+
+        #map {
+            position: absolute;
+            background: black;
+            height: 100%;
+            width: 100%;
+            margin: 0px;
+            padding: 0px;
+            background: rgba(0, 0, 0, 0);
+            z-index:0;
+        }
+    </style>
+  </head>
+
+    <body>
+        <div class="label" id="popup"></div>
+        <div id="map"></div>
+
+        <!-- Demo module -->
+        <script type="text/javascript">
+            var map = (function () {
+                'use strict';
+
+                var map_start_location = [40.70531887544228, -74.00976419448853, 16];
+
+                /*** URL parsing ***/
+
+                // leaflet-style URL hash pattern:
+                // ?style.yaml#[zoom],[lat],[lng]
+                var url_hash = window.location.hash.slice(1).split('/');
+                if (url_hash.length == 3) {
+                    map_start_location = [url_hash[1],url_hash[2], url_hash[0]];
+                    // convert from strings
+                    map_start_location = map_start_location.map(Number);
+                }
+
+                var animated = true;
+                var url_search = window.location.search.slice(1);
+                if (url_search.length > 0) {
+                    if (url_search.indexOf('animated=false') > -1) {
+                        animated = false;
+                    }
+                }
+
+                /*** Map ***/
+                var map = L.map('map', {
+                    maxZoom: 20,
+                    trackResize: true,
+                    keyboard: false
+                });
+
+                var layer = Tangram.leafletLayer({
+                    scene: 'scene.yaml',
+                    scrollWheelZoom: 'center',
+                    attribution: '&copy; OSM contributors | <a href="https://mapzen.com" target="_blank">Mapzen</a> | <a href="https://twitter.com/patriciogv" target="_blank">@patriciogv</a>'
+                });
+
+                window.layer = layer;
+                var scene = layer.scene;
+                window.scene = scene;
+
+                map.setView(map_start_location.slice(0, 2), map_start_location[2]);
+                var hash = new L.Hash(map);
+
+                // Resize map to window
+                function resizeMap() {
+                    document.getElementById('map').style.width = window.innerWidth + 'px';
+                    document.getElementById('map').style.height = window.innerHeight + 'px';
+                    map.invalidateSize(false);
+                }
+
+                window.addEventListener('resize', resizeMap);
+                resizeMap();
+
+                window.addEventListener('load', function () {
+                    layer.addTo(map);
+                });
+
+                map.dragging.disable();
+                // map.on("dragstart", function(ev){
+                //     console.log("Drag start", ev);
+                // });
+                // map.on("drag", function(ev){
+                //     console.log("Drag", ev);
+                // });
+                // map.on("dragend", function(ev){
+                //     console.log("Drag end", ev);
+                // });
+                var clickTolerance = 3;
+                var prevPoint = undefined;
+                document.getElementById('map').addEventListener('mousedown', function (event) {
+                    prevPoint = new L.Point(event.clientX, event.clientY);
+                }, false);
+                document.getElementById('map').addEventListener('mousemove', function (event) {
+                    if (prevPoint) {
+                        var newPoint = new L.Point(event.clientX, event.clientY);
+                        var offset = newPoint.subtract(prevPoint);
+                        prevPoint = newPoint;
+                        
+                        // var startPos = L.DomUtil.getPosition().subtract(offset);
+                        // if (!offset.x && !offset.y) { return; }
+                        // if (Math.abs(offset.x) + Math.abs(offset.y) < clickTolerance) { return; }
+
+                        map.panBy(offset, {animate: false});
+                    }
+                }, false);
+                document.getElementById('map').addEventListener('mouseup', function (event) {
+                    prevPoint = undefined;
+                }, false);
+                document.getElementById('map').addEventListener('mouseout', function (event) {
+                    prevPoint = undefined;
+                }, false);
+                document.getElementById('map').addEventListener('mouseleave', function (event) {
+                    prevPoint = undefined;
+                }, false);
+
+                return map;
+            }());
+
+            
+            </script>
+
+        <!-- Adding a script block to post message to the parent container (think iframed demos) -->
+        <script type="text/javascript">
+          window.addEventListener("hashchange",function(){parent.postMessage(window.location.hash, "*")});
+        </script>
+    </body>
+</html>

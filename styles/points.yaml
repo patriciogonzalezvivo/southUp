@@ -1,0 +1,4 @@
+styles:
+    ptn-flip:
+        base: polygons
+        mix: flip
