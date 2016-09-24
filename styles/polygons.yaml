@@ -1,9 +1,0 @@
-import:
-    - https://tangrams.github.io/blocks/elevation/normal.yaml
-    - https://tangrams.github.io/blocks/elevation/ramp.yaml
-
-styles:
-    ply-flip:
-        base: polygons
-        raster: custom
-        mix: [flip, elevation-normal, filter-grid]

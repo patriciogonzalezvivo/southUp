@@ -1,0 +1,25 @@
+import:
+    - https://tangrams.github.io/blocks/filter/grid.yaml
+    - https://tangrams.github.io/blocks/functions/zoom.yaml
+    - https://tangrams.github.io/blocks/elevation/normal.yaml
+    - https://tangrams.github.io/blocks/elevation/ramp.yaml
+    
+styles:
+    flip:
+        shaders:
+            blocks:
+                position: |
+                    position.xy *= -1.;
+    ply-flip:
+        base: polygons
+        raster: custom
+        mix: [flip, elevation-normal, filter-grid]
+    lns-flip:
+        base: lines
+        mix: [flip]
+    ptn-flip:
+        base: polygons
+        mix: [flip]
+    txt-flip:
+        base: text
+        mix: [flip]
