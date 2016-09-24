@@ -4,5 +4,7 @@ import:
     - base/styles.yaml
     - base/layers.yaml
 
-
+    - stars/sources.yaml
+    - stars/styles.yaml
+    - stars/layers.yaml
     

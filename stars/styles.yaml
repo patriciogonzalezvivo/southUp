@@ -1,0 +1,21 @@
+styles:
+    stars:
+        base: points
+        mix: [flip]
+        animated: true
+        shaders:
+            blocks:
+                position: |
+                    position.z += 999999.;
+                color: |
+                    color.rgb = vec3(1.0,0.,0.);
+    constelation:
+        base: lines
+        mix: [flip]
+        animated: true
+        shaders:
+            blocks:
+                position: |
+                    position.z += 999999.;
+                color: |
+                    color.rgb = vec3(1.0,0.,0.);

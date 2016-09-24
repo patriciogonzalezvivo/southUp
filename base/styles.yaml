@@ -17,8 +17,8 @@ styles:
     lns-flip:
         base: lines
         mix: [flip]
-    ptn-flip:
-        base: polygons
+    pts-flip:
+        base: points
         mix: [flip]
     txt-flip:
         base: text
