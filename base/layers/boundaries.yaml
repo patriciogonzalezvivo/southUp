@@ -37,7 +37,7 @@ layers:
                 lines:
                     style: boundaries-region
                     color: gray
-                    width: [[0, 0px], [4, 0px], [5, 0.5px], [6, 0.5px], [8, 1px], [14, 1.5px], [16, 3.0px], [17, 10m]]
+                    width: [[0, 0px], [4, 0px], [5, 0.5px], [6, 0.5px], [8, 1px], [14, 1.5px], [17, 1m]]
             water:
                 filter: { maritime_boundary: yes }
                 draw:
