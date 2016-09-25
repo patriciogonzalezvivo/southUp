@@ -12,14 +12,18 @@ layers:
             filter: { kind: highway }
             draw:
                 lines:
-                    color: gray
                     width: [[8,0px], [8,.25px], [11, 1.5px], [14, 2px], [16, 4px], [17, 10m]]
+                    outline:
+                        width: [[8,0px], [8,.125px], [11, .575px], [14, 1px], [16, 2px], [17, 1m]]
+                        color: gray
             link:
                 filter: { is_link: yes } # on- and off-ramps, etc
                 draw:
                     lines:
-                        color: [.6,.6,.6]
                         width: [[8,0px], [14, 3px], [16, 5px], [18, 10m]]
+                        outline:
+                            width: [[8,0px], [14, .5px], [16, 1px], [17, .5m]]
+                            color: gray
                 tunnel-link:
                     filter: {is_tunnel: yes, $zoom: {min: 13} }
         tunnel:

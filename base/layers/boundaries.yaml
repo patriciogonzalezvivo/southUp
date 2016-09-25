@@ -3,7 +3,7 @@ layers:
         data: { source: mapzen }
         draw:
             lines:
-                style: lns-flip
+                style: boundaries-region
                 order: global.order
                 color: darkgray
                 width: 1px
@@ -16,6 +16,7 @@ layers:
             draw:
                 lines:
                     style: lns-flip
+                    color: [[3,[.5,.5,.5]],[7,[.4,.4,.4]],[10,[.3,.3,.3]]]
                     width: [[1, 0px], [3, 0px], [4, 1px], [9, 1.5px], [14, 2.5px], [16, 3px], [17, 10m]]
             water:
                 filter: { maritime_boundary: yes }
@@ -37,13 +38,21 @@ layers:
                 lines:
                     style: boundaries-region
                     color: gray
-                    width: [[0, 0px], [4, 0px], [5, 0.5px], [6, 0.5px], [8, 1px], [14, 1.5px], [17, 1m]]
+                    width: [[5, 0px], [6, 0.5px], [8, 1px], [14, 1.5px], [17, 1m]]
             water:
                 filter: { maritime_boundary: yes }
                 draw:
                     lines:
                         style: lns-flip
                         visible: false
+                        color: red
+        water:
+            filter: { maritime_boundary: yes }
+            draw:
+                lines:
+                    style: boundaries-region
+                    color: lightblue
+                    width: [[10, 0px], [12, 1px], [17, 1m]]
 styles:
     boundaries-region:
         base: lines

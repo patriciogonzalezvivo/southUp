@@ -14,6 +14,9 @@
         <script type="text/javascript" src="https://cdn.rawgit.com/mlevans/leaflet-hash/master/leaflet-hash.js"></script>
         <!-- Main tangram library -->
         <script src="https://mapzen.com/tangram/0.10/tangram.min.js"></script>
+        <!-- Load geocoding plugin after Leaflet -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.1/leaflet-geocoder-mapzen.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.1/leaflet-geocoder-mapzen.js"></script>
     <!-- End of 3rd party libraries -->
 
     <style>
@@ -73,6 +76,7 @@
                     trackResize: true,
                     keyboard: false
                 });
+                L.control.geocoder('mapzen-YoRQaZF',{pointIcon: false, markers: false}).addTo(map);
 
                 var layer = Tangram.leafletLayer({
                     scene: 'scene.yaml',
@@ -102,31 +106,35 @@
                     layer.addTo(map);
                 });
 
+                window.addEventListener('keypress', function(evt) {
+                    var key;
+                    var isShift;
+                    if (window.event) {
+                        key = window.event.keyCode;
+                        isShift = !!window.event.shiftKey; // typecast to boolean
+                        
+                    } else {
+                        key = ev.which;
+                        isShift = !!ev.shiftKey;
+                    }
+                    if ( isShift ) {
+                        console.log("shift")
+                    }
+                    console.log(key);
+                });
+
                 map.dragging.disable();
-                // map.on("dragstart", function(ev){
-                //     console.log("Drag start", ev);
-                // });
-                // map.on("drag", function(ev){
-                //     console.log("Drag", ev);
-                // });
-                // map.on("dragend", function(ev){
-                //     console.log("Drag end", ev);
-                // });
-                var clickTolerance = 3;
                 var prevPoint = undefined;
                 document.getElementById('map').addEventListener('mousedown', function (event) {
-                    prevPoint = new L.Point(event.clientX, event.clientY);
+                    var first = event.touches ? event.touches[0] : event;
+                    prevPoint = new L.Point(first.clientX, first.clientY);
                 }, false);
                 document.getElementById('map').addEventListener('mousemove', function (event) {
                     if (prevPoint) {
-                        var newPoint = new L.Point(event.clientX, event.clientY);
+                        var first = event.touches ? event.touches[0] : event;
+                        var newPoint = new L.Point(first.clientX, first.clientY);
                         var offset = newPoint.subtract(prevPoint);
                         prevPoint = newPoint;
-                        
-                        // var startPos = L.DomUtil.getPosition().subtract(offset);
-                        // if (!offset.x && !offset.y) { return; }
-                        // if (Math.abs(offset.x) + Math.abs(offset.y) < clickTolerance) { return; }
-
                         map.panBy(offset, {animate: false});
                     }
                 }, false);

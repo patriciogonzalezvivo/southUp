@@ -29,8 +29,8 @@ layers:
             filter:
                 all:
                     - kind: [country]
-                    - $zoom: { min: 3, max: 5 }
-                    - not: { name: ["United Kingdom","United States of America", "Canada","中华人民共和国","Россия","Kalaallit Nunaat","Ísland","Australia","India","日本","Guam","Indonesia","South Africa"] }
+                    - $zoom: { min: 2.5, max: 5 }
+                    # - not: { name: ["United Kingdom","United States of America", "Canada","中华人民共和国","Россия","Kalaallit Nunaat","Ísland","Australia","India","日本","Guam","Indonesia","South Africa"] }
             draw:
                 text:
                     text_source: function() { return feature["name:en"] || feature["name"]; }
@@ -50,7 +50,7 @@ layers:
                     visible: global.text_visible_admin
                     font:
                         family: Baskerville, Times
-                        size: 18px
+                        size: 16px
                         fill: [.2,.2,.2]
                         transform: uppercase
                         stroke:
@@ -77,7 +77,7 @@ layers:
                     priority: 3
                     font:
                         family: Baskerville, Times
-                        size: 19px
+                        size: 18px
                         fill: [.2,.2,.2]
                         transform: uppercase
                         stroke:
