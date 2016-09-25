@@ -15,7 +15,7 @@ styles:
     ply-flip:
         base: polygons
         raster: custom
-        mix: [flip, elevation-normal]
+        mix: [flip]
     lns-flip:
         base: lines
         mix: [flip]

@@ -1,14 +1,40 @@
+import:
+    - https://tangrams.github.io/blocks/generative/noise.yaml
+
 layers:
     water:
         data: { source: mapzen }
         draw:
-            water:
+            polygons:
+                style: water
                 order: global.order
                 color: '#E7F1F5'
+        water-later:
+            filter: { $zoom: { min: 14 } }
+            draw:
+                polygons:
+                    style: water-later
 
 styles:
     water:
-        mix: [ply-flip, filter-grid]
+        mix: [ply-flip, elevation-normal, filter-grid, functions-zoom]
         shaders:
             defines:
+                ZOOM_START: 10
+                ZOOM_END: 12
                 GRID_AMOUNT: 0.1
+                WATER_NORMALS_START: normal
+                WATER_NORMALS_END: vec3(0.,0.,1.)
+            blocks:
+                normal: | 
+                    normal = mix(WATER_NORMALS_START, WATER_NORMALS_END, zoom()); 
+    water-later:
+        mix: [water, generative-noise]
+        animated: true
+        shaders:
+            defines:
+                ZOOM_START: 14
+                ZOOM_END: 20
+                GRID_AMOUNT: 0.2
+                WATER_NORMALS_START: vec3(0.,0.,1.)
+                WATER_NORMALS_END: (vec3(0.,0.,1.)+snoise(vec3(worldPosition().xy*0.08,u_time*.5))*.2)
