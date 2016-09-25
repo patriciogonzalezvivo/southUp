@@ -1,3 +1,11 @@
+textures:
+    places:
+        url: places.png
+        filtering: mipmap
+        sprites:
+            # define sprites: [x origin, y origin, width, height]
+            capital: [0, 0, 50, 50]
+
 layers:
     places:
         data: { source: mapzen, layer: places }
@@ -106,29 +114,43 @@ layers:
                 source: naturalearthdata.com
                 $zoom: { min: 5 }
             draw:
-                text:
-                    style: txt-flip
-                    visible: true
-                    priority: 5
-                    font:
-                        family: Baskerville, Times
-                        size: 10px
-                        fill: [.2,.2,.2]
-                        stroke:
-                            color: white
-                            width: 3
-            capital:
-                filter: { capital: yes }
-                draw:
+                points:
+                    # visible: false
+                    size: 5px
+                    color: gray
+                    style: pts-flip
                     text:
                         style: txt-flip
                         visible: true
-                        priority: 4
+                        priority: 5
                         font:
                             family: Baskerville, Times
-                            size: 16px
-                            fill: [.1,.1,.1]
+                            size: 10px
+                            fill: [.2,.2,.2]
                             stroke:
                                 color: white
                                 width: 3
-                    
+            capital:
+                filter: { capital: yes }
+                draw:
+                    points:
+                        style: icons
+                        size: 10px
+                        color: black
+                        text:
+                            style: txt-flip
+                            visible: true
+                            priority: 4
+                            font:
+                                family: Baskerville, Times
+                                size: 16px
+                                fill: [.1,.1,.1]
+                                stroke:
+                                    color: white
+                                    width: 3
+
+styles:
+    icons:
+        base: points
+        mix: [pts-flip]
+        texture: places.png

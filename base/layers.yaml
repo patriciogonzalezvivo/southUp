@@ -6,6 +6,6 @@ import:
     - layers/earth-labels.yaml
     - layers/boundaries.yaml
     - layers/places.yaml
-    # - layers/landuse.yaml
-    # - layers/roads.yaml
+    - layers/landuse.yaml
+    - layers/roads.yaml
     # - layers/roads-labels.yaml

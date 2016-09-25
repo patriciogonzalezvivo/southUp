@@ -2,9 +2,11 @@ sources:
     constellations:
         type: GeoJSON
         url: sources/const.json
+        max_display_zoom: 7
     stars:
         type: GeoJSON
         url: sources/stars.6.json
+        max_display_zoom: 7
         
 textures:
     stars:
@@ -25,7 +27,7 @@ layers:
         draw:
             text:
                 style: txt-flip
-                priority: 10
+                priority: 20
                 font:
                     fill: white
                     family: Times, Baskerville
@@ -35,17 +37,19 @@ layers:
                         width: 3
     constellations:
         data: { source: constellations, layer: lines }
+        filter: { $zoom: { max: 7 } }
         draw:
             lines:
-                width: 1px
+                width: [[0,5px], [6,10px]]
                 order: 10000
                 color: white
                 style: constellations
     stars:
         data: { source: stars }
+        filter: { $zoom: { max: 6 } }
         draw:
             points:
-                size: 5px
+                size: [[0,10px],[8,20px]]
                 order: 10001
                 color: white
                 style: stars
@@ -55,42 +59,42 @@ layers:
             draw:
                 points:
                     sprite: eight
-                    size: 25px
+                    size: [[0,25px],[8,50px]]
                     color: white
         very-big:
             filter: { mag: { min: 1, max: 2 }}
             draw:
                 points:
                     sprite: eight
-                    size: 20px
+                    size: [[0,20px],[8,40px]]
                     color: white
         big:
             filter: { mag: { min: 2, max: 3 }}
             draw:
                 points:
                     sprite: six
-                    size: 20px
+                    size: [[0,20px],[8,40px]]
                     color: white
         medium:
             filter: { mag: { min: 3, max: 4 }}
             draw:
                 points:
                     sprite: six
-                    size: 15px
+                    size: [[0,15px],[8,30px]]
                     color: white
         small:
             filter: { mag: { min: 3, max: 4 }}
             draw:
                 points:
                     sprite: four
-                    size: 15px
+                    size: [[0,15px],[8,43px]]
                     color: white
         tiny:
             filter: { mag: { min: 5, max: 6 }}
             draw:
                 points:
                     sprite: four
-                    size: 13px
+                    size: [[0,13px],[8,20px]]
                     color: white
 
 styles:
@@ -99,16 +103,25 @@ styles:
         texture: stars
         mix: [flip]
         blend: alpha
-        animated: true
         shaders:
             blocks:
                 position: |
                     position.z += 999999.;
     constellations:
         base: lines
-        mix: [flip]
+        mix: [flip, functions-zoom]
+        texcoords: true
+        blend: overlay
         shaders:
+            defines:
+                ZOOM_START: 4.
+                ZOOM_END: 6.
+                BRIGHTNESS: mix(0.98,0.999,z)
             blocks:
                 position: |
                     position.z += 999999.;
+                color: |
+                    float z = zoom();
+                    color.a = sin(v_texcoord.x*3.1415)*mix(.1,0.,z);
+                    color.a += (smoothstep(BRIGHTNESS, 1., sin(v_texcoord.x*3.1415))*step(.3,fract(v_texcoord.y)))*mix(1.,0.,z);
                 

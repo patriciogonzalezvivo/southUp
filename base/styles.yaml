@@ -3,6 +3,8 @@ import:
     - https://tangrams.github.io/blocks/functions/zoom.yaml
     - https://tangrams.github.io/blocks/elevation/normal.yaml
     - https://tangrams.github.io/blocks/elevation/ramp.yaml
+    - https://tangrams.github.io/blocks/elevation/stripes.yaml
+    - https://tangrams.github.io/blocks/elevation/dash.yaml
     
 styles:
     flip:
@@ -13,7 +15,7 @@ styles:
     ply-flip:
         base: polygons
         raster: custom
-        mix: [flip, elevation-normal, filter-grid]
+        mix: [flip, elevation-normal]
     lns-flip:
         base: lines
         mix: [flip]

@@ -133,9 +133,9 @@
             "type": "Feature",
             "id": "Boo",
             "properties": {
-                "name": "Bo�tes",
+                "name": "Botes",
                 "desig": "Boo",
-                "gen": "Bo�tis"
+                "gen": "Botis"
             },
             "geometry": {
                 "type": "Point",

@@ -30,7 +30,7 @@ layers:
                     font:
                         fill: white
                         family: Times, Baskerville
-                        size: 12px
+                        size: 16px
         lakes-z5:
             filter: { $zoom: [5] }
             draw:
@@ -84,11 +84,11 @@ layers:
         ocean-labels-z3:
             filter: { $zoom: [3] }
             draw:
-                text: { font: { size: 13px } }
+                text: { font: { size: 16px } }
         ocean-labels-z4-up:
             filter: { $zoom: { min: 4} }
             draw:
-                text: { font: { size: 16px } }
+                text: { font: { size: 19px } }
 
         sea-spacer:
             filter: { not: { kind: [ocean] }, $zoom: { min: 5 } }
@@ -102,23 +102,23 @@ layers:
             sea-labels-z4:
                 filter: { $zoom: [4] }
                 draw:
-                    text: { font: { size: 9px } }
+                    text: { font: { size: 12px } }
             sea-labels-z5:
                 filter: { $zoom: [5] }
                 draw:
-                    text: { font: { size: 10px } }
+                    text: { font: { size: 13px } }
             sea-labels-z6:
                 filter: { $zoom: [6] }
                 draw:
-                    text: { font: { size: 11px } }
+                    text: { font: { size: 14px } }
             sea-labels-z7:
                 filter: { $zoom: [7] }
                 draw:
-                    text: { font: { size: 12px } }
+                    text: { font: { size: 15px } }
             sea-labels-z8:
                 filter: { $zoom: { min: 8} }
                 draw:
-                    text: { font: { size: 14px } }
+                    text: { font: { size: 17px } }
 
     playa-labels:
         data: { source: mapzen, layer: water }
