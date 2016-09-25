@@ -53,7 +53,7 @@ layers:
                 font:
                     fill: white
                     family: Times, Baskerville
-                    size: 16px
+                    size: 20px
                     transform: uppercase
                     stroke:
                         color: '#CED4D9'

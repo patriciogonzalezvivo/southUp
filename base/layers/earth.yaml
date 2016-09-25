@@ -5,7 +5,7 @@ layers:
             polygons:
                 style: earth
                 order: global.order
-                color: '#FEFEFE'
+                color: lightgray
             lines:
                 style: lns-flip
                 order: global.order_add_1

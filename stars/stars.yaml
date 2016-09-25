@@ -1,5 +1,5 @@
 sources:
-    constelations:
+    constellations:
         type: GeoJSON
         url: sources/const.json
     stars:
@@ -14,12 +14,12 @@ textures:
             # define sprites: [x origin, y origin, width, height]
             three: [0, 0, 50, 50]
             four: [50, 0, 50, 50]
-            six: [50, 0, 50, 50]
+            six: [0, 50, 50, 50]
             eight: [50, 50, 50, 50]
 
 layers:
-    constelations-labels:
-        data: { source: constelations, layer: labels }
+    constellations-labels:
+        data: { source: constellations, layer: labels }
         filter:
             - $zoom: { max: 3 }
         draw:
@@ -27,51 +27,88 @@ layers:
                 style: txt-flip
                 priority: 10
                 font:
-                    size: 15px
-                    family: arial
-                    fill: red
-    constelations:
-        data: { source: constelations, layer: lines }
+                    fill: white
+                    family: Times, Baskerville
+                    size: 14px
+                    stroke:
+                        color: lightgray
+                        width: 3
+    constellations:
+        data: { source: constellations, layer: lines }
         draw:
             lines:
                 width: 1px
                 order: 10000
                 color: white
-                style: constelation
-            stars:
-                sprite: six
-                size: 20px
-                order: 10000
-                color: white
+                style: constellations
     stars:
         data: { source: stars }
         draw:
-            stars:
-                sprite: four
-                size: 20px
-                order: 10000
+            points:
+                size: 5px
+                order: 10001
                 color: white
-                # style: stars
+                style: stars
+                sprite: three
+        huge:
+            filter: { mag: { min: 0, max: 1 }}
+            draw:
+                points:
+                    sprite: eight
+                    size: 25px
+                    color: white
+        very-big:
+            filter: { mag: { min: 1, max: 2 }}
+            draw:
+                points:
+                    sprite: eight
+                    size: 20px
+                    color: white
+        big:
+            filter: { mag: { min: 2, max: 3 }}
+            draw:
+                points:
+                    sprite: six
+                    size: 20px
+                    color: white
+        medium:
+            filter: { mag: { min: 3, max: 4 }}
+            draw:
+                points:
+                    sprite: six
+                    size: 15px
+                    color: white
+        small:
+            filter: { mag: { min: 3, max: 4 }}
+            draw:
+                points:
+                    sprite: four
+                    size: 15px
+                    color: white
+        tiny:
+            filter: { mag: { min: 5, max: 6 }}
+            draw:
+                points:
+                    sprite: four
+                    size: 13px
+                    color: white
 
 styles:
     stars:
         base: points
         texture: stars
         mix: [flip]
+        blend: alpha
         animated: true
         shaders:
             blocks:
                 position: |
                     position.z += 999999.;
-                color: |
-                    color.rgb = vec3(1.0,0.,0.);
-    constelation:
+    constellations:
         base: lines
         mix: [flip]
-        animated: true
         shaders:
             blocks:
                 position: |
                     position.z += 999999.;
-                color: |
-                    color.rgb = vec3(1.0,0.,0.);
+                
