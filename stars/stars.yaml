@@ -1,0 +1,59 @@
+sources:
+    constelations:
+        type: GeoJSON
+        url: sources/const.json
+    stars:
+        type: GeoJSON
+        url: sources/stars.6.json
+        
+layers:
+    constelations-labels:
+        data: { source: constelations, layer: labels }
+        filter:
+            - $zoom: { max: 3 }
+        draw:
+            text:
+                style: txt-flip
+                priority: 10
+                font:
+                    size: 15px
+                    family: arial
+                    fill: red
+    constelations:
+        data: { source: constelations, layer: lines }
+        draw:
+            lines:
+                width: 1px
+                order: 10000
+                color: white
+                style: constelation
+    stars:
+        data: { source: stars }
+        draw:
+            points:
+                size: 2px
+                order: 10000
+                color: white
+                style: stars
+
+styles:
+    stars:
+        base: points
+        mix: [flip]
+        animated: true
+        shaders:
+            blocks:
+                position: |
+                    position.z += 999999.;
+                color: |
+                    color.rgb = vec3(1.0,0.,0.);
+    constelation:
+        base: lines
+        mix: [flip]
+        animated: true
+        shaders:
+            blocks:
+                position: |
+                    position.z += 999999.;
+                color: |
+                    color.rgb = vec3(1.0,0.,0.);

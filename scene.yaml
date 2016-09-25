@@ -1,10 +1,4 @@
 import:
-    - base/global.yaml
-    - base/sources.yaml
-    - base/styles.yaml
-    - base/layers.yaml
-
-    - stars/sources.yaml
-    - stars/styles.yaml
-    - stars/layers.yaml
+    - base/base.yaml
+    - stars/stars.yaml
     
