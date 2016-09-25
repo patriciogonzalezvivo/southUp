@@ -6,6 +6,17 @@ sources:
         type: GeoJSON
         url: sources/stars.6.json
         
+textures:
+    stars:
+        url: stars.png
+        filtering: mipmap
+        sprites:
+            # define sprites: [x origin, y origin, width, height]
+            three: [0, 0, 50, 50]
+            four: [50, 0, 50, 50]
+            six: [50, 0, 50, 50]
+            eight: [50, 50, 50, 50]
+
 layers:
     constelations-labels:
         data: { source: constelations, layer: labels }
@@ -27,18 +38,25 @@ layers:
                 order: 10000
                 color: white
                 style: constelation
+            stars:
+                sprite: six
+                size: 20px
+                order: 10000
+                color: white
     stars:
         data: { source: stars }
         draw:
-            points:
-                size: 2px
+            stars:
+                sprite: four
+                size: 20px
                 order: 10000
                 color: white
-                style: stars
+                # style: stars
 
 styles:
     stars:
         base: points
+        texture: stars
         mix: [flip]
         animated: true
         shaders:
