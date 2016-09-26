@@ -11,8 +11,13 @@ const = {}
 const['lines'] = geojson.load(open(CONST_LINES))
 const['labels'] = geojson.load(open(CONST_LABELS))
 
+names = {}
+for feature in const['labels'].features:
+    names[feature.id] = feature.properties['name']
+
 # Fix and take geometries
 for feature in const['lines'].features:
+    feature['properties'] = { 'name': names[feature.id] }
     for line in feature.geometry.coordinates:
         lng_prev = 0
         for coord in line:
@@ -25,9 +30,6 @@ for feature in const['lines'].features:
                     lng_offset = 360
                 coord[0] += lng_offset
             lng_prev = coord[0]
-
-
-
 
 file = open(CONST_OUT, 'w')
 file.write(geojson.dumps(const, sort_keys=True))

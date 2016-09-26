@@ -35,6 +35,6 @@ styles:
             defines:
                 ZOOM_START: 14
                 ZOOM_END: 20
-                GRID_AMOUNT: 0.2
+                GRID_AMOUNT: 0.25
                 WATER_NORMALS_START: vec3(0.,0.,1.)
                 WATER_NORMALS_END: (vec3(0.,0.,1.)+snoise(vec3(worldPosition().xy*0.08,u_time*.5))*.2)
