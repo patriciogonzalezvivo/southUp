@@ -14,10 +14,12 @@ textures:
         filtering: mipmap
         sprites:
             # define sprites: [x origin, y origin, width, height]
-            three: [0, 0, 50, 50]
+            dot: [0, 0, 50, 50]
             four: [50, 0, 50, 50]
+            five: [100, 0, 50, 50]
             six: [0, 50, 50, 50]
             eight: [50, 50, 50, 50]
+            nine: [100, 50, 50, 50]
 
 layers:
     constellations-labels:
@@ -33,7 +35,7 @@ layers:
                     family: Times, Baskerville
                     size: 14px
                     stroke:
-                        color: lightgray
+                        color: [0.638,0.641,0.678]
                         width: 3
     constellations:
         data: { source: constellations, layer: lines }
@@ -49,67 +51,68 @@ layers:
         filter: { $zoom: { max: 6 } }
         draw:
             points:
-                size: [[0,10px],[8,20px]]
+                size: [[0,14px],[8,20px]]
                 order: 10001
                 color: white
                 style: stars
-                sprite: three
+                sprite: dot
         huge:
             filter: { mag: { min: 0, max: 1 }}
             draw:
                 points:
-                    sprite: eight
-                    size: [[0,25px],[8,50px]]
+                    sprite: nine
+                    size: [[0,25px], [8,50px]]
                     color: white
         very-big:
             filter: { mag: { min: 1, max: 2 }}
             draw:
                 points:
                     sprite: eight
-                    size: [[0,20px],[8,40px]]
+                    size: [[0,35px],[8,40px]]
                     color: white
         big:
             filter: { mag: { min: 2, max: 3 }}
             draw:
                 points:
                     sprite: six
-                    size: [[0,20px],[8,40px]]
+                    size: [[0,30px],[8,40px]]
                     color: white
         medium:
             filter: { mag: { min: 3, max: 4 }}
             draw:
                 points:
-                    sprite: six
-                    size: [[0,15px],[8,30px]]
+                    sprite: five
+                    size: [[0,25px],[8,30px]]
                     color: white
         small:
             filter: { mag: { min: 3, max: 4 }}
             draw:
                 points:
                     sprite: four
-                    size: [[0,15px],[8,43px]]
+                    size: [[0,20px],[8,43px]]
                     color: white
         tiny:
             filter: { mag: { min: 5, max: 6 }}
             draw:
                 points:
                     sprite: four
-                    size: [[0,13px],[8,20px]]
+                    size: [[0,15px],[8,20px]]
                     color: white
 
 styles:
-    stars:
-        base: points
-        texture: stars
-        mix: [flip]
-        blend: alpha
+    on-sky:
         shaders:
             blocks:
                 position: |
                     position.z += 999999.;
+    stars:
+        base: points
+        texture: stars
+        mix: [flip, on-sky]
+        blend: alpha
     constellations:
         base: lines
-        mix: [flip, functions-zoom]
+        mix: [flip, on-sky, functions-zoom]
         texcoords: true
         blend: overlay
         shaders:
@@ -118,8 +121,6 @@ styles:
                 ZOOM_END: 6.
                 BRIGHTNESS: mix(0.98,0.999,z)
             blocks:
-                position: |
-                    position.z += 999999.;
                 color: |
                     float z = zoom();
                     color.a = sin(v_texcoord.x*3.1415)*mix(.1,0.,z);

@@ -16,7 +16,7 @@ layers:
             draw:
                 lines:
                     style: lns-flip
-                    color: [[3,[.5,.5,.5]],[7,[.4,.4,.4]],[10,[.3,.3,.3]]]
+                    color: [[3,[0.638,0.641,0.678]],[7,[.5,.5,.5]],[10,[.4,.4,.4]],[12,[.3,.3,.3]]]
                     width: [[1, 0px], [3, 0px], [4, 1px], [9, 1.5px], [14, 2.5px], [16, 3px], [17, 10m]]
             water:
                 filter: { maritime_boundary: yes }
@@ -37,7 +37,7 @@ layers:
             draw:
                 lines:
                     style: boundaries-region
-                    color: gray
+                    color: [[5,[.6,.6,.6]],[12,[.5,.5,.5]],[12,[.4,.4,.4]]]
                     width: [[5, 0px], [6, 0.5px], [8, 1px], [14, 1.5px], [17, 1m]]
             water:
                 filter: { maritime_boundary: yes }
