@@ -42,7 +42,7 @@ layers:
         filter: { $zoom: { max: 7 } }
         draw:
             lines:
-                width: [[0,5px], [6,10px]]
+                width: [[0,8px], [6,12px]]
                 order: 10000
                 color: white
                 style: constellations
