@@ -23,7 +23,8 @@ layers:
                 draw:
                     lines:
                         style: lns-flip
-                        visible: false
+                        # visible: false
+                        color: lightblue
         region:
             filter:
                 any:
@@ -44,8 +45,8 @@ layers:
                 draw:
                     lines:
                         style: lns-flip
-                        visible: false
-                        color: red
+                        # visible: false
+                        color: lightblue
         water:
             filter: { maritime_boundary: yes }
             draw:

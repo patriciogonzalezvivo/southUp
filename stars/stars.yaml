@@ -51,7 +51,8 @@ layers:
         filter: { $zoom: { max: 6 } }
         draw:
             points:
-                size: [[0,14px],[8,20px]]
+                priority: 7
+                size: [[0,5px],[8,10px]]
                 order: 10001
                 color: white
                 style: stars
@@ -60,43 +61,49 @@ layers:
             filter: { mag: { min: 0, max: 1 }}
             draw:
                 points:
+                    priority: 1
                     sprite: nine
-                    size: [[0,25px], [8,50px]]
+                    size: [[0,30px], [8,50px]]
                     color: white
         very-big:
             filter: { mag: { min: 1, max: 2 }}
             draw:
                 points:
+                    priority: 2
                     sprite: eight
-                    size: [[0,35px],[8,40px]]
+                    size: [[0,25px],[8,40px]]
                     color: white
         big:
             filter: { mag: { min: 2, max: 3 }}
             draw:
                 points:
+                    priority: 3
                     sprite: six
-                    size: [[0,30px],[8,40px]]
+                    size: [[0,20px],[8,40px]]
                     color: white
         medium:
             filter: { mag: { min: 3, max: 4 }}
             draw:
                 points:
+                    priority: 4
                     sprite: five
-                    size: [[0,25px],[8,30px]]
+                    size: [[0,15px],[8,30px]]
                     color: white
         small:
             filter: { mag: { min: 3, max: 4 }}
             draw:
                 points:
+                    priority: 5
                     sprite: four
-                    size: [[0,20px],[8,43px]]
+                    size: [[0,10px],[8,43px]]
                     color: white
         tiny:
             filter: { mag: { min: 5, max: 6 }}
             draw:
                 points:
-                    sprite: four
-                    size: [[0,15px],[8,20px]]
+                    priority: 6
+                    sprite: dot
+                    size: [[0,10px],[8,20px]]
                     color: white
 
 styles:
