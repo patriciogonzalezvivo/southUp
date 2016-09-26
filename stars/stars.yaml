@@ -24,8 +24,7 @@ textures:
 layers:
     constellations-labels:
         data: { source: constellations, layer: labels }
-        filter:
-            - $zoom: { max: 3 }
+        filter: { $zoom: { max: 3 } }
         draw:
             text:
                 style: txt-flip
@@ -46,19 +45,6 @@ layers:
                 order: 10000
                 color: white
                 style: constellations
-        labels:
-            filter: { $zoom: { min: 3, max: 7 } }
-            draw:
-                text:
-                    style: txt-flip
-                    priority: 1
-                    font:
-                        fill: white
-                        family: Times, Baskerville
-                        size: 14px
-                        stroke:
-                            color: [0.638,0.641,0.678]
-                            width: 3
     stars:
         data: { source: stars }
         filter: { $zoom: { max: 6 } }

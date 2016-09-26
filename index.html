@@ -73,6 +73,9 @@
                 /*** Map ***/
                 var map = L.map('map', {
                     maxZoom: 20,
+                    scrollWheelZoom: 'center',
+                    doubleClickZoom: 'center',
+                    boxZoom: false,
                     trackResize: true,
                     keyboard: false
                 });
@@ -80,8 +83,6 @@
 
                 var layer = Tangram.leafletLayer({
                     scene: 'scene.yaml',
-                    scrollWheelZoom: 'center',
-                    doubleClickZoom: 'center',
                     attribution: '&copy; OSM contributors | <a href="https://mapzen.com" target="_blank">Mapzen</a> | <a href="http://jenlowe.net/" target="_blank">@datatelling</a> & <a href="http://patricio.io" target="_blank">@patriciogv</a>'
                 });
 
@@ -106,23 +107,7 @@
                     layer.addTo(map);
                 });
 
-                window.addEventListener('keypress', function(evt) {
-                    var key;
-                    var isShift;
-                    if (window.event) {
-                        key = window.event.keyCode;
-                        isShift = !!window.event.shiftKey; // typecast to boolean
-                        
-                    } else {
-                        key = ev.which;
-                        isShift = !!ev.shiftKey;
-                    }
-                    if ( isShift ) {
-                        console.log("shift")
-                    }
-                    console.log(key);
-                });
-
+                // Overload Mouse/Keyboard events to invert them
                 map.dragging.disable();
                 var prevPoint = undefined;
                 document.getElementById('map').addEventListener('mousedown', function (event) {
