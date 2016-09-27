@@ -2,11 +2,11 @@ sources:
     constellations:
         type: GeoJSON
         url: sources/const.json
-        max_display_zoom: 7
+        max_display_zoom: 5
     stars:
         type: GeoJSON
         url: sources/stars.6.json
-        max_display_zoom: 7
+        max_display_zoom: 5
         
 textures:
     stars:
@@ -38,20 +38,20 @@ layers:
                         width: 3
     constellations:
         data: { source: constellations, layer: lines }
-        filter: { $zoom: { max: 7 } }
+        filter: { $zoom: { max: 5 } }
         draw:
             lines:
-                width: [[0,8px], [6,12px]]
+                width: [[0,8px], [5,12px]]
                 order: 10000
                 color: white
                 style: constellations
     stars:
         data: { source: stars }
-        filter: { $zoom: { max: 6 } }
+        filter: { $zoom: { max: 5 } }
         draw:
             points:
                 priority: 7
-                size: [[0,5px],[8,10px]]
+                size: [[0,5px],[5,10px]]
                 order: 10001
                 color: white
                 style: stars
@@ -62,7 +62,7 @@ layers:
                 points:
                     priority: 1
                     sprite: nine
-                    size: [[0,30px], [8,50px]]
+                    size: [[0,30px], [5,50px]]
                     color: white
         very-big:
             filter: { mag: { min: 1, max: 2 }}
@@ -70,7 +70,7 @@ layers:
                 points:
                     priority: 2
                     sprite: eight
-                    size: [[0,25px],[8,40px]]
+                    size: [[0,25px],[5,40px]]
                     color: white
         big:
             filter: { mag: { min: 2, max: 3 }}
@@ -78,7 +78,7 @@ layers:
                 points:
                     priority: 3
                     sprite: six
-                    size: [[0,20px],[8,40px]]
+                    size: [[0,20px],[5,40px]]
                     color: white
         medium:
             filter: { mag: { min: 3, max: 4 }}
@@ -86,7 +86,7 @@ layers:
                 points:
                     priority: 4
                     sprite: five
-                    size: [[0,15px],[8,30px]]
+                    size: [[0,15px],[5,30px]]
                     color: white
         small:
             filter: { mag: { min: 3, max: 4 }}
@@ -94,7 +94,7 @@ layers:
                 points:
                     priority: 5
                     sprite: four
-                    size: [[0,10px],[8,43px]]
+                    size: [[0,10px],[5,43px]]
                     color: white
         tiny:
             filter: { mag: { min: 5, max: 6 }}
@@ -102,7 +102,7 @@ layers:
                 points:
                     priority: 6
                     sprite: dot
-                    size: [[0,10px],[8,20px]]
+                    size: [[0,10px],[5,20px]]
                     color: white
 
 styles:
@@ -110,7 +110,7 @@ styles:
         shaders:
             blocks:
                 position: |
-                    position.z += 999999.;
+                    position.z += 5999999.;
     stars:
         base: points
         texture: stars
@@ -123,8 +123,8 @@ styles:
         blend: overlay
         shaders:
             defines:
-                ZOOM_START: 4.
-                ZOOM_END: 6.
+                ZOOM_START: 2.
+                ZOOM_END: 5.
                 BRIGHTNESS: mix(0.98,0.999,z)
             blocks:
                 color: |
