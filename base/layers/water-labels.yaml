@@ -26,10 +26,11 @@ layers:
         default-label-text:
             draw:
                 text:
-                    style: txt-flip
+                    style: text-southup
+                    text_source: global.ux_language_text_source
                     font:
                         fill: white
-                        family: Times, Baskerville
+                        family: Baskerville, Times
                         size: 16px
         lakes-z5:
             filter: { $zoom: [5] }
@@ -49,10 +50,11 @@ layers:
         filter: { name: true, kind: [sea, ocean] }
         draw:
             text:
-                style: txt-flip
+                style: text-southup
+                text_source: global.ux_language_text_source
                 font:
                     fill: white
-                    family: Times, Baskerville
+                    family: Baskerville, Times
                     size: 20px
                     transform: uppercase
                     stroke:
@@ -144,10 +146,11 @@ layers:
                 - { $zoom: { min: 17 } }
         draw:
             text:
-                style: txt-flip
+                style: text-southup
+                text_source: global.ux_language_text_source
                 font:
                     fill: white
-                    family: Times, Baskerville
+                    family: Baskerville, Times
                     size: 10px
                     
     water-line-labels:
@@ -160,10 +163,11 @@ layers:
                 - $zoom: { min: 14 }
         draw:
             text:
-                style: txt-flip
+                style: text-southup
+                text_source: global.ux_language_text_source
                 font:
                     fill: white
-                    family: Times, Baskerville
+                    family: Baskerville, Times
                     size: 12px
         water-line-labels-z14:
             filter: { $zoom: [14] }

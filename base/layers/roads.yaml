@@ -5,7 +5,7 @@ layers:
         draw:
             lines:
                 width: [[5,0px],[10,1px],[17, 2m]]
-                style: lns-flip
+                style: lines-southup
                 order: global.order
                 color: white
         highway:
@@ -47,5 +47,5 @@ layers:
 # styles:
 #     roads:
 #         base: lines
-#         mix: [lns-flip]
+#         mix: [lines-southup]
 

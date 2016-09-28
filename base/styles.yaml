@@ -1,27 +1,22 @@
 import:
-    - https://tangrams.github.io/blocks/filter/grid.yaml
     - https://tangrams.github.io/blocks/functions/zoom.yaml
-    - https://tangrams.github.io/blocks/elevation/normal.yaml
-    - https://tangrams.github.io/blocks/elevation/ramp.yaml
-    - https://tangrams.github.io/blocks/elevation/stripes.yaml
-    - https://tangrams.github.io/blocks/elevation/dash.yaml
-    
+
 styles:
-    flip:
+    southup:
         shaders:
             blocks:
                 position: |
                     position.xy *= -1.;
-    ply-flip:
+    polygons-southup:
         base: polygons
         raster: custom
-        mix: [flip]
-    lns-flip:
+        mix: [southup]
+    lines-southup:
         base: lines
-        mix: [flip]
-    pts-flip:
+        mix: [southup]
+    points-southup:
         base: points
-        mix: [flip]
-    txt-flip:
+        mix: [southup]
+    text-southup:
         base: text
-        mix: [flip]
+        mix: [southup]

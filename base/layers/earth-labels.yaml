@@ -6,10 +6,9 @@ layers:
             filter: { kind: [archipelago, island, islet] }
             draw:
                 text:
-                    visible: global.text_visible_island
                     text_wrap: 10
-                    style: txt-flip
+                    style: text-southup
                     font:
-                        family: Times, Baskerville
+                        family: Baskerville, Times
                         size: [[10,16px],[16,18px]]
                         fill: white

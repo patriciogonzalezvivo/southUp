@@ -19,6 +19,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.1/leaflet-geocoder-mapzen.js"></script>
     <!-- End of 3rd party libraries -->
 
+    <!-- SouthUp the input controls of a leaflet map -->
+    <script src="leaflet-southUp.js"></script>
+    <!-- Language Selector for Tangram -->
+    <link rel="stylesheet" href="leaflet-tangram-languageselector.css" />
+    <script src="leaflet-tangram-languageselector.js"></script>
+
     <style>
         body {
             margin: 0px;
@@ -73,9 +79,6 @@
                 /*** Map ***/
                 var map = L.map('map', {
                     maxZoom: 20,
-                    scrollWheelZoom: 'center',
-                    doubleClickZoom: 'center',
-                    boxZoom: false,
                     trackResize: true,
                     keyboard: false
                 });
@@ -103,35 +106,13 @@
                 window.addEventListener('resize', resizeMap);
                 resizeMap();
 
+                southUp(map);
+
                 window.addEventListener('load', function () {
                     layer.addTo(map);
+                    // Now the interesting stuff, the new languageselector:
+                    map.addControl(L.languageSelector({ scene: scene, global: 'ux_language' }));
                 });
-
-                // Overload Mouse/Keyboard events to invert them
-                map.dragging.disable();
-                var prevPoint = undefined;
-                document.getElementById('map').addEventListener('mousedown', function (event) {
-                    var first = event.touches ? event.touches[0] : event;
-                    prevPoint = new L.Point(first.clientX, first.clientY);
-                }, false);
-                document.getElementById('map').addEventListener('mousemove', function (event) {
-                    if (prevPoint) {
-                        var first = event.touches ? event.touches[0] : event;
-                        var newPoint = new L.Point(first.clientX, first.clientY);
-                        var offset = newPoint.subtract(prevPoint);
-                        prevPoint = newPoint;
-                        map.panBy(offset, {animate: false});
-                    }
-                }, false);
-                document.getElementById('map').addEventListener('mouseup', function (event) {
-                    prevPoint = undefined;
-                }, false);
-                document.getElementById('map').addEventListener('mouseout', function (event) {
-                    prevPoint = undefined;
-                }, false);
-                document.getElementById('map').addEventListener('mouseleave', function (event) {
-                    prevPoint = undefined;
-                }, false);
 
                 return map;
             }());

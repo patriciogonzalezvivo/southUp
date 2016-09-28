@@ -1,3 +1,6 @@
+import:
+    - https://tangrams.github.io/blocks/elevation/stripes.yaml
+    
 layers:
     landuse:
         data: { source: mapzen }
@@ -10,7 +13,7 @@ layers:
 styles:
     landuse:
         base: polygons
-        mix: [ply-flip, functions-zoom, elevation-stripes]
+        mix: [polygons-southup, functions-zoom, elevation-stripes]
         shaders:
             defines:
                 ZOOM_START: 0.

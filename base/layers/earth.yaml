@@ -1,3 +1,6 @@
+import:
+    - https://tangrams.github.io/blocks/elevation/ramp.yaml
+    
 layers:
     earth:
         data: { source: mapzen }
@@ -8,7 +11,7 @@ layers:
                 color: [[0,[0.450,0.475,0.470]],[5,[0.638,0.641,0.678]],[10,[0.831,0.831,0.831]]]
 styles:
     earth:
-        mix: [ply-flip, elevation-ramp, functions-zoom]
+        mix: [polygons-southup, elevation-ramp, functions-zoom]
         shaders:
             defines:
                 ZOOM_START: 2

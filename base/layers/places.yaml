@@ -12,7 +12,7 @@ layers:
         draw:
             text:
                 visible: false
-                style: txt-flip
+                style: text-southup
                 font:
                     family: Baskerville, Times
                     size: 10px
@@ -34,7 +34,6 @@ layers:
             draw:
                 text:
                     text_source: function() { return feature["name:en"] || feature["name"]; }
-                    visible: global.text_visible_admin
                     font:
                         family: Baskerville, Times
                         size: 16px
@@ -47,7 +46,6 @@ layers:
             draw:
                 text:
                     text_source: function() { return feature["name:en"] || feature["name"]; }
-                    visible: global.text_visible_admin
                     font:
                         family: Baskerville, Times
                         size: 16px
@@ -73,7 +71,6 @@ layers:
             draw:
                 text:
                     text_source: function() { return feature["name:en"] || feature["name"]; }
-                    visible: global.text_visible_admin
                     priority: 3
                     font:
                         family: Baskerville, Times
@@ -93,7 +90,6 @@ layers:
             draw:
                 text:
                     text_source: function() { return feature["name:en"] || feature["name"]; }
-                    visible: global.text_visible_admin
                     priority: 3
                     font:
                         family: Baskerville, Times
@@ -118,9 +114,9 @@ layers:
                     # visible: false
                     size: 5px
                     color: gray
-                    style: pts-flip
+                    style: points-southup
                     text:
-                        style: txt-flip
+                        style: text-southup
                         visible: true
                         priority: 5
                         font:
@@ -138,7 +134,7 @@ layers:
                         size: 10px
                         color: black
                         text:
-                            style: txt-flip
+                            style: text-southup
                             visible: true
                             priority: 4
                             font:
@@ -152,5 +148,5 @@ layers:
 styles:
     icons:
         base: points
-        mix: [pts-flip]
+        mix: [points-southup]
         texture: places.png
