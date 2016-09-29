@@ -17,7 +17,7 @@ layers:
                 polygons:
                     style: water-early
         water-later:
-            filter: { $zoom: { min: 14 } }
+            filter: { $zoom: { min: 16 } }
             draw:
                 polygons:
                     style: water-later
@@ -51,7 +51,7 @@ styles:
         animated: true
         shaders:
             defines:
-                ZOOM_START: 14
+                ZOOM_START: 16
                 ZOOM_END: 20
                 GRID_AMOUNT: 0.25
                 WATER_NORMALS_START: vec3(0.,0.,1.)

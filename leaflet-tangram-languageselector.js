@@ -29,7 +29,6 @@ L.LanguageSelector = L.Control.extend({
     },
 
     onAdd: function(map) {
-        console.log(this.options);
         var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom leaflet-tangram-languageselector-container');
         var languageSelector = L.DomUtil.create('SELECT', 'leaflet-tangram-languageselector-selector', container);
         for (var key in this.options.languages) {

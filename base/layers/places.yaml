@@ -123,6 +123,7 @@ layers:
                             family: Baskerville, Times
                             size: 10px
                             fill: [.2,.2,.2]
+                            # fill: red
                             stroke:
                                 color: white
                                 width: 3

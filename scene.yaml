@@ -2,3 +2,6 @@ import:
     - base/base.yaml
     - stars/stars.yaml
     
+scene:
+    background:
+        color: gray
