@@ -23,15 +23,15 @@ layers:
                 - { $zoom: { min: 15 }, area: { min: 50000 } }
                 - { $zoom: { min: 16 }, area: { min: 20000 } }
                 - { $zoom: { min: 17 } }
-        default-label-text:
-            draw:
-                text:
-                    style: text-southup
-                    text_source: global.ux_language_text_source
-                    font:
-                        fill: white
-                        family: Baskerville, Times
-                        size: 16px
+        draw:
+            text:
+                style: text-southup
+                text_source: global.ux_language_text_source
+                priority: 20
+                font:
+                    fill: white
+                    family: Baskerville, Times
+                    size: 16px
         lakes-z5:
             filter: { $zoom: [5] }
             draw:

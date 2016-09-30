@@ -2,7 +2,8 @@ layers:
     roads:
         draw:
             text:
-                visible: true
+                visible: false
+                priority: 50
                 style: text-southup
                 font:
                     family: Baskerville, Times
@@ -16,13 +17,15 @@ layers:
                 filter: { $zoom: { min: 8 }, $zoom: { max: 15 } }
                 draw:
                     text:
+                        visible: true
                         priority: 50
                         text_source: ref
             labels-highway-z14:
                 filter: { $zoom: { min: 15 } }
                 draw:
                     text:
-                        priority: 50
+                        # visible: true
+                        # priority: 50
                         text_source: global.ux_language_text_source
 
         major_road:

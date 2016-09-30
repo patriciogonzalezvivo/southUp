@@ -13,6 +13,7 @@ layers:
             text:
                 visible: false
                 style: text-southup
+                priority: 10
                 font:
                     family: Baskerville, Times
                     size: 10px
@@ -20,19 +21,20 @@ layers:
                     stroke:
                         color: white
                         width: 3
-        early:
-            filter: { $zoom: { min: 7 } }
-            draw:
-                text:
-                    visible: true
+        # early:
+        #     filter: { $zoom: { min: 7 } }
+        #     draw:
+        #         text:
+        #             visible: true
         country-z4:
             filter:
                 all:
                     - kind: [country]
-                    - $zoom: { min: 2.5, max: 5 }
-                    # - not: { name: ["United Kingdom","United States of America", "Canada","中华人民共和国","Россия","Kalaallit Nunaat","Ísland","Australia","India","日本","Guam","Indonesia","South Africa"] }
+                    - $zoom: [4]
             draw:
                 text:
+                    visible: true
+                    priority: 1
                     text_source: function() { return feature["name:en"] || feature["name"]; }
                     font:
                         family: Baskerville, Times
@@ -45,6 +47,8 @@ layers:
             filter: { name: true, population: true, kind: [country], $zoom: [5] }
             draw:
                 text:
+                    visible: true
+                    priority: 2
                     text_source: function() { return feature["name:en"] || feature["name"]; }
                     font:
                         family: Baskerville, Times
@@ -70,6 +74,7 @@ layers:
                     - { population: { min: 5000000 } }
             draw:
                 text:
+                    visible: true
                     text_source: function() { return feature["name:en"] || feature["name"]; }
                     priority: 3
                     font:
@@ -89,6 +94,7 @@ layers:
             filter: { name: true, kind: [country], $zoom: [7] }
             draw:
                 text:
+                    visible: true
                     text_source: function() { return feature["name:en"] || feature["name"]; }
                     priority: 3
                     font:
@@ -111,19 +117,18 @@ layers:
                 $zoom: { min: 5 }
             draw:
                 points:
-                    # visible: false
+                    visible: true
                     size: 5px
                     color: gray
                     style: points-southup
                     text:
                         style: text-southup
                         visible: true
-                        priority: 5
+                        priority: 6
                         font:
                             family: Baskerville, Times
                             size: 10px
                             fill: [.2,.2,.2]
-                            # fill: red
                             stroke:
                                 color: white
                                 width: 3
@@ -135,9 +140,7 @@ layers:
                         size: 10px
                         color: black
                         text:
-                            style: text-southup
-                            visible: true
-                            priority: 4
+                            priority: 1
                             font:
                                 family: Baskerville, Times
                                 size: 16px
