@@ -20,7 +20,9 @@ death:
     coord: [ -58.37723, -34.61315 ]
     place: Buenos Aires, Argentina
 legs:
-    - { name: kiev_london, from: [ 30.5238, 50.45466 ], to: [ -0.099076, 51.509648 ], by: multimodal, year: 1873 }
+    - { name: kiev_talsi, from: [ 30.5238, 50.45466 ], to: [22.58334, 57.243041], by: multimodal }
+    - { name: talsi_riga, from: [22.58334, 57.243041], to: [24.10589, 56.946], by: multimodal }
+    - { name: riga_london, url: RIG_LON.json }
     - { name: london_bue, url: LON_BUE.json, year: 1873 }
     - { name: bue_asuncion, url: BUE_ASU.json, year: 1873 }
     - { name: asuncion_bue, url: ASU_BUE.json, year: 1873 }
