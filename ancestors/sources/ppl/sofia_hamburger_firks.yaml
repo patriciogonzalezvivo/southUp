@@ -1,0 +1,25 @@
+name: Mauricio Braun Hamburger
+id: I25269
+birth:
+    year: 1840
+    coord: [20.516667, 54.716667]
+    place: Konigsberg
+    url: https://en.wikipedia.org/wiki/K%C3%B6nigsberg
+marriage:
+    with: { url: elias_heinrich_braun_fucks.yaml }
+descendants:
+    - { name: Sara, year: 1862 }
+    - { name: Mauricio, year: 1865, url: mauricio_braun_hamburger.yaml }
+    - { name: Ana, year: 1873 }
+death:
+    year: 1936
+    coord: [ -58.37723, -34.61315 ]
+    place: Buenos Aires, Argentina
+legs:
+    - { name: kiev_london, from: [ 30.5238, 50.45466 ], to: [ -0.099076, 51.509648 ], by: multimodal, year: 1873 }
+    - { name: london_bue, url: LON_BUE.json, year: 1873 }
+    - { name: bue_asuncion, url: BUE_ASU.json, year: 1873 }
+    - { name: asuncion_bue, url: ASU_BUE.json, year: 1873 }
+    - { name: bue_parenas, url: BUE_PAR.json, year: 1873, month: 1, day: 7 }
+    
+

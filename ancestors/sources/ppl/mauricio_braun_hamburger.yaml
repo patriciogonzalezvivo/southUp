@@ -1,0 +1,29 @@
+name: Mauricio Braun Hamburger
+id: I25269
+birth:
+    year: 1865
+    month: 8
+    day: 19
+    coord: [ 30.5238, 50.45466 ]
+    place: Kiev, Ukraine
+marriage:
+    # with: { url: } 
+    year: 1895
+    month: 1
+    day: 5
+    coord: [ -70.91129, -53.15483 ]
+    place: Punta Arenas, Chile
+death:
+    year: 1953
+    month: 4
+    day: 7
+    coord: [ -58.37723, -34.61315 ]
+    place: Buenos Aires, Argentina
+legs:
+    - { name: kiev_london, from: [ 30.5238, 50.45466 ], to: [ -0.099076, 51.509648 ], by: multimodal, year: 1873 }
+    - { name: london_bue, url: LON_BUE.json, year: 1873 }
+    - { name: bue_asuncion, url: BUE_ASU.json, year: 1873 }
+    - { name: asuncion_bue, url: ASU_BUE.json, year: 1873 }
+    - { name: bue_parenas, url: BUE_PAR.json, year: 1873, month: 1, day: 7 }
+    
+

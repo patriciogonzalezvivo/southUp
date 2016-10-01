@@ -47,7 +47,7 @@ def getRouteFromGeoJSON(url):
         path.append([point[1], point[0]])
     return path
 
-yaml_file = yaml.safe_load(open('mauricio_braun_hamburger.yaml'))
+yaml_file = yaml.safe_load(open('ppl/mauricio_braun_hamburger.yaml'))
 
 lines = []
 for trip in yaml_file['legs']:

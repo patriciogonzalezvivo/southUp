@@ -1,0 +1,27 @@
+name: Elías Heinrich Braun Fucks 
+id: I18084
+birth:
+    year: 1841
+    coord: [22.588611, 57.246667]
+    place: Talsi
+    url: https://de.wikipedia.org/wiki/Talsi
+marriage:
+    with: { url: sofia_hamburger_firks.yaml }
+descendants:
+    - { name: Sara, year: 1862 }
+    - { name: Mauricio, year: 1865, url: mauricio_braun_hamburger.yaml }
+    - { name: Ana, year: 1873 }
+death:
+    year: 1924
+    month: 5
+    day: 18
+    coord: [ -58.37723, -34.61315 ]
+    place: Buenos Aires, Argentina
+legs:
+    - { name: kiev_london, from: [ 30.5238, 50.45466 ], to: [ -0.099076, 51.509648 ], by: multimodal, year: 1873 }
+    - { name: london_bue, url: LON_BUE.json, year: 1873 }
+    - { name: bue_asuncion, url: BUE_ASU.json, year: 1873 }
+    - { name: asuncion_bue, url: ASU_BUE.json, year: 1873 }
+    - { name: bue_parenas, url: BUE_PAR.json, year: 1873, month: 1, day: 7 }
+    
+
