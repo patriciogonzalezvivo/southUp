@@ -1,0 +1,14 @@
+sources:
+    ancestors:
+        type: GeoJSON
+        url: sources/ancestors.json
+
+layers:
+    ancestors:
+        data: { source: ancestors }
+        draw:
+            lines:
+                style: lines-southup
+                color: red
+                width: 1px
+                order: 10001
