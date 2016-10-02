@@ -30,13 +30,12 @@ def decode(encoded, precision = 1.0 / 1e6):
     #hand back the list of coordinates
     return decoded
 
-def getRouteFromValhala(A, B, mode = 'multimodal'):
+def getRouteFromValhala(A, B, mode = 'auto'):
     KEY = 'valhalla-EzqiWWY'
     URL = 'http://valhalla.mapzen.com/route?'
-    FROM_TO = '{"locations":[{"lat":'+str(A[1])+',"lon":'+str(A[0])+'},{"lat":'+str(B[1])+',"lon":'+str(B[0])+'}],"costing":"'+mode+'"}'
+    FROM_TO = '{"locations":[{"lon":'+str(A[0])+',"lat":'+str(A[1])+'},{"lon":'+str(B[0])+',"lat":'+str(B[1])+'}],"costing":"'+mode+'"}'
     RST = requests.get(URL+'json='+FROM_TO+'&api_key='+KEY)
     JSON = json.loads(RST.text)
-    print JSON
     return decode(JSON['trip']['legs'][0]['shape'])
 
 def getRouteFromGeoJSON(url):
@@ -47,19 +46,38 @@ def getRouteFromGeoJSON(url):
         path.append([point[1], point[0]])
     return path
 
-yaml_file = yaml.safe_load(open('ppl/mauricio_braun_hamburger.yaml'))
-
-lines = []
-for trip in yaml_file['legs']:
-    print 'Parsing', trip['name']
-    if trip.has_key('url'):
-        lines.append(getRouteFromGeoJSON(trip['url']))
-    # else:
-        # lines.append(getRouteFromValhala(trip['from'],trip['to']))
 
 
-feature = geojson.Feature(geometry=geojson.MultiLineString(lines))
-feature_collection = geojson.FeatureCollection([feature])
+
+def parseAncester(url, people, places):
+    yaml_file = yaml.safe_load(open(url))
+    print yaml_file['name'], yaml_file['birth']['year'], "-", yaml_file['death']['year']
+
+    lines = []
+    for trip in yaml_file['legs']:
+        print '- trip from', trip['from']['city'], "to", trip['to']['city']
+        if not places.has_key(trip['from']['city']):
+            places[trip['from']['city']] = trip['from']['coord']
+        if not places.has_key(trip['to']['city']):
+            places[trip['to']['city']] = trip['to']['coord']
+        if trip.has_key('url'):
+            lines.append(getRouteFromGeoJSON(trip['url']))
+        else:
+            line = getRouteFromValhala(trip['from']['coord'],trip['to']['coord'])
+            lines.append(line);
+    return geojson.Feature(geometry=geojson.MultiLineString(lines),properties={"name": yaml_file['name'], "kind": "trip"})
+
+places = {}
+people = {}
+
+features = []
+features.append(parseAncester('ppl/mauricio_braun_hamburger.yaml', people, places))
+
+# Add places
+for place in places:
+    features.append(geojson.Feature(geometry=geojson.Point(places[place]),properties={"name": place, "kind": "place"}))
+
+feature_collection = geojson.FeatureCollection(features)
 file = open('ancestors.json', 'w')
 file.write(geojson.dumps(feature_collection, sort_keys=True))
 file.close

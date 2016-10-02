@@ -6,9 +6,38 @@ sources:
 layers:
     ancestors:
         data: { source: ancestors }
+        filter: { kind: trip }
         draw:
             lines:
                 style: lines-southup
                 color: red
                 width: 1px
                 order: 10001
+            text:
+                style: text-southup
+                priority: 10
+                font:
+                    family: Baskerville, Times
+                    size: 10px
+                    fill: red
+                    stroke:
+                        color: white
+                        width: 5
+    ancestors-places:
+        data: { source: ancestors }
+        filter: { kind: place }
+        draw:
+            points:
+                size: 5px
+                color: red
+                style: points-southup
+                text:
+                    style: text-southup
+                    priority: 10
+                    font:
+                        family: Baskerville, Times
+                        size: 18px
+                        fill: black
+                        stroke:
+                            color: white
+                            width: 3
