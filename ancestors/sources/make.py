@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import sys
+import sys, time
 import requests
 import json, geojson, yaml
 
@@ -31,6 +31,7 @@ def decode(encoded, precision = 1.0 / 1e6):
     return decoded
 
 def getRouteFromValhala(A, B, mode = 'auto'):
+    time.sleep(1)
     KEY = 'valhalla-EzqiWWY'
     URL = 'http://valhalla.mapzen.com/route?'
     FROM_TO = '{"locations":[{"lon":'+str(A[0])+',"lat":'+str(A[1])+'},{"lon":'+str(B[0])+',"lat":'+str(B[1])+'}],"costing":"'+mode+'"}'
@@ -45,9 +46,6 @@ def getRouteFromGeoJSON(url):
     for point in data[2]['path']:
         path.append([point[1], point[0]])
     return path
-
-
-
 
 def parseAncester(url, people, places):
     yaml_file = yaml.safe_load(open(url))
@@ -75,6 +73,8 @@ features = []
 # features.append(parseAncester('ppl/elias_heinrich_braun_fucks.yaml', people, places))
 features.append(parseAncester('ppl/mauricio_braun_hamburger.yaml', people, places))
 features.append(parseAncester('ppl/jose_maria_menendez_canedo.yaml', people, places))
+features.append(parseAncester('ppl/jose_fuschini_sambi.yaml', people, places))
+features.append(parseAncester('ppl/dudley_sarsfield_brennan.yaml', people, places))
 
 # Add places
 for place in places:

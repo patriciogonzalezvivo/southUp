@@ -15,7 +15,7 @@ layers:
                 order: 10001
             text:
                 style: text-southup
-                priority: 10
+                priority: 1
                 font:
                     family: Baskerville, Times
                     size: 10px

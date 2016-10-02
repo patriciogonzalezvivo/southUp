@@ -1,0 +1,19 @@
+name: Dudley Sarsfield Brennan
+birth:
+    year: 1810
+    coord: [-6.3844301073234, 52.259607830465]
+    place: Wexford
+    url: https://en.wikipedia.org/wiki/Wexford
+marriage:
+    with: { url: mary_colclough.yaml }
+descendants:
+    - { name: Patricio, year: 1870 }
+death:
+    year: 1886
+    month: 1
+    day: 7
+    coord: [-57.68628, -35.18487]
+    place: Magdalena
+legs:
+    - { from: { city: Wexford, coord: [-6.3844301073234, 52.259607830465] }, to: { city: "Buenos Aires", coord: [-58.366664382481, -34.594638353642] }, url: trips/WEX_BUE.json }
+    - { from: { city: "Buenos Aires", coord: [-58.366664382481, -34.594638353642] }, to: { city: Magdalena, coord: [-57.68628, -35.18487] }  }
