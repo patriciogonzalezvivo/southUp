@@ -30,9 +30,11 @@ styles:
                 ZOOM_START: 0
                 ZOOM_END: 6
                 GRID_AMOUNT: 0.1
+                WATER_EARLY: vec3(0.196,0.255,0.408)
+                # WATER_EARLY: vec3(0.246,0.275,0.305)
             blocks:
                 color: |
-                    color.rgb = mix(vec3(0.196,0.255,0.408),color.rgb,zoom());
+                    color.rgb = mix(WATER_EARLY,color.rgb,zoom());
 
     water:
         mix: [polygons-southup, elevation-normal, filter-grid, functions-zoom]

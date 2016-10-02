@@ -3,7 +3,7 @@ birth:
     year: 1810
     coord: [-6.3844301073234, 52.259607830465]
     place: Wexford
-    url: https://en.wikipedia.org/wiki/Wexford
+    url: https://en.wikipedia.org/wiki/Tintern_Abbey_(County_Wexford)
 marriage:
     with: { url: dudley_sarsfield_brennan.yaml }
 descendants:

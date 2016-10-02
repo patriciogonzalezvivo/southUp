@@ -7,7 +7,7 @@ birth:
 marriage:
     with: { url: mary_colclough.yaml }
 descendants:
-    - { name: Patricio, year: 1870 }
+    - { name: Patricio, year: 1870, month: 11, day: 13 }
 death:
     year: 1886
     month: 1
