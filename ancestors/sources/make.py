@@ -71,7 +71,10 @@ places = {}
 people = {}
 
 features = []
+# features.append(parseAncester('ppl/sofia_hamburger_firks.yaml', people, places))
+# features.append(parseAncester('ppl/elias_heinrich_braun_fucks.yaml', people, places))
 features.append(parseAncester('ppl/mauricio_braun_hamburger.yaml', people, places))
+features.append(parseAncester('ppl/jose_maria_menendez_canedo.yaml', people, places))
 
 # Add places
 for place in places:
