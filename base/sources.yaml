@@ -1,7 +1,7 @@
 sources:
     mapzen:
         type: TopoJSON
-        url: https://vector.mapzen.com/osm/all/{z}/{x}/{y}.topojson?api_key=mapzen-YoRQaZF
+        url: http://tile.dev.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson?api_key=mapzen-YoRQaZF
         rasters: [normals-elevation]
         max_zoom: 16
     normals-elevation:

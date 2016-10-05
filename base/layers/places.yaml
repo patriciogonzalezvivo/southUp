@@ -9,6 +9,7 @@ textures:
 layers:
     places:
         data: { source: mapzen, layer: places }
+        filter: { not: { kind: [ocean,sea] } }
         draw:
             text:
                 visible: false
@@ -33,9 +34,8 @@ layers:
                     - $zoom: [4]
             draw:
                 text:
-                    visible: true
-                    priority: 1
                     text_source: function() { return feature["name:en"] || feature["name"]; }
+                    visible: true
                     font:
                         family: Baskerville, Times
                         size: 16px
@@ -47,9 +47,8 @@ layers:
             filter: { name: true, population: true, kind: [country], $zoom: [5] }
             draw:
                 text:
-                    visible: true
-                    priority: 2
                     text_source: function() { return feature["name:en"] || feature["name"]; }
+                    visible: true
                     font:
                         family: Baskerville, Times
                         size: 16px
@@ -74,8 +73,8 @@ layers:
                     - { population: { min: 5000000 } }
             draw:
                 text:
-                    visible: true
                     text_source: function() { return feature["name:en"] || feature["name"]; }
+                    visible: true
                     priority: 3
                     font:
                         family: Baskerville, Times
@@ -94,8 +93,8 @@ layers:
             filter: { name: true, kind: [country], $zoom: [7] }
             draw:
                 text:
-                    visible: true
                     text_source: function() { return feature["name:en"] || feature["name"]; }
+                    visible: true
                     priority: 3
                     font:
                         family: Baskerville, Times
@@ -111,10 +110,7 @@ layers:
                     text:
                         visible: false
         populated-places-natural-earth:
-            filter:
-                name: true
-                source: naturalearthdata.com
-                $zoom: { min: 5 }
+            filter: { name: true, source: naturalearthdata.com, $zoom: { min: 5 } }
             draw:
                 points:
                     visible: true
@@ -124,7 +120,7 @@ layers:
                     text:
                         style: text-southup
                         visible: true
-                        priority: 6
+                        priority: 5
                         font:
                             family: Baskerville, Times
                             size: 10px

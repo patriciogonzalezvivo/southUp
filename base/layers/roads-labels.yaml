@@ -31,7 +31,7 @@ layers:
         major_road:
             filter: { kind: major_road }
             trunk_primary:
-                filter: { highway: [trunk, primary] }
+                filter: { kind_detail: [trunk, primary] }
                 routes:
                     filter: { ref: true }
                     labels-trunk-primary-route:
@@ -60,7 +60,7 @@ layers:
                             font:
                                 size: [[15,13px],[18,14px]]
             secondary:
-                filter: { highway: secondary }
+                filter: { kind_detail: secondary }
                 labels-secondary:
                     draw:
                         text:
@@ -84,7 +84,7 @@ layers:
                                     size: [[13,10px],[15,13px],[18,14px]]
 
             tertiary:
-                filter: { highway: [tertiary, tertiary_link] }
+                filter: { kind_detail: [tertiary, tertiary_link] }
                 labels-tertiary:
                     draw:
                         text:
@@ -99,7 +99,7 @@ layers:
                                 visible: false
 
         minor_road:
-            filter: { kind: minor_road, not: { highway: service, aeroway: [runway, taxiway] } }
+            filter: { kind: minor_road, not: { kind_detail: service } }
             labels-minor-road:
                 draw:
                     text:
@@ -110,6 +110,5 @@ layers:
                 early-dont-draw:
                     filter: { $zoom: { min: 11, max: 15 } }
                     draw:
-                        text: 
+                        text:
                             visible: false
-

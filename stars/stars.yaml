@@ -7,6 +7,10 @@ sources:
         type: GeoJSON
         url: sources/stars.6.json
         max_display_zoom: 5
+    milkway:
+        type: GeoJSON
+        url: sources/milkway.json
+        max_display_zoom: 5
         
 textures:
     stars:
@@ -22,6 +26,14 @@ textures:
             nine: [100, 50, 50, 50]
 
 layers:
+    milkway:
+        data: { source: milkway}
+        filter: { $zoom: { max: 2 } }
+        draw:
+            polygons:
+                style: milkway
+                color: [1.,1.,1.]
+                order: 10000000
     constellations-labels:
         data: { source: constellations, layer: labels }
         filter: { $zoom: { max: 2 } }
@@ -41,7 +53,7 @@ layers:
         filter: { $zoom: { max: 5 } }
         draw:
             lines:
-                width: [[0,8px], [5,12px]]
+                width: [[0,8px], [4,12px]]
                 order: 10000
                 color: white
                 style: constellations
@@ -51,7 +63,7 @@ layers:
         draw:
             points:
                 priority: 7
-                size: [[0,5px],[5,10px]]
+                size: [[0,5px],[4,10px]]
                 order: 10001
                 color: white
                 style: stars
@@ -62,7 +74,7 @@ layers:
                 points:
                     priority: 1
                     sprite: nine
-                    size: [[0,30px], [5,50px]]
+                    size: [[0,30px], [4,50px]]
                     color: white
         very-big:
             filter: { mag: { min: 1, max: 2 }}
@@ -70,7 +82,7 @@ layers:
                 points:
                     priority: 2
                     sprite: eight
-                    size: [[0,25px],[5,40px]]
+                    size: [[0,25px],[4,40px]]
                     color: white
         big:
             filter: { mag: { min: 2, max: 3 }}
@@ -78,7 +90,7 @@ layers:
                 points:
                     priority: 3
                     sprite: six
-                    size: [[0,20px],[5,40px]]
+                    size: [[0,20px],[4,40px]]
                     color: white
         medium:
             filter: { mag: { min: 3, max: 4 }}
@@ -86,7 +98,7 @@ layers:
                 points:
                     priority: 4
                     sprite: five
-                    size: [[0,15px],[5,30px]]
+                    size: [[0,15px],[4,30px]]
                     color: white
         small:
             filter: { mag: { min: 3, max: 4 }}
@@ -94,7 +106,7 @@ layers:
                 points:
                     priority: 5
                     sprite: four
-                    size: [[0,10px],[5,43px]]
+                    size: [[0,10px],[4,43px]]
                     color: white
         tiny:
             filter: { mag: { min: 5, max: 6 }}
@@ -102,7 +114,7 @@ layers:
                 points:
                     priority: 6
                     sprite: dot
-                    size: [[0,10px],[5,20px]]
+                    size: [[0,10px],[4,20px]]
                     color: white
 
 styles:
@@ -110,12 +122,20 @@ styles:
         shaders:
             blocks:
                 position: |
-                    position.z += 5999999.;
+                    position.z += 8000000.;
     stars:
         base: points
         texture: stars
-        mix: [points-southup, on-sky]
+        mix: [points-southup, on-sky, functions-zoom]
         blend: alpha
+        shaders:
+            defines:
+                ZOOM_START: 2.
+                ZOOM_END: 7.
+            blocks:
+                color: |
+                    float z = zoom();
+                    color.a = smoothstep(1.,0.,z);
     constellations:
         base: lines
         mix: [lines-southup, on-sky, functions-zoom]
@@ -124,11 +144,14 @@ styles:
         shaders:
             defines:
                 ZOOM_START: 2.
-                ZOOM_END: 5.
+                ZOOM_END: 4.
                 BRIGHTNESS: mix(0.98,0.999,z)
             blocks:
                 color: |
                     float z = zoom();
                     color.a = sin(v_texcoord.x*3.1415)*mix(.1,0.,z);
                     color.a += (smoothstep(BRIGHTNESS, 1., sin(v_texcoord.x*3.1415))*step(.3,fract(v_texcoord.y)))*mix(1.,0.,z);
+    milkway:
+        base: polygons
+        mix: [polygons-southup, on-sky, functions-zoom]
                 
