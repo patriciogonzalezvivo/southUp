@@ -1,4 +1,5 @@
 import:
+    - https://tangrams.github.io/ux_language/ux_language.yaml
     - global.yaml
     - sources.yaml
     - styles.yaml
