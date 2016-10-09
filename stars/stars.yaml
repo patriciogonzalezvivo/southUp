@@ -19,7 +19,6 @@ textures:
             six: [0, 50, 50, 50]
             eight: [50, 50, 50, 50]
             nine: [100, 50, 50, 50]
-
 layers:
     constellations-labels:
         data: { source: constellations, layer: labels }
@@ -40,6 +39,7 @@ layers:
         filter: { $zoom: { max: 5 } }
         draw:
             lines:
+                interactive: true
                 width: [[0,8px], [4,12px]]
                 order: 10000
                 color: white

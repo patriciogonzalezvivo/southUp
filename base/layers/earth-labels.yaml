@@ -3,11 +3,12 @@ layers:
         earth-labels:
             filter: { name: true }
             island:
-                filter: { kind: [archipelago, island, islet] }
+                filter: { kind: [archipelago, island, islet], not:  }
                 draw:
                     text:
                         text_wrap: 10
                         style: text-southup
+                        visible: true
                         font:
                             family: Baskerville, Times
                             size: [[10,16px],[16,18px]]

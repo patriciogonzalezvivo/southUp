@@ -117,13 +117,25 @@
                     layer.addTo(map);
                     // Now the interesting stuff, the new languageselector:
                     map.addControl(L.uxLanguage({ scene: scene }));
+                    layer.setSelectionEvents({
+                        hover: function(selection) {
+                            if (!selection || selection.feature == null || selection.feature.properties == null) {
+                                return;
+                            }
+                            console.log(selection);
+                            // scene.config.global.hovered = selection.feature.properties.name;
+                            // scene.rebuild();
+                        },
+                        click: function(selection) {
+                            if (!selection || selection.feature == null || selection.feature.properties == null) {
+                                return;
+                            }
+                            console.log(selection);
+                        }
+                    });
                 });
 
-                layer.setSelectionEvents({
-                    click: function(selection) {
-                        console.log(selection);
-                    }
-                });
+
 
                 return map;
             }());
