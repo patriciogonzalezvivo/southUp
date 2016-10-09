@@ -22,8 +22,9 @@ layers:
                 draw:
                     lines:
                         style: lines-southup
-                        # visible: false
+                        visible: false
                         color: lightblue
+                        
         country_disputed:
             filter: { kind: [disputed, indefinite, indeterminate, lease_limit, line_of_control, overlay_limit] }
             draw:
