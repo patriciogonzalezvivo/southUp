@@ -6,12 +6,7 @@ sources:
     stars:
         type: GeoJSON
         url: sources/stars.6.json
-        max_display_zoom: 5
-    milkway:
-        type: GeoJSON
-        url: sources/milkway.json
-        max_display_zoom: 5
-        
+        max_display_zoom: 5        
 textures:
     stars:
         url: stars.png
@@ -26,14 +21,6 @@ textures:
             nine: [100, 50, 50, 50]
 
 layers:
-    milkway:
-        data: { source: milkway}
-        filter: { $zoom: { max: 2 } }
-        draw:
-            polygons:
-                style: milkway
-                color: [1.,1.,1.]
-                order: 10000000
     constellations-labels:
         data: { source: constellations, layer: labels }
         filter: { $zoom: { max: 2 } }
