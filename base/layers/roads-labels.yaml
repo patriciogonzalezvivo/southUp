@@ -3,30 +3,29 @@ layers:
         draw:
             text:
                 visible: false
-                priority: 50
                 style: text-southup
                 font:
                     family: Baskerville, Times
                     fill: black
-                    size: [[8,8px],[12,10px]]
+                    size: [[8,8px],[16,10px]]
                     stroke: { color: white, width: 4px }
 
-        highway:
-            filter: { kind: highway }
-            labels-highway-z8:
-                filter: { $zoom: { min: 8 }, $zoom: { max: 15 } }
-                draw:
-                    text:
-                        visible: true
-                        priority: 50
-                        text_source: ref
-            labels-highway-z14:
-                filter: { $zoom: { min: 15 } }
-                draw:
-                    text:
-                        # visible: true
-                        # priority: 50
-                        text_source: global.ux_language_text_source
+        # highway:
+        #     filter: { kind: highway }
+        #     labels-highway-z8:
+        #         filter: { $zoom: { min: 8 }, $zoom: { max: 15 } }
+        #         draw:
+        #             text:
+        #                 visible: true
+        #                 priority: 50
+        #                 size: [[8,8px],[16,10px]]
+        #                 text_source: ref
+        #     labels-highway-z14:
+        #         filter: { $zoom: { min: 15 } }
+        #         draw:
+        #             text:
+        #                 size: [[15,12px],[20,14px]]
+        #                 text_source: global.ux_language_text_source
 
         major_road:
             filter: { kind: major_road }
@@ -38,6 +37,7 @@ layers:
                         filter: { $zoom: { min: 13 } }
                         draw:
                             text:
+                                visible: true
                                 priority: 50
                                 text_source: global.ux_language_text_source
                                 font:
@@ -46,6 +46,7 @@ layers:
                     filter: { $zoom: [13,14] }
                     draw:
                         text:
+                            visible: true
                             priority: 53
                             text_source: global.ux_language_text_source
                             font:
@@ -55,6 +56,7 @@ layers:
                     filter: { $zoom: { min: 15 } }
                     draw:
                         text:
+                            visible: true
                             priority: 53
                             text_source: global.ux_language_text_source_road_ref_and_name_short
                             font:
@@ -64,6 +66,7 @@ layers:
                 labels-secondary:
                     draw:
                         text:
+                            visible: true
                             priority: 54
                             text_source: global.ux_language_text_source_road_ref_and_name_short
                             font:
@@ -77,7 +80,7 @@ layers:
                         filter: { ref: true, $zoom: { min: 13 } }
                         draw:
                             text:
-                                #visible: true
+                                visible: true
                                 priority: 54
                                 text_source: global.ux_language_text_source_road_ref_and_name_short
                                 font:
@@ -88,6 +91,7 @@ layers:
                 labels-tertiary:
                     draw:
                         text:
+                            visible: true
                             priority: 55
                             text_source: global.ux_language_text_source_road_ref_and_name_short
                             font:
@@ -103,6 +107,7 @@ layers:
             labels-minor-road:
                 draw:
                     text:
+                        visible: true
                         priority: 56
                         text_source: name
                         font:
