@@ -9,24 +9,17 @@ textures:
 layers:
     places:
         data: { source: mapzen, layer: places }
-        filter: { not: { kind: [ocean,sea] } }
         draw:
             text:
-                visible: false
+                text_source: global.ux_language_text_source
                 style: text-southup
+                visible: false
                 priority: 10
                 font:
                     family: Baskerville, Times
-                    size: 10px
                     fill: darkgray
-                    stroke:
-                        color: white
-                        width: 3
-        # early:
-        #     filter: { $zoom: { min: 7 } }
-        #     draw:
-        #         text:
-        #             visible: true
+                    size: 10px
+                    stroke: { color: white, width: 3 }
         country-z4:
             filter:
                 all:
@@ -58,7 +51,7 @@ layers:
                             color: white
                             width: 3
             z5-dont-label:
-                filter: { name: [Nederland,Luxembourg,Liechtenstein,San Marino,Civitatis Vaticanæ,Crna Gora,Македонија,The Gambia,Burundi,Swaziland,الإمارات العربية المتحدة,العراق,Singapore,El Salvador,Belize,Trinidad and Tobago, Saint Lucia, Montserrat,Anguilla,República Dominicana,Bahamas,British Virgin Islands,Antigua and Barbuda,Grenada,Sint Maarten,Saint Kitts and Nevis,Cayman Islands,België - Belgique - Belgien], $zoom: {min: 5, max: 6} }
+                filter: { name: [Falkland Islands, Nederland,Luxembourg,Liechtenstein,San Marino,Civitatis Vaticanæ,Crna Gora,Македонија,The Gambia,Burundi,Swaziland,الإمارات العربية المتحدة,العراق,Singapore,El Salvador,Belize,Trinidad and Tobago, Saint Lucia, Montserrat,Anguilla,República Dominicana,Bahamas,British Virgin Islands,Antigua and Barbuda,Grenada,Sint Maarten,Saint Kitts and Nevis,Cayman Islands,België - Belgique - Belgien], $zoom: {min: 5, max: 6} }
                 draw:
                     text:
                         visible: false
@@ -85,7 +78,7 @@ layers:
                             color: white
                             width: 3
             z6-dont-label:
-                filter: { name: [Luxembourg,Liechtenstein,San Marino,Civitatis Vaticanæ,El Salvador,Belize,België - Belgique - Belgien], $zoom: {min: 6, max: 7} }
+                filter: { name: [Falkland Islands, Luxembourg,Liechtenstein,San Marino,Civitatis Vaticanæ,El Salvador,Belize,België - Belgique - Belgien], $zoom: {min: 6, max: 7} }
                 draw:
                     text:
                         visible: false
@@ -105,45 +98,1160 @@ layers:
                             color: white
                             width: 3
             z7-dont-label:
-                filter: { name: [Luxembourg,Liechtenstein,San Marino,Civitatis Vaticanæ,België - Belgique - Belgien,Хуссар Ирыстон,Аҧсны - Абхазия], $zoom: {min: 7, max: 8} }
+                filter: { name: [Falkland Islands, Luxembourg,Liechtenstein,San Marino,Civitatis Vaticanæ,België - Belgique - Belgien,Хуссар Ирыстон,Аҧсны - Абхазия], $zoom: {min: 7, max: 8} }
                 draw:
                     text:
                         visible: false
-        populated-places-natural-earth:
-            filter: { name: true, source: naturalearthdata.com, $zoom: { min: 5 } }
+        populated-places:
+            filter: { kind: locality, name: true }
             draw:
                 points:
+                    style: points-southup
+                    color: gray
+                    priority: 5
                     visible: true
                     size: 5px
-                    color: gray
-                    style: points-southup
                     text:
                         style: text-southup
-                        visible: true
-                        priority: 5
+                        buffer: 3px
                         font:
                             family: Baskerville, Times
                             size: 10px
                             fill: [.2,.2,.2]
-                            stroke:
-                                color: white
-                                width: 3
-            capital:
-                filter: { capital: yes }
+                            stroke: { color: white, width: 3 }
+            populated-places-natural-earth-z3:
+                filter: { $zoom: [3] }
+                z3places-1:
+                    filter: { min_zoom: [2] }
+                    draw:
+                        points:
+                            size: 5px
+                            visible: true
+                            text:
+                                font:
+                                    size: 14px
+                z3places-2:
+                    filter: { min_zoom: [3] }
+                    draw:
+                        points:
+                            priority: 7
+                            visible: true
+                            size: 5px
+                            text:
+                                font:
+                                    size: 10px
+
+            populated-places-natural-earth-z4:
+                filter: { $zoom: [4] }
+                z4places-1:
+                    filter: { min_zoom: [2] }
+                    draw:
+                        points:
+                            size: 5px
+                            visible: true
+                            text:
+                                font:
+                                    size: 16px
+                z4places-2:
+                    filter: { min_zoom: [3,4] }
+                    draw:
+                        points:
+                            priority: 7
+                            visible: true
+                            size: 5px
+                            text:
+                                font:
+                                    size: 10px
+
+            populated-places-natural-earth-z5:
+                filter: { $zoom: [5] }
+                z5places-1:
+                    filter: { min_zoom: [2,3] }
+                    draw:
+                        points:
+                            priority: 7
+                            visible: true
+                            size: 6px
+                            text:
+                                font:
+                                    size: 18px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                priority: 5
+                                visible: true
+                                size: 8px
+
+                z5places-2:
+                    filter: { min_zoom: [4] }
+                    draw:
+                        points:
+                            priority: 11
+                            visible: true
+                            size: 5px
+                            text:
+                                font:
+                                    size: 13px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                priority: 9
+                                visible: true
+                                size: 6px
+                z5places-3:
+                    filter: { min_zoom: [5] }
+                    draw:
+                        points:
+                            priority: 17
+                            visible: true
+                            size: 5px
+                            text:
+                                font:
+                                    size: 10px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                priority: 15
+                                visible: true
+                                size: 6px
+            populated-places-natural-earth-z6:
+                filter: { $zoom: [6] }
+                z6places-1:
+                    filter: { min_zoom: [2,3] }
+                    draw:
+                        points:
+                            priority: 7
+                            visible: true
+                            size: 8px
+                            text:
+                                font:
+                                    size: 18px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                priority: 5
+                                visible: true
+                                size: 8px
+                z6places-2:
+                    filter: { min_zoom: [4,5] }
+                    draw:
+                        points:
+                            priority: 11
+                            visible: true
+                            size: 6px
+                            text:
+                                font:
+                                    size: 13px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                priority: 9
+                                visible: true
+                                size: 6px
+
+                z6places-3:
+                    filter: { min_zoom: [6] }
+                    draw:
+                        points:
+                            size: 5px
+                            priority: 15
+                            visible: true
+                            text:
+                                font:
+                                    size: 10px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                priority: 13
+                                visible: true
+                                size: 6px
+
+            populated-places-natural-earth-z7:
+                filter: { $zoom: [7] }
+                z7places-1:
+                    filter: { min_zoom: [2,3] }
+                    draw:
+                        points:
+                            priority: 7
+                            visible: true
+                            size: 8px
+                            text:
+                                font:
+                                    size: 18px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                priority: 5
+                                visible: true
+                                size: 8px
+                z7places-2:
+                    filter: { min_zoom: [4,5,6] }
+                    draw:
+                        points:
+                            priority: 13
+                            visible: true
+                            size: 6px
+                            text:
+                                font:
+                                    size: 13px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                priority: 11
+                                visible: true
+                                size: 8px
+                z7places-3:
+                    filter: { min_zoom: [6,7] }
+                    draw:
+                        points:
+                            priority: 17
+                            visible: true
+                            size: 5px
+                            text:
+                                font:
+                                    size: 11px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                priority: 15
+                                visible: true
+                                size: 6px
+            populated-places-osm-z8:
+                filter:
+                    all:
+                        - source: [openstreetmap.org]
+                        - population: true
+                        - $zoom: [8]
+
+                z8places-1:
+                    filter:
+                        any:
+                            - { population: { min: 1000000 } }
+                    draw:
+                        points:
+                            priority: 7
+                            visible: true
+                            size: 6px
+                            text:
+                                font:
+                                    size: 20px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                priority: 5
+                                visible: true
+                                size: 8px
+                z8places-2:
+                    filter:
+                        any:
+                            - { population: { min: 150000, max: 999999 } }
+                    draw:
+                        points:
+                            priority: 11
+                            visible: true
+                            size: 6px
+                            text:
+                                font:
+                                    size: 15px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                priority: 9
+                                visible: true
+                                size: 6px
+                
+                z8places-3:
+                    filter:
+                        any:
+                            - { population: { min: 85000, max: 149999 } }
+                    draw:
+                        points:
+                            priority: 15
+                            visible: true
+                            size: 6px
+                            text:
+                                font:
+                                    size: 12px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                visible: true
+                                size: 6px
+                                priority: 13
+                z8places-4:
+                    filter:
+                        any:
+                            - { population: { min: 50000, max: 84999 } }
+                    draw:
+                        points:
+                            size: 5px
+                            priority: 19
+                            visible: true
+                            text:
+                                font:
+                                    size: 10px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                visible: true
+                                size: 5px
+                                priority: 17
+
+                z8places-5:
+                    filter:
+                        all:
+                            - { population: { max: 50000 } }
+                        any:
+                            - { country_capital: yes }
+                            - { region_capital: yes }
+                    draw:
+                        points:
+                            size: 5px
+                            priority: 19
+                            visible: true
+                            text:
+                                font:
+                                    size: 10px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                visible: true
+                                size: 5px
+                                priority: 17
+
+            populated-places-osm-z9:
+                filter:
+                    all:
+                        - source: [openstreetmap.org]
+                        - population: true
+                        - $zoom: [9]
+
+                z9places-1:
+                    filter:
+                        any:
+                            - { population: { min: 1000000 } }
+                    draw:
+                        text:
+                            anchor: center
+                            priority: 6
+                            visible: true
+                            font:
+                                size: 20px
+
+                z9places-2a:
+                    filter:
+                        any:
+                            - { population: { min: 350000, max: 999999 } }
+                    draw:
+                        text:
+                            anchor: center
+                            priority: 8
+                            visible: true
+                            font:
+                                size: 15px
+
+                z9places-2b:
+                    filter:
+                        any:
+                            - { population: { min: 150000, max: 350000 } }
+                    draw:
+                        points:
+                            size: 6px
+                            priority: 11
+                            visible: true
+                            text:
+                                font:
+                                    size: 15px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                priority: 9
+                                visible: true
+                z9places-3:
+                    filter:
+                        any:
+                            - { population: { min: 85000, max: 149999 } }
+                    draw:
+                        points:
+                            size: 6px
+                            priority: 15
+                            visible: true
+                            text:
+                                font:
+                                    size: 12px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                visible: true
+                                style: icons
+                                priority: 13
+                                text:
+                                    font:
+                                        size: 15px
+                z9places-4:
+                    filter:
+                        any:
+                            - { population: { min: 50000, max: 84999 } }
+                    draw:
+                        points:
+                            size: 5px
+                            priority: 19
+                            visible: true
+                            text:
+                                font:
+                                    size: 10px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                visible: true
+                                style: icons
+                                priority: 17
+
+                z9places-5:
+                    filter:
+                        all:
+                            - { population: { max: 50000 } }
+                        any:
+                            - { country_capital: yes }
+                            - { region_capital: yes }
+                    draw:
+                        points:
+                            size: 5px
+                            priority: 19
+                            visible: true
+                            text:
+                                font:
+                                    size: 10px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                visible: true
+                                priority: 17
+
+            populated-places-osm-z9-no-population:
+                filter:
+                    all:
+                        - source: [openstreetmap.org]
+                        - population: false
+                        - $zoom: [9]
                 draw:
                     points:
-                        style: icons
-                        size: 10px
-                        color: black
+                        size: 5px
+                        priority: 21
                         text:
-                            priority: 1
                             font:
-                                family: Baskerville, Times
+                                size: 10px
+
+            populated-places-natural-earth-z9-backfill:
+                filter: { $zoom: [9], population: { max: 50000 } }
+                draw: { points: { text: { font: { fill: gray } } } }
+                z9places-1-ne:
+                    filter: { min_zoom: [2,3] }
+                    draw:
+                        points:
+                            size: 8px
+                            priority: 25
+                            visible: true
+                            text:
+                                font:
+                                    size: 16px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                visible: true
+                                style: icons
+                                priority: 23
+                z9places-2-ne:
+                    filter: { min_zoom: [4,5,6] }
+                    draw:
+                        points:
+                            size: 6px
+                            priority: 29
+                            visible: true
+                            text:
+                                font:
+                                    size: 13px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                visible: true
+                                priority: 28
+
+                z9places-3-ne:
+                    filter: { min_zoom: [6,7,8,9] }
+                    draw:
+                        points:
+                            size: 6px
+                            priority: 33
+                            visible: true
+                            text:
+                                font:
+                                    size: 11px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                visible: true
+                                priority: 31
+
+            populated-places-osm-z10:
+                filter:
+                    all:
+                        - source: [openstreetmap.org]
+                        - population: true
+                        - $zoom: [10]
+
+                z10places-1:
+                    filter:
+                        any:
+                            - { population: { min: 1000000 } }
+                    draw:
+                        text:
+                            anchor: center
+                            priority: 5
+                            visible: true
+                            font:
+                                size: 20px
+
+                z10places-2a:
+                    filter:
+                        any:
+                            - { population: { min: 350000, max: 1000000 } }
+                    draw:
+                        text:
+                            anchor: center
+                            priority: 6
+                            visible: true
+                            font:
+                                size: 14px
+
+                z10places-2b:
+                    filter:
+                        any:
+                            - { population: { min: 150000, max: 350000 } }
+                    draw:
+                        points:
+                            size: 6px
+                            priority: 7
+                            visible: true
+                            text:
+                                font:
+                                    size: 12px
+
+                z10places-3:
+                    filter:
+                        any:
+                            - { population: { min: 50000, max: 149999 } }
+                    draw:
+                        points:
+                            size: 6px
+                            priority: 11
+                            visible: true
+                            text:
+                                font:
+                                    size: 12px
+
+
+            populated-places-osm-z10-no-population:
+                filter:
+                    all:
+                        - source: [openstreetmap.org]
+                        - population: false
+                        - $zoom: [10]
+                draw:
+                    points:
+                        size: 5px
+                        priority: 15
+                        visible: true
+                        text:
+                            font:
+                                size: 10px
+
+            populated-places-natural-earth-z10-backfill:
+                filter: { source: naturalearthdata.com, $zoom: [10], population: { max: 20000 } }
+                draw: { points: { text: { font: { fill: gray } } } }
+                z10places-1-ne:
+                    filter: { min_zoom: [2,3] }
+                    draw:
+                        points:
+                            text:
+                                visible: true
+                                font:
+                                    size: 16px
+
+                z10places-2-ne:
+                    filter: { min_zoom: [4,5] }
+                    draw:
+                        points:
+                            size: 6px
+                            priority: 21
+                            visible: true
+                            text:
+                                font:
+                                    size: 13px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                visible: true
+                                priority: 20
+
+                z10places-3-ne:
+                    filter: { min_zoom: [6,7,8,9,10] }
+                    draw:
+                        points:
+                            size: 5px
+                            priority: 25
+                            visible: true
+                            text:
+                                font:
+                                    size: 12px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            points:
+                                style: icons
+                                visible: true
+                                size: 7px
+                                priority: 23
+
+            populated-places-osm-z11:
+                filter:
+                    all:
+                        - source: [openstreetmap.org]
+                        - population: true
+                        - $zoom: [11]
+                draw:
+                    text:
+                        anchor: center
+
+                z11places-1:
+                    filter:
+                        any:
+                            - { population: { min: 1000000 } }
+                    draw:
+                        text:
+                            priority: 5
+                            visible: true
+                            font:
+                                size: 20px
+                z11places-2:
+                    filter:
+                        any:
+                            - { population: { min: 50000, max: 999999 } }
+                    draw:
+                        text:
+                            priority: 6
+                            visible: true
+                            font:
+                                size: 13px
+
+                z11places-3:
+                    filter:
+                        any:
+                        - { population: { min: 5000, max: 49999 } }
+                    draw:
+                        text:
+                            priority: 7
+                            visible: true
+                            font:
+                                size: 10px
+
+            populated-places-osm-z11-no-population:
+                filter:
+                    all:
+                        - source: [openstreetmap.org]
+                        - population: false
+                        - $zoom: [11]
+                draw:
+                    text:
+                        anchor: center
+                        priority: 8
+                        visible: true
+                        font:
+                            size: 10px
+
+            populated-places-natural-earth-z11-backfill:
+                filter: { source: naturalearthdata.com, $zoom: [11], population: { max: 5000 } }
+                draw:
+                    text:
+                        anchor: center
+                        font:
+                            fill: white
+                z11places-1-ne:
+                    filter: { min_zoom: [2,3] }
+                    draw:
+                        text:
+                            priority: 10
+                            visible: true
+                            font:
                                 size: 16px
-                                fill: [.1,.1,.1]
-                                stroke:
-                                    color: white
-                                    width: 3
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            text:
+                                priority: 9
+                                visible: true
+                                font:
+                                    size: 16px
+
+                z11places-2-ne:
+                    filter: { min_zoom: [4,5] }
+                    draw:
+                        text:
+                            priority: 13
+                            visible: true
+                            font:
+                                size: 13px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            text:
+                                priority: 11
+                                visible: true
+                                font:
+                                    size: 16px
+
+                    state_capital:
+                        filter: { region_capital: yes }
+                        draw:
+                            text:
+                                priority: 12
+                                visible: true
+                                font:
+                                    size: 14px
+
+            populated-places-osm-z12:
+                filter:
+                    all:
+                        - source: [openstreetmap.org]
+                        - population: true
+                        - $zoom: [12]
+                draw:
+                    text:
+                        anchor: center
+                z12places-1:
+                    filter:
+                        any:
+                            - { population: { min: 1000000 } }
+                    draw:
+                        text:
+                            priority: 5
+                            visible: true
+                            font:
+                                size: 18px
+                z12places-2:
+                    filter:
+                        any:
+                            - { population: { min: 50000, max: 999999 } }
+                    draw:
+                        text:
+                            priority: 6
+                            visible: true
+                            font:
+                                size: 14px
+                z12places-3:
+                    filter:
+                        any:
+                        - { population: { min: 5000, max: 49999 } }
+                    draw:
+                        text:
+                            priority: 7
+                            visible: true
+                            font:
+                                size: 11px
+                z12places-4:
+                    filter:
+                        any:
+                        - { population: { max: 5000 } }
+                    draw:
+                        text:
+                            priority: 8
+                            visible: true
+                            font:
+                                size: 10px
+
+            populated-places-osm-z12-no-population:
+                filter:
+                    all:
+                        - source: [openstreetmap.org]
+                        - population: false
+                        - $zoom: [12]
+                draw:
+                    text:
+                        anchor: center
+                        priority: 9
+                        visible: true
+                        font:
+                            size: 11px
+
+            populated-places-natural-earth-z12-backfill:
+                filter: { source: naturalearthdata.com, $zoom: [12], population: { max: 5000 } }
+                draw:
+                    text:
+                        anchor: center
+                        priority: 10
+                z12places-1-ne:
+                    filter: { min_zoom: [2,3] }
+                    draw:
+                        text:
+                            priority: 12
+                            visible: true
+                            font:
+                                size: 16px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            text:
+                                priority: 11
+                                visible: true
+                                font:
+                                    size: 16px
+                z12places-2-ne:
+                    filter: { min_zoom: [4,5] }
+                    draw:
+                        text:
+                            priority: 14
+                            visible: true
+                            font:
+                                size: 13px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            text:
+                                priority: 13
+                                visible: true
+                                font:
+                                    size: 16px
+                z12places-3-ne:
+                    filter: { min_zoom: [6,7,8,9,10] }
+                    draw:
+                        text:
+                            priority: 16
+                            visible: true
+                            font:
+                                size: 11px
+                    capital:
+                        filter: { country_capital: yes }
+                        draw:
+                            text:
+                                priority: 15
+                                visible: true
+                                font:
+                                    size: 14px
+
+            populated-places-osm-z13-z14:
+                filter:
+                    all:
+                        - source: [openstreetmap.org]
+                        - population: true
+                        - $zoom: [13,14]
+                draw:
+                    text:
+                        anchor: center
+                        visible: true
+                z13places-1:
+                    filter:
+                        any:
+                            - { population: { min: 200000 } }
+                    draw:
+                        text:
+                            visible: false
+
+                z13places-2:
+                    filter:
+                        any:
+                            - { population: { min: 50000, max: 199999 } }
+                    draw:
+                        text:
+                            priority: 5
+                            font:
+                                size: 18px
+
+                z13places-3:
+                    filter:
+                        any:
+                        - { population: { min: 5000, max: 49999 } }
+                    draw:
+                        text:
+                            priority: 6
+                            font:
+                                size: 12px
+
+                z13places-4:
+                    filter:
+                        any:
+                            - population: false
+                            - population: true
+                              all:
+                                - population: { max: 5000 }
+                    draw:
+                        text:
+                            font:
+                                size: 12px
+
+            populated-places-osm-z13-z14-no-population:
+                filter:
+                    all:
+                        - source: [openstreetmap.org]
+                        - population: false
+                        - $zoom: [13, 14]
+                draw:
+                    text:
+                        anchor: center
+                        priority: 7
+                        visible: true
+                        font:
+                            size: 11px
+
+            populated-places-natural-earth-z13-z14-backfill:
+                filter: { source: naturalearthdata.com, $zoom: [13,14], population: { max: 5000 } }
+                draw:
+                    text:
+                        anchor: center
+                        visible: true
+                        font:
+                            fill: white
+
+                z13places-1-ne:
+                    filter: { min_zoom: [2,3] }
+                    draw:
+                        text:
+                            priority: 8
+                            visible: false
+
+                z13places-2-ne:
+                    filter: { min_zoom: [4,5] }
+                    draw:
+                        text:
+                            priority: 9
+                            font:
+                                size: 13px
+
+                z13places-3-ne:
+                    filter: { min_zoom: [6,7,8,9,10] }
+                    draw:
+                        text:
+                            priority: 10
+                            font:
+                                size: 12px
+
+        neighborhood-z11:
+            filter:
+                all:
+                    - name: true
+                    - kind: [macrohood, neighbourhood]
+                    - $zoom: [11]
+                any:
+                    - source: [openstreetmap, openstreetmap.org]
+                    - source: [whosonfirst, whosonfirst.mapzen.com]
+                      all:
+                        - min_zoom: [11]
+                        - max_zoom: { min: 12 }
+                        - is_landuse_aoi: false
+                        #- kind_tile_rank: { max: 6 }
+            draw:
+                text:
+                    priority: 18
+                    text_wrap: 10
+                    visible: true
+                    font:
+                        size: 9px
+                        transform: uppercase
+
+        neighborhood-z12:
+            filter:
+                all:
+                    - name: true
+                    - kind: [macrohood, neighbourhood]
+                    - $zoom: [12]
+                any:
+                    - source: [openstreetmap, openstreetmap.org]
+                    - source: [whosonfirst, whosonfirst.mapzen.com]
+                      all:
+                        - min_zoom: [11,12]
+                        - max_zoom: { min: 13 }
+                        - is_landuse_aoi: false
+                        #- kind_tile_rank: { max: 8 }
+            draw:
+                text:
+                    priority: 18
+                    text_wrap: 10
+                    visible: true
+                    font:
+                        size: 9px
+                        transform: uppercase
+        neighborhood-z13:
+            filter:
+                all:
+                    - name: true
+                    - kind: [macrohood, neighbourhood]
+                    - $zoom: [13]
+                any:
+                    - source: [openstreetmap, openstreetmap.org]
+                    - source: [whosonfirst, whosonfirst.mapzen.com]
+                      all:
+                        - min_zoom: [11,12,13]
+                        - max_zoom: { min: 14 }
+                        - is_landuse_aoi: false
+                        - kind_tile_rank: { max: 8 }
+            draw:
+                text:
+                    priority: 18
+                    text_wrap: 10
+                    visible: true
+                    font:
+                        size: 10px
+                        transform: uppercase
+
+        neighborhood-z14:
+            filter:
+                all:
+                    - name: true
+                    - kind: [macrohood, neighbourhood]
+                    - $zoom: [14]
+                any:
+                    - source: [openstreetmap, openstreetmap.org]
+                    - source: [whosonfirst, whosonfirst.mapzen.com]
+                      all:
+                        - min_zoom: [11,12,13,14]
+                        - max_zoom: { min: 15 }
+                        - is_landuse_aoi: false
+                        - kind_tile_rank: { max: 8 }
+            draw:
+                text:
+                    priority: 18
+                    text_wrap: 12
+                    visible: true
+                    font:
+                        size: 11px
+                        transform: uppercase
+        neighborhood-z15:
+            filter:
+                all:
+                    - name: true
+                    - kind: [macrohood, neighbourhood]
+                    - $zoom: [15]
+                any:
+                    - source: [openstreetmap, openstreetmap.org]
+                    - source: [whosonfirst, whosonfirst.mapzen.com]
+                      all:
+                        - min_zoom: [11,12,13,14,15]
+                        - max_zoom: { min: 16 }
+                        - is_landuse_aoi: false
+                        - kind_tile_rank: { max: 8 }
+            draw:
+                text:
+                    priority: 18
+                    text_wrap: 12
+                    visible: true
+                    font:
+                        size: 13px
+                        transform: uppercase
+            z15-new:
+                filter:
+                    all:
+                        - min_zoom: 15
+                draw:
+                    text:
+                        priority: 19
+                        visible: true
+                        font:
+                            size: 10px
+        neighborhood-z16:
+            filter:
+                all:
+                    - name: true
+                    - kind: [macrohood, neighbourhood]
+                    - $zoom: [16]
+                any:
+                      all:
+                        - min_zoom: [11,12,13,14,15,16]
+                        - max_zoom: { min: 17 }
+                        - is_landuse_aoi: false
+                        - kind_tile_rank: { max: 8 }
+            draw:
+                text:
+                    priority: 18
+                    visible: true
+                    font:
+                        size: 14px
+                        transform: uppercase
+
+        # populated-places-natural-earth:
+        #     filter: { name: true, source: naturalearthdata.com, $zoom: { min: 5 } }
+        #     draw:
+        #         points:
+        #             visible: true
+        #             size: 5px
+        #             color: gray
+        #             style: points-southup
+        #             text:
+        #                 style: text-southup
+        #                 visible: true
+        #                 priority: 5
+        #                 font:
+        #                     family: Baskerville, Times
+        #                     size: 10px
+        #                     fill: [.2,.2,.2]
+        #                     stroke:
+        #                         color: white
+        #                         width: 3
+        #     capital:
+        #         filter: { capital: yes }
+        #         draw:
+        #             points:
+        #                 style: icons
+        #                 size: 10px
+        #                 color: black
+        #                 text:
+        #                     priority: 1
+        #                     font:
+        #                         family: Baskerville, Times
+        #                         size: 16px
+        #                         fill: [.1,.1,.1]
+        #                         stroke:
+        #                             color: white
+        #                             width: 3
 
 styles:
     icons:

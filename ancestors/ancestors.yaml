@@ -10,7 +10,8 @@ layers:
         draw:
             lines:
                 style: lines-southup
-                color: red
+                color: black
+                dash: [1, 4]
                 width: 1px
                 order: 10001
             text:
@@ -19,7 +20,7 @@ layers:
                 font:
                     family: Baskerville, Times
                     size: 10px
-                    fill: red
+                    fill: black
                     stroke:
                         color: white
                         width: 5
@@ -29,7 +30,7 @@ layers:
         draw:
             points:
                 size: 5px
-                color: red
+                color: black
                 style: points-southup
                 text:
                     style: text-southup

@@ -8,4 +8,5 @@ marriage:
 descendants:
     - { name: Patricio, year: 1870, month: 11, day: 13 }
 legs:
+    - { to: { city: New Ross, coord: [-6.945708, 52.391797] }, to: { city: Wexford, coord: [-6.3844301073234, 52.259607830465] }, year: 1868 }
     - { form: { city: Wexford, coord: [-6.3844301073234, 52.259607830465] }, to: { city: "Buenos Aires", coord: [-58.366664382481, -34.594638353642] }, url: trips/WEX_BUE.json }

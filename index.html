@@ -8,8 +8,8 @@
     <title>South Up</title>
     <!-- 3rd party libraries -->
         <!-- Leaflet -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.3/leaflet.css" />
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.3/leaflet.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.css" />
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>
         <!-- bog-standard leaflet URL hash -->
         <script type="text/javascript" src="https://cdn.rawgit.com/mlevans/leaflet-hash/master/leaflet-hash.js"></script>
         <!-- Main tangram library -->
@@ -89,6 +89,7 @@
 
                 var layer = Tangram.leafletLayer({
                     scene: 'scene.yaml',
+                    introspection: true,
                     attribution: '&copy; OSM contributors | <a href="https://mapzen.com" target="_blank">Mapzen</a> | <a href="http://jenlowe.net/" target="_blank">@datatelling</a> & <a href="http://patricio.io" target="_blank">@patriciogv</a>'
                 });
 
@@ -109,12 +110,19 @@
                 window.addEventListener('resize', resizeMap);
                 resizeMap();
 
+                // S <-> N
                 southUp(map);
 
                 window.addEventListener('load', function () {
                     layer.addTo(map);
                     // Now the interesting stuff, the new languageselector:
                     map.addControl(L.uxLanguage({ scene: scene }));
+                });
+
+                layer.setSelectionEvents({
+                    click: function(selection) {
+                        console.log(selection);
+                    }
                 });
 
                 return map;
