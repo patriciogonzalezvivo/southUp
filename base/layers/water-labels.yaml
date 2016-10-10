@@ -23,17 +23,16 @@ layers:
                     - { $zoom: { min: 15 }, area: { min: 50000 } }
                     - { $zoom: { min: 16 }, area: { min: 20000 } }
                     - { $zoom: { min: 17 } }
-            default-label-text:
-                draw:
-                    text:
-                        style: text-southup
-                        text_source: global.ux_language_text_source
-                        priority: 20
-                        visible: true
-                        font:
-                            fill: white
-                            family: Baskerville, Times
-                            size: 16px
+            draw:
+                text:
+                    style: text-southup
+                    text_source: global.ux_language_text_source
+                    priority: 20
+                    visible: true
+                    font:
+                        family: global.font_family
+                        fill: white
+                        size: 16px
             lakes-z5:
                 filter: { $zoom: [5] }
                 draw:
@@ -57,7 +56,6 @@ layers:
                     text_source: global.ux_language_text_source
                     font:
                         fill: white
-                        family: Baskerville, Times
                         size: 20px
                         transform: uppercase
                         # stroke: { color: '#CED4D9', width: 3 } 
@@ -152,8 +150,6 @@ layers:
                     style: text-southup
                     text_source: global.ux_language_text_source
                     font:
-                        fill: white
-                        family: Baskerville, Times
                         size: 10px
                         
         water-line-labels:
@@ -169,8 +165,6 @@ layers:
                     style: text-southup
                     text_source: global.ux_language_text_source
                     font:
-                        fill: white
-                        family: Baskerville, Times
                         size: 12px
             water-line-labels-z14:
                 filter: { $zoom: [14] }

@@ -10,6 +10,6 @@ layers:
                         style: text-southup
                         visible: true
                         font:
-                            family: Baskerville, Times
+                            family: global.font_family
                             size: [[10,16px],[16,18px]]
                             fill: white

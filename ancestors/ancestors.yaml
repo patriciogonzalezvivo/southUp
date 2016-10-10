@@ -13,16 +13,14 @@ layers:
                 color: [[0,[.5,.5,.5]],[20,[0,0,0]]]
                 width: [[0,.5px],[6,1px],[20,1m]]
                 order: 10001
-            text:
-                style: text-southup
-                priority: 1
-                font:
-                    family: Baskerville, Times
-                    size: 8px
-                    fill: black
-                    stroke:
-                        color: white
-                        width: 2
+            # text:
+            #     style: text-southup
+            #     priority: 1
+            #     font:
+            #         family: global.font_family
+            #         size: 8px
+            #         fill: black
+            #         stroke: { color: white, width: 2 }
     ancestors-places:
         data: { source: ancestors }
         filter: { kind: place }
@@ -33,17 +31,15 @@ layers:
                 style: points-southup
                 collide: true
                 buffer: 5px
-                priority: 1
+                priority: 10
                 text:
                     style: text-southup
                     collide: true
                     font:
-                        family: Baskerville, Times
-                        size: 18px
+                        family: global.font_family
+                        size: [[0,8px],[20,14px]]
                         fill: black
-                        stroke:
-                            color: white
-                            width: 3
+                        # stroke: { color: white, width: 3 }
 
 styles:
     trips:

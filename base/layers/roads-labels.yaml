@@ -5,10 +5,11 @@ layers:
                 visible: false
                 style: text-southup
                 font:
-                    family: Baskerville, Times
+                    family: global.font_family
                     fill: black
                     size: [[8,8px],[16,10px]]
-                    stroke: { color: white, width: 4px }
+                    weight: 100
+                    stroke: { color: white, width: 2 }
 
         # highway:
         #     filter: { kind: highway }
