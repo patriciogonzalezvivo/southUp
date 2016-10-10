@@ -16,8 +16,10 @@ for feature in const['labels'].features:
     names[feature.id] = feature.properties['name']
 
 # Fix and take geometries
+id_counter = 1
 for feature in const['lines'].features:
-    feature['properties'] = { 'name': names[feature.id] }
+    feature['properties'] = { 'name': names[feature.id], 'id': id_counter }
+    id_counter = id_counter + 1
     for line in feature.geometry.coordinates:
         lng_prev = 0
         for coord in line:

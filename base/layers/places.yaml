@@ -1,11 +1,3 @@
-textures:
-    places:
-        url: places.png
-        filtering: mipmap
-        sprites:
-            # define sprites: [x origin, y origin, width, height]
-            capital: [0, 0, 50, 50]
-
 layers:
     places:
         data: { source: mapzen, layer: places }
@@ -179,10 +171,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 priority: 5
                                 visible: true
-                                size: 8px
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
 
                 z5places-2:
                     filter: { min_zoom: [4] }
@@ -198,10 +193,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 priority: 9
                                 visible: true
-                                size: 6px
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
                 z5places-3:
                     filter: { min_zoom: [5] }
                     draw:
@@ -216,10 +214,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 priority: 15
                                 visible: true
-                                size: 6px
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
             populated-places-natural-earth-z6:
                 filter: { $zoom: [6] }
                 z6places-1:
@@ -236,10 +237,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 priority: 5
                                 visible: true
-                                size: 8px
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
                 z6places-2:
                     filter: { min_zoom: [4,5] }
                     draw:
@@ -254,10 +258,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 priority: 9
                                 visible: true
-                                size: 6px
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
 
                 z6places-3:
                     filter: { min_zoom: [6] }
@@ -273,10 +280,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 priority: 13
                                 visible: true
-                                size: 6px
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
 
             populated-places-natural-earth-z7:
                 filter: { $zoom: [7] }
@@ -294,10 +304,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 priority: 5
                                 visible: true
-                                size: 8px
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
                 z7places-2:
                     filter: { min_zoom: [4,5,6] }
                     draw:
@@ -312,10 +325,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 priority: 11
                                 visible: true
-                                size: 8px
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
                 z7places-3:
                     filter: { min_zoom: [6,7] }
                     draw:
@@ -330,10 +346,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 priority: 15
                                 visible: true
-                                size: 6px
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
             populated-places-osm-z8:
                 filter:
                     all:
@@ -357,10 +376,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 priority: 5
                                 visible: true
-                                size: 8px
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
                 z8places-2:
                     filter:
                         any:
@@ -377,10 +399,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 priority: 9
                                 visible: true
-                                size: 6px
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
                 
                 z8places-3:
                     filter:
@@ -398,10 +423,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 visible: true
-                                size: 6px
                                 priority: 13
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
                 z8places-4:
                     filter:
                         any:
@@ -418,10 +446,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 visible: true
-                                size: 5px
                                 priority: 17
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
 
                 z8places-5:
                     filter:
@@ -442,10 +473,13 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 visible: true
-                                size: 5px
                                 priority: 17
+                                size: 10px
+                                text:
+                                    font:
+                                        size: 20px
 
             populated-places-osm-z9:
                 filter:
@@ -494,7 +528,7 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 priority: 9
                                 visible: true
                 z9places-3:
@@ -514,7 +548,7 @@ layers:
                         draw:
                             points:
                                 visible: true
-                                style: icons
+                                style: capital
                                 priority: 13
                                 text:
                                     font:
@@ -536,7 +570,7 @@ layers:
                         draw:
                             points:
                                 visible: true
-                                style: icons
+                                style: capital
                                 priority: 17
 
                 z9places-5:
@@ -558,7 +592,7 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 visible: true
                                 priority: 17
 
@@ -594,7 +628,7 @@ layers:
                         draw:
                             points:
                                 visible: true
-                                style: icons
+                                style: capital
                                 priority: 23
                 z9places-2-ne:
                     filter: { min_zoom: [4,5,6] }
@@ -610,7 +644,7 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 visible: true
                                 priority: 28
 
@@ -628,7 +662,7 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 visible: true
                                 priority: 31
 
@@ -731,7 +765,7 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 visible: true
                                 priority: 20
 
@@ -749,7 +783,7 @@ layers:
                         filter: { country_capital: yes }
                         draw:
                             points:
-                                style: icons
+                                style: capital
                                 visible: true
                                 size: 7px
                                 priority: 23
@@ -1217,44 +1251,8 @@ layers:
                         size: 14px
                         transform: uppercase
 
-        # populated-places-natural-earth:
-        #     filter: { name: true, source: naturalearthdata.com, $zoom: { min: 5 } }
-        #     draw:
-        #         points:
-        #             visible: true
-        #             size: 5px
-        #             color: gray
-        #             style: points-southup
-        #             text:
-        #                 style: text-southup
-        #                 visible: true
-        #                 priority: 5
-        #                 font:
-        #                     family: Baskerville, Times
-        #                     size: 10px
-        #                     fill: [.2,.2,.2]
-        #                     stroke:
-        #                         color: white
-        #                         width: 3
-        #     capital:
-        #         filter: { capital: yes }
-        #         draw:
-        #             points:
-        #                 style: icons
-        #                 size: 10px
-        #                 color: black
-        #                 text:
-        #                     priority: 1
-        #                     font:
-        #                         family: Baskerville, Times
-        #                         size: 16px
-        #                         fill: [.1,.1,.1]
-        #                         stroke:
-        #                             color: white
-        #                             width: 3
-
 styles:
-    icons:
+    capital:
         base: points
         mix: [points-southup]
-        texture: places.png
+        texture: capital.png

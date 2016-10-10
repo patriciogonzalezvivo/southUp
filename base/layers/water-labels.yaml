@@ -60,7 +60,7 @@ layers:
                         family: Baskerville, Times
                         size: 20px
                         transform: uppercase
-                        stroke: { color: '#CED4D9', width: 3 } 
+                        # stroke: { color: '#CED4D9', width: 3 } 
             sea-early:
                 filter: { $zoom: [3], kind: sea }
                 draw: { text: { visible: false } }

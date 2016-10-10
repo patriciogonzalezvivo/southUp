@@ -122,15 +122,15 @@
                             if (!selection || selection.feature == null || selection.feature.properties == null) {
                                 return;
                             }
-                            console.log(selection);
-                            // scene.config.global.hovered = selection.feature.properties.name;
-                            // scene.rebuild();
+                            scene.styles.constellations.shaders.uniforms.u_selected = selection.feature.properties.id;
                         },
                         click: function(selection) {
                             if (!selection || selection.feature == null || selection.feature.properties == null) {
                                 return;
                             }
-                            console.log(selection);
+                            scene.styles.constellations.shaders.uniforms.u_selected = selection.feature.properties.id;
+                            console.log(selection.feature.properties);
+                            // console.log(selection);
                         }
                     });
                 });

@@ -9,32 +9,34 @@ layers:
         filter: { kind: trip }
         draw:
             lines:
-                style: lines-southup
-                color: black
-                dash: [1, 4]
-                width: 1px
+                style: trips
+                color: [[0,[.5,.5,.5]],[20,[0,0,0]]]
+                width: [[0,.5px],[6,1px],[20,1m]]
                 order: 10001
             text:
                 style: text-southup
                 priority: 1
                 font:
                     family: Baskerville, Times
-                    size: 10px
+                    size: 8px
                     fill: black
                     stroke:
                         color: white
-                        width: 5
+                        width: 2
     ancestors-places:
         data: { source: ancestors }
         filter: { kind: place }
         draw:
             points:
-                size: 5px
+                size: [[0,0px],[10,10px]]
                 color: black
                 style: points-southup
+                collide: true
+                buffer: 5px
+                priority: 1
                 text:
                     style: text-southup
-                    priority: 10
+                    collide: true
                     font:
                         family: Baskerville, Times
                         size: 18px
@@ -42,3 +44,9 @@ layers:
                         stroke:
                             color: white
                             width: 3
+
+styles:
+    trips:
+        base: lines
+        mix: [lines-southup]
+        dash: [4, 2]
