@@ -1,14 +1,15 @@
 layers:
-    earth-labels:
-        data: { source: mapzen, layer: earth }
-        filter: { name: true }
-        island:
-            filter: { kind: [archipelago, island, islet] }
-            draw:
-                text:
-                    text_wrap: 10
-                    style: text-southup
-                    font:
-                        family: Baskerville, Times
-                        size: [[10,16px],[16,18px]]
-                        fill: white
+    earth:
+        earth-labels:
+            filter: { name: true }
+            island:
+                filter: { kind: [archipelago, island, islet], not:  }
+                draw:
+                    text:
+                        text_wrap: 10
+                        style: text-southup
+                        visible: true
+                        font:
+                            family: global.font_family
+                            size: [[10,16px],[16,18px]]
+                            fill: white

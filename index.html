@@ -8,22 +8,25 @@
     <title>South Up</title>
     <!-- 3rd party libraries -->
         <!-- Leaflet -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.3/leaflet.css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.3/leaflet.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.css" />
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>
         <!-- bog-standard leaflet URL hash -->
         <script type="text/javascript" src="https://cdn.rawgit.com/mlevans/leaflet-hash/master/leaflet-hash.js"></script>
         <!-- Main tangram library -->
-        <script src="https://mapzen.com/tangram/0.10/tangram.min.js"></script>
+        <script type="text/javascript" src="https://mapzen.com/tangram/0.10/tangram.min.js"></script>
         <!-- Load geocoding plugin after Leaflet -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.1/leaflet-geocoder-mapzen.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.1/leaflet-geocoder-mapzen.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.1/leaflet-geocoder-mapzen.js"></script>
+        <!-- Language Selector for Tangram -->
+        <link rel="stylesheet" href="https://tangrams.github.io/ux_language/ux_language.css" />
+        <script type="text/javascript" src="https://tangrams.github.io/ux_language/ux_language.js"></script>
+<!--         <link rel="stylesheet" href="http://localhost:8001/ux_language.css" />
+        <script type="text/javascript" src="http://localhost:8001/ux_language.js"></script> -->
     <!-- End of 3rd party libraries -->
 
     <!-- SouthUp the input controls of a leaflet map -->
-    <script src="./leaflet-southup.js"></script>
-    <!-- Language Selector for Tangram -->
-    <link rel="stylesheet" href="./leaflet-tangram-languageselector.css" />
-    <script src="./leaflet-tangram-languageselector.js"></script>
+    <script type="text/javascript" src="./leaflet-southup.js"></script>
+    
 
     <style>
         body {
@@ -86,6 +89,7 @@
 
                 var layer = Tangram.leafletLayer({
                     scene: 'scene.yaml',
+                    introspection: true,
                     attribution: '&copy; OSM contributors | <a href="https://mapzen.com" target="_blank">Mapzen</a> | <a href="http://jenlowe.net/" target="_blank">@datatelling</a> & <a href="http://patricio.io" target="_blank">@patriciogv</a>'
                 });
 
@@ -106,13 +110,32 @@
                 window.addEventListener('resize', resizeMap);
                 resizeMap();
 
+                // S <-> N
                 southUp(map);
 
                 window.addEventListener('load', function () {
                     layer.addTo(map);
                     // Now the interesting stuff, the new languageselector:
-                    map.addControl(L.languageSelector({ scene: scene, global: 'ux_language' }));
+                    map.addControl(L.uxLanguage({ scene: scene }));
+                    layer.setSelectionEvents({
+                        hover: function(selection) {
+                            if (!selection || selection.feature == null || selection.feature.properties == null) {
+                                return;
+                            }
+                            scene.styles.constellations.shaders.uniforms.u_selected = selection.feature.properties.id;
+                        },
+                        click: function(selection) {
+                            if (!selection || selection.feature == null || selection.feature.properties == null) {
+                                return;
+                            }
+                            scene.styles.constellations.shaders.uniforms.u_selected = selection.feature.properties.id;
+                            console.log(selection.feature.properties);
+                            // console.log(selection);
+                        }
+                    });
                 });
+
+
 
                 return map;
             }());
