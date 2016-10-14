@@ -46,12 +46,23 @@
             background: rgba(0, 0, 0, 0);
             z-index:0;
         }
+
+        .wind_rose {
+            z-index: 100;
+            color: white;
+            position: absolute;
+            width: 180px;
+            bottom: 50px;
+            right: 55px;
+            opacity: .5;
+        }
     </style>
   </head>
 
     <body>
         <div class="label" id="popup"></div>
         <div id="map"></div>
+        <img class="wind_rose" src="images/rose.png">
 
         <!-- Demo module -->
         <script type="text/javascript">
@@ -92,7 +103,7 @@
                     minZoom: 2,
                     maxZoom: 18,
                     introspection: true,
-                    attribution: '&copy; OSM contributors | <a href="https://mapzen.com" target="_blank">Mapzen</a> | <a href="http://jenlowe.net/" target="_blank">@datatelling</a> & <a href="http://patricio.io" target="_blank">@patriciogv</a>'
+                    attribution: '<a href="http://jenlowe.net/" target="_blank">@datatelling</a> & <a href="http://patricio.io" target="_blank">@patriciogv</a>'
                 });
 
                 window.layer = layer;
