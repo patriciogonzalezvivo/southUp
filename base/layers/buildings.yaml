@@ -1,5 +1,6 @@
 import:
     - https://tangrams.github.io/blocks/filter/height.yaml
+    - https://tangrams.github.io/blocks/geometry/dynamic-height.yaml
 
 layers:
     buildings:
@@ -10,9 +11,8 @@ layers:
             polygons:
                 order: global.order
                 style: buildings
-                visible: false
                 color: white
-
+                visible: false
         footprints:
             filter:
                 all:
@@ -26,7 +26,6 @@ layers:
                     - { $zoom: [15], scale_rank: [0,1,2,3] }
             draw:
                 polygons:
-                    color: lightgray
                     style: buildings
                     visible: true
         extrude:
@@ -40,12 +39,18 @@ layers:
                     - { $zoom: { min: 17 } }
             draw:
                 polygons:
-                    visible: true
-                    color: white
                     style: buildings
                     extrude: function() { return feature.height || 20; }
+                    visible: true
 
 styles:
     buildings:
         base: polygons
-        mix: [polygons-southup, filter-height]
+        mix: [polygons-southup, geometry-dynamic-height, filter-height]
+        shaders:
+            defines:
+                ZOOM_START: 15.0
+                ZOOM_END: 20.0
+                HEIGHT: zoom()
+                HEIGHT_MIN: 1.0
+                HEIGHT_MAX: 2.5

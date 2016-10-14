@@ -27,18 +27,15 @@ layers:
         draw:
             points:
                 size: [[0,0px],[10,10px]]
-                color: black
+                color: [[0,[.7,.7,.7]], [10,[0,0,0]]]
                 style: points-southup
-                collide: true
-                buffer: 5px
-                priority: 10
                 text:
                     style: text-southup
                     collide: true
                     font:
                         family: global.font_family
                         size: [[0,8px],[20,14px]]
-                        fill: black
+                        fill: [[0,[.7,.7,.7]], [10,[0,0,0]]]
                         # stroke: { color: white, width: 3 }
 
 styles:

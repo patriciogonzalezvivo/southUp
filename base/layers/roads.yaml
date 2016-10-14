@@ -12,12 +12,12 @@ layers:
             filter: { kind: highway }
             draw:
                 lines:
-                    width: [[8,0px], [9,.25px], [11, 1.5px], [14, 2px], [16, 4px], [20, 14m]]
+                    width: [[8,0px], [9,.25px], [10, 1.5px], [14, 2px], [16, 4px], [20, 14m]]
                     outline:
                         width: [[8,0px], [9,.125px], [11, .575px], [14, 1px], [16, 2px], [17, 1m]]
                         color: [[17,[.5,.5,.5]],[20,[0,0,0]]]
             link:
-                filter: { is_link: yes } # on- and off-ramps, etc
+                filter: { is_link: true } # on- and off-ramps, etc
                 draw:
                     lines:
                         width: [[8,0px], [14, 3px], [16, 5px], [20, 14m]]
@@ -25,9 +25,9 @@ layers:
                             width: [[8,0px], [14, .5px], [16, 1px], [17, .5m]]
                             color: [[17,[.5,.5,.5]],[20,[0,0,0]]]
                 tunnel-link:
-                    filter: {is_tunnel: yes, $zoom: {min: 13} }
+                    filter: {is_tunnel: true, $zoom: {min: 13} }
         tunnel:
-            filter: {is_tunnel: yes }
+            filter: {is_tunnel: true }
             draw:
                 lines:
                     width: [[9,0px], [10,.2px], [12, 1px], [15, 1.5px], [17, 2.5px], [20, 8m]]
@@ -37,7 +37,7 @@ layers:
             filter: { kind: major_road, $zoom: { min: 10 } }
             draw:
                 lines:
-                    width: [[10,0px],[12,1px],[20, 16m]]
+                    width: [[10,1px],[20, 16m]]
 
         minor_road:
             filter: { kind: minor_road, $zoom: { min: 12 } }

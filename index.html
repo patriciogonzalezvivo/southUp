@@ -89,6 +89,8 @@
 
                 var layer = Tangram.leafletLayer({
                     scene: 'scene.yaml',
+                    minZoom: 2,
+                    maxZoom: 18,
                     introspection: true,
                     attribution: '&copy; OSM contributors | <a href="https://mapzen.com" target="_blank">Mapzen</a> | <a href="http://jenlowe.net/" target="_blank">@datatelling</a> & <a href="http://patricio.io" target="_blank">@patriciogv</a>'
                 });

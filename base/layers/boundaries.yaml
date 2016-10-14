@@ -5,58 +5,55 @@ layers:
             lines:
                 style: boundaries-region
                 order: global.order
-                color: darkgray
+                color: red
                 width: 1px
+                visible: false
         country:
             filter:
-                any:
-                    - kind: country
-                    - kind_detail: 2
+                kind: [country]
             draw:
                 lines:
                     style: lines-southup
-                    # color: [[3,[0.638,0.641,0.678]],[7,[.5,.5,.5]],[10,[.4,.4,.4]],[12,[.3,.3,.3]]]
-                    color: [[0,[1,1,1]],[7,[.5,.5,.5]],[10,[.4,.4,.4]],[12,[.3,.3,.3]]]
+                    color: [[3,[.5,.5,.5]],[12,[.3,.3,.3]],[20,[0,0,0]]]
                     width: [[1, 0px], [3, 0px], [4, 1px], [9, 1.5px], [14, 2.5px], [16, 3px], [17, 10m]]
+                    visible: true
             water:
-                filter: { maritime_boundary: yes }
+                filter: { maritime_boundary: true }
                 draw:
                     lines:
                         style: lines-southup
-                        visible: false
-                        color: lightblue
-                        
+                        color: lightblue                        
         country_disputed:
             filter: { kind: [disputed, indefinite, indeterminate, lease_limit, line_of_control, overlay_limit] }
             draw:
                 lines:
                     style: boundaries-region
                     order: global.order
-                    color: white
+                    color: [[3,[.6,.5,.5]],[12,[.5,.3,.3]],[20,[.4,0,0]]]
                     width: [[1, 0.2px], [3, 0px], [4, 1.0px], [9, 1.5px], [14, 2.5px], [16, 3.5px], [17, 10m]]
+                    visible: true
         region:
             filter:
-                any:
-                    - kind: [region]
-                    - admin_level: 4
+                kind: [region]
             draw:
                 lines:
                     style: boundaries-region
-                    color: [[5,[.6,.6,.6]],[12,[.5,.5,.5]],[12,[.4,.4,.4]]]
-                    width: [[5, 0px], [6, 0.5px], [8, 1px], [14, 1.5px], [17, 1m]]
+                    color: [[5,[.5,.5,.5]],[12,[.3,.3,.3]]]
+                    width: [[4, 0px], [5, 0.5px], [8, 1px], [14, 1.5px], [17, 1m]]
+                    visible: true
             water:
-                filter: { maritime_boundary: yes }
+                filter: { maritime_boundary: true }
                 draw:
                     lines:
                         style: lines-southup
-                        # visible: false
                         color: lightblue
         water:
-            filter: { maritime_boundary: yes }
+            filter: { maritime_boundary: true }
             draw:
                 lines:
                     style: boundaries-region
                     color: lightblue
+                    visible: false
                     width: [[10, 0px], [12, 1px], [17, 1m]]
 styles:
     boundaries-region:

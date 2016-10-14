@@ -10,7 +10,7 @@ layers:
                 font:
                     family: global.font_family
                     weight: 100
-                    fill: [ [0,[.5,.5,.5]], [10,[0,0,0]] ]
+                    fill: [[0,[.7,.7,.7]], [10,[0,0,0]]]
                     size: 10px   
             points:
                 style: points-southup
@@ -94,10 +94,11 @@ layers:
                 draw:
                     points:
                         style: capital
-                        size: [[0,0px],[8,10px]]
+                        size: [[0,0px],[5,10px]]
                         text:
                             fonts:
-                                size: [[0,0px],[8,14px]]
+                                weight: 300
+                                size: [[0,0px],[5,14px]]
             populated-places-natural-earth-z3:
                 filter: { $zoom: [3] }
                 z3places-1:
@@ -485,55 +486,55 @@ layers:
                             font:
                                 size: 10px
 
-            populated-places-natural-earth-z9-backfill:
-                filter: { $zoom: [9], population: { max: 50000 } }
-                draw: { points: { text: { font: { fill: gray } } } }
-                z9places-1-ne:
-                    filter: { min_zoom: [2,3] }
-                    draw:
-                        points:
-                            size: 8px
-                            priority: 25
-                            visible: true
-                            text:
-                                font:
-                                    size: 16px
-                    capital:
-                        filter: { country_capital: true }
-                        draw:
-                            points:
-                                priority: 23
-                z9places-2-ne:
-                    filter: { min_zoom: [4,5,6] }
-                    draw:
-                        points:
-                            size: 6px
-                            priority: 29
-                            visible: true
-                            text:
-                                font:
-                                    size: 13px
-                    capital:
-                        filter: { country_capital: true }
-                        draw:
-                            points:
-                                priority: 28
+            # populated-places-natural-earth-z9-backfill:
+            #     filter: { $zoom: [9], population: { max: 50000 } }
+            #     draw: { points: { text: { font: { fill: gray } } } }
+            #     z9places-1-ne:
+            #         filter: { min_zoom: [2,3] }
+            #         draw:
+            #             points:
+            #                 size: 8px
+            #                 priority: 25
+            #                 visible: true
+            #                 text:
+            #                     font:
+            #                         size: 16px
+            #         capital:
+            #             filter: { country_capital: true }
+            #             draw:
+            #                 points:
+            #                     priority: 23
+            #     z9places-2-ne:
+            #         filter: { min_zoom: [4,5,6] }
+            #         draw:
+            #             points:
+            #                 size: 6px
+            #                 priority: 29
+            #                 visible: true
+            #                 text:
+            #                     font:
+            #                         size: 13px
+            #         capital:
+            #             filter: { country_capital: true }
+            #             draw:
+            #                 points:
+            #                     priority: 28
 
-                z9places-3-ne:
-                    filter: { min_zoom: [6,7,8,9] }
-                    draw:
-                        points:
-                            size: 6px
-                            priority: 33
-                            visible: true
-                            text:
-                                font:
-                                    size: 11px
-                    capital:
-                        filter: { country_capital: true }
-                        draw:
-                            points:
-                                priority: 31
+            #     z9places-3-ne:
+            #         filter: { min_zoom: [6,7,8,9] }
+            #         draw:
+            #             points:
+            #                 size: 6px
+            #                 priority: 33
+            #                 visible: true
+            #                 text:
+            #                     font:
+            #                         size: 11px
+            #         capital:
+            #             filter: { country_capital: true }
+            #             draw:
+            #                 points:
+            #                     priority: 31
 
             populated-places-osm-z10:
                 filter:
