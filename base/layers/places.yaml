@@ -10,7 +10,7 @@ layers:
                 font:
                     family: global.font_family
                     weight: 100
-                    fill: [ [0,[.3,.3,.3]], [10,[0,0,0]] ]
+                    fill: [ [0,[.5,.5,.5]], [10,[0,0,0]] ]
                     size: 10px   
             points:
                 style: points-southup
