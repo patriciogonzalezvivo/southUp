@@ -94,11 +94,11 @@ layers:
                 draw:
                     points:
                         style: capital
-                        size: [[0,0px],[5,10px]]
+                        size: [[3,0px],[5,5px],[10,14px]]
                         text:
                             fonts:
                                 weight: 300
-                                size: [[0,0px],[5,14px]]
+                                size: [[5,5px],[10,14px]]
             populated-places-natural-earth-z3:
                 filter: { $zoom: [3] }
                 z3places-1:
@@ -729,7 +729,6 @@ layers:
                         draw:
                             text:
                                 priority: 9
-                                visible: true
                                 font:
                                     size: 16px
 
@@ -742,19 +741,13 @@ layers:
                             font:
                                 size: 13px
                     capital:
-                        filter: { country_capital: true }
+                        filter: 
+                            any:
+                                - country_capital: true
+                                - region_capital: true 
                         draw:
                             text:
                                 priority: 11
-
-                    state_capital:
-                        filter: { region_capital: true }
-                        draw:
-                            text:
-                                priority: 12
-                                visible: true
-                                font:
-                                    size: 14px
 
             populated-places-osm-z12:
                 filter:

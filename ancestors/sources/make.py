@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 import sys, time
 import requests
-import json, geojson, yaml
+import json, geojson, yaml, math
+from PIL import Image
+
+max_points = 0
+trip_counter = 0
 
 #decode an encoded string
 def decode(encoded, precision = 1.0 / 1e6):
@@ -47,38 +51,73 @@ def getRouteFromGeoJSON(url):
         path.append([point[1], point[0]])
     return path
 
-def parseAncester(url, people, places):
+def parseAncester(url, people, places, features):
     yaml_file = yaml.safe_load(open(url))
+    people[yaml_file['name']] = yaml_file;
     print yaml_file['name'], yaml_file['birth']['year'], "-", yaml_file['death']['year']
 
-    lines = []
+    global trip_counter
+    global max_points
+
     for trip in yaml_file['legs']:
         print '- trip from', trip['from']['city'], "to", trip['to']['city']
         if not places.has_key(trip['from']['city']):
             places[trip['from']['city']] = trip['from']['coord']
         if not places.has_key(trip['to']['city']):
             places[trip['to']['city']] = trip['to']['coord']
+
         if trip.has_key('url'):
-            lines.append(getRouteFromGeoJSON(trip['url']))
+            line = getRouteFromGeoJSON(trip['url'])
+            if len(line) > max_points:
+                max_points = len(line)
+            features.append(geojson.Feature(geometry=geojson.LineString(line),id=trip_counter,properties={"trip_id":trip_counter, "name": yaml_file['name'], "kind": "trip", "person_id": len(people.keys())}))
+            trip_counter += 1
         else:
             line = getRouteFromValhala(trip['from']['coord'],trip['to']['coord'])
-            lines.append(line);
-    return geojson.Feature(geometry=geojson.MultiLineString(lines),properties={"name": yaml_file['name'], "kind": "trip"})
+            if len(line) > max_points:
+                max_points = len(line)
+            features.append(geojson.Feature(geometry=geojson.LineString(line),id=trip_counter,properties={"trip_id":trip_counter, "name": yaml_file['name'], "kind": "trip", "person_id": len(people.keys())}))
+            trip_counter += 1
+    return 
 
+def float2Color(_number):
+    value = _number * 16581375.
+    return (int(math.floor(value)%255), int(math.floor(value/255)%255), int(math.floor(value/(255*255))%255))
+
+# --------------------------------------- APP
 places = {}
 people = {}
-
 features = []
+
 # features.append(parseAncester('ppl/sofia_hamburger_firks.yaml', people, places))
 # features.append(parseAncester('ppl/elias_heinrich_braun_fucks.yaml', people, places))
-features.append(parseAncester('ppl/mauricio_braun_hamburger.yaml', people, places))
-features.append(parseAncester('ppl/jose_maria_menendez_canedo.yaml', people, places))
-features.append(parseAncester('ppl/jose_fuschini_sambi.yaml', people, places))
-features.append(parseAncester('ppl/dudley_sarsfield_brennan.yaml', people, places))
+parseAncester('ppl/mauricio_braun_hamburger.yaml', people, places, features)
+parseAncester('ppl/jose_maria_menendez_canedo.yaml', people, places, features)
+parseAncester('ppl/jose_maria_menendez_canedo.yaml', people, places, features)
+parseAncester('ppl/jose_fuschini_sambi.yaml', people, places, features)
+parseAncester('ppl/dudley_sarsfield_brennan.yaml', people, places, features)
+
+print max_points, trip_counter
+
+img = Image.new('RGB', (max_points, trip_counter*2), "black")
+pixels = img.load()
+
+y = 0
+for trip in features:
+    points = trip['geometry']['coordinates']
+    x = 0
+    for point in points:
+        pixels[x,y] = float2Color(point[0])
+        pixels[x,y+1] = float2Color(point[1])
+        x += 1
+    y += 2
+img.save(open('trips.png', 'w'))
 
 # Add places
+place_counter = 0
 for place in places:
-    features.append(geojson.Feature(geometry=geojson.Point(places[place]),properties={"name": place, "kind": "place"}))
+    features.append(geojson.Feature(geometry=geojson.Point(places[place]),id=place_counter,properties={"name": place, "kind": "place"}))
+    place_counter += 1
 
 feature_collection = geojson.FeatureCollection(features)
 file = open('ancestors.json', 'w')

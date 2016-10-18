@@ -127,14 +127,16 @@ styles:
             blocks:
                 color: |
                     float z = zoom();
+                    float dash = .3;
                     color.rgb = vec3(.8);
                     if (ceil(v_color.r*255.)==u_selected) {
-                        color.rgb = vec3(1.);
+                        color.rgb = vec3(1.,1.,.9);
+                        dash = 0.;
                     }
                     // Glow
                     color.a = sin(v_texcoord.x*3.1415)*mix(.1,0.,z); 
                     // Line
-                    color.a += (smoothstep(mix(0.98,0.999,z), 1., sin(v_texcoord.x*3.1415))*step(.3,fract(v_texcoord.y)))*mix(1.,0.,z);
+                    color.a += (smoothstep(mix(0.95,0.97,z), 1., sin(v_texcoord.x*3.1415))*step(dash,fract(v_texcoord.y)))*mix(1.,0.,z);
     milkway:
         base: polygons
         mix: [polygons-southup, on-sky, functions-zoom]

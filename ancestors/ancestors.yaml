@@ -1,7 +1,17 @@
+import:
+    - https://tangrams.github.io/blocks/functions/map.yaml
+    - https://tangrams.github.io/blocks/geometry/matrices.yaml
+    - https://tangrams.github.io/blocks/shapes/rect.yaml
+    - https://tangrams.github.io/blocks/shapes/cross.yaml
+
 sources:
     ancestors:
         type: GeoJSON
         url: sources/ancestors.json
+
+textures:
+    trips:
+        url: sources/trips.png
 
 layers:
     ancestors:
@@ -10,9 +20,14 @@ layers:
         draw:
             lines:
                 style: trips
-                color: [[0,[.5,.5,.5]],[20,[0,0,0]]]
-                width: [[0,.5px],[6,1px],[20,1m]]
+                # width: [[0,.5px],[6,1px],[20,1m]]
+                width: 5px
                 order: 10001
+                # color: [[0,[.5,.5,.5]],[20,[0,0,0]]]
+                color: |
+                    function(){
+                        return [ ( Math.floor(feature.trip_id/255))/255, (feature.trip_id%255)/255, 0 ]; 
+                    }
             # text:
             #     style: text-southup
             #     priority: 1
@@ -41,5 +56,58 @@ layers:
 styles:
     trips:
         base: lines
-        mix: [lines-southup]
-        dash: [4, 2]
+        mix: [lines-southup, geometry-matrices, functions-map, shapes-cross]
+        # dash: [4, 2]
+        lighting: false
+        texcoords: true
+        animated: true
+        blend: overlay
+        shaders:
+            defines:
+                PI: 3.1415926535897932384626433832795
+                HALF_PI: 1.5707963267948966192313216916398
+                QUATER_PI: .785398163
+                TWO_PI: 6.283185307
+                EARTH_RADIUS: 6378137.0
+            uniforms:
+                u_data: trips
+                u_param: [1695, 18, 1, 1]
+            blocks:
+                global: |
+                    float pulse(float x, float p, float w){
+                        return (smoothstep(p-w*.5,p,x) + smoothstep(p+w*.5,p,x))-1.0;
+                    }
+                    float getIndex (vec2 encodedIndex) {
+                        return (encodedIndex.x*65025.+encodedIndex.y*255.)+.5;
+                    }
+                    float decode (vec3 value) {
+                        return ((value.x*255.)+(value.y*65025.)+(value.z*16581375.))/16581375.;
+                    }
+                    vec2 getCoords (vec2 st) {
+                        float texWidth = (u_param.x*2.);
+                        float texHeigth = u_param.y;
+                        st.y = 1.-st.y/texHeigth;
+                        vec3 lon = texture2D(u_data,vec2(st.x/texWidth+.5,st.y)).xyz;
+                        vec3 lat = texture2D(u_data,vec2(st.x/texWidth,st.y)).xyz;
+                        return vec2(decode(lon), decode(lat));
+                    }
+                    // Return normalized values for lat, lon and height, and angle in radiants
+                    vec2 getPosFor (float index, float time) {
+                        float col = (time+u_param.w)/u_param.z;
+                        return vec2(getCoords(vec2(col,index)));
+                    }
+                color: |
+                    // Locate the satellite
+                    //===============================
+                    float index = getIndex(color.st);
+                    vec2 pos = getPosFor(index,u_time*.5);
+                    pos = (((pos*2.)-1.)*PI)*EARTH_RADIUS;
+                    vec2 worldPos = u_map_position.xy+v_position.xy*-1.;
+                    vec2 st = (worldPos-pos)*.0000002;
+                    float z = map(u_map_position.z,0.,15.,0.,1.);
+                    st *= 1.5+z*z*500.;
+                    st = vec2(v_texcoord.x-.5, st.y);
+                    color = vec4(1.0,0.,0.,1.)*step(.5,1.-dot(st,st)*2.);
+                    
+
+
