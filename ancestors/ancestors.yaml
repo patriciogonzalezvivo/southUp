@@ -77,13 +77,7 @@ styles:
                     float getIndex (vec2 encodedIndex) {
                         return (encodedIndex.x*65025.+encodedIndex.y*255.)+.5;
                     }
-                    vec3 getElements(sampler2D tex, vec2 coord) {
-                        highp vec4 value = texture2D(tex, coord);
-                        highp float uint = (value.x*255.)+(value.y*65025.)+(value.z*16581375.);
-                        float press = ceil(value.a*255.)-244.;
-                        return vec3(uint, abs(press), sign(press));
-                    }
-
+                    
                     float getUInt(sampler2D tex, vec2 res, float col, float row) {
                         highp vec4 value = texture2D(tex, vec2(col/res.x,1.-row/res.y));
                         return (value.x*255.)+(value.y*65025.)+(value.z*16581375.);
@@ -93,6 +87,13 @@ styles:
                         return getUInt(tex,res,col,row)-8290688.;
                     }
 
+                    vec3 getElements(sampler2D tex, vec2 coord) {
+                        highp vec4 value = texture2D(tex, coord);
+                        highp float uint = (value.x*255.)+(value.y*65025.)+(value.z*16581375.);
+                        float press = ceil(value.a*255.)-244.;
+                        return vec3(uint, abs(press), sign(press));
+                    }
+
                     float getNumber(sampler2D tex, vec2 res, float col, float row) {
                         highp vec3 elements = getElements(tex, vec2(col/res.x,1.-row/res.y));
                         return elements.x * pow(10.,-floor(elements.y)) * elements.z;
@@ -100,8 +101,8 @@ styles:
 
                     vec2 getCoords(float index, float pct) {
                         float limit = getInt(u_data, u_res, .5, index);
-                        float lon = getNumber(u_data, u_res, pct*limit, index);
-                        float lat = getNumber(u_data, u_res, pct*limit, index+1.);
+                        float lon = getNumber(u_data, u_res, pct*limit, index+.5);
+                        float lat = getNumber(u_data, u_res, pct*limit, index+1.5);
                         return vec2(lat, lon);
                     }
                 color: |
@@ -109,7 +110,9 @@ styles:
                     //===============================
                     float index = getIndex(color.st);
 
-                    vec2 pos = getCoords(index, fract(u_time*.1));
+                    color.r = getInt(u_data, u_res, .5, index);
+
+                    vec2 pos = getCoords(index, fract(u_time));
                     pos = (((pos*2.)-1.)*PI)*EARTH_RADIUS;
                     vec2 worldPos = u_map_position.xy+v_position.xy*-1.;
                     vec2 st = (worldPos-pos)*.0000002;
@@ -117,7 +120,7 @@ styles:
                     float z = map(u_map_position.z,0.,15.,0.,1.);
                     st *= 1.5+z*z*500.;
                     st = vec2(v_texcoord.x-.5, st.y);
-                    color.rg = st;
+                    //color.rg = st;
                     //color = vec4(1.0,0.,0.,1.)*step(.5,1.-dot(st,st)*2.);
                     
 
