@@ -104,7 +104,7 @@ y = 0
 for trip in features:
     points = trip['geometry']['coordinates']
 
-    # pixels[0,y] = float2Color()
+    pixels[0,y] = encode.toRGBA(len(points))
 
     x = 0
     for point in points:

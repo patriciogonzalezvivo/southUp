@@ -83,17 +83,25 @@ styles:
                         float press = ceil(value.a*255.)-244.;
                         return vec3(uint, abs(press), sign(press));
                     }
-                    vec2 getCoord(vec2 res, float col, float row) {
-                        return fract(vec2(col/res.x,1.-row/res.y));
+
+                    float getUInt(sampler2D tex, vec2 res, float col, float row) {
+                        highp vec4 value = texture2D(tex, vec2(col/res.x,1.-row/res.y));
+                        return (value.x*255.)+(value.y*65025.)+(value.z*16581375.);
                     }
+
+                    float getInt(sampler2D tex, vec2 res, float col, float row) {
+                        return getUInt(tex,res,col,row)-8290688.;
+                    }
+
                     float getNumber(sampler2D tex, vec2 res, float col, float row) {
-                        vec2 coord = getCoord(res, col, row);
-                        highp vec3 elements = getElements(tex, coord);
+                        highp vec3 elements = getElements(tex, vec2(col/res.x,1.-row/res.y));
                         return elements.x * pow(10.,-floor(elements.y)) * elements.z;
                     }
-                    vec2 getCoords(float index, float offset) {
-                        float lon = getNumber(u_data, u_res, offset, index);
-                        float lat = getNumber(u_data, u_res, offset, index+1.);
+
+                    vec2 getCoords(float index, float pct) {
+                        float limit = getInt(u_data, u_res, .5, index);
+                        float lon = getNumber(u_data, u_res, pct*limit, index);
+                        float lat = getNumber(u_data, u_res, pct*limit, index+1.);
                         return vec2(lat, lon);
                     }
                 color: |
@@ -101,7 +109,7 @@ styles:
                     //===============================
                     float index = getIndex(color.st);
 
-                    vec2 pos = getCoords(index, floor(u_time)*.1);
+                    vec2 pos = getCoords(index, fract(u_time*.1));
                     pos = (((pos*2.)-1.)*PI)*EARTH_RADIUS;
                     vec2 worldPos = u_map_position.xy+v_position.xy*-1.;
                     vec2 st = (worldPos-pos)*.0000002;

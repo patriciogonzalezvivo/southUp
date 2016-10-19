@@ -47,7 +47,7 @@ def toRGBA(_value, _type = "undefined"):
     if _type == "undefined":
         _type = getType(_value)
 
-    print "converting",_type,"to RGBA"
+    # print "converting",_type,"to RGBA"
 
     if isinstance(_value, list):
         for val in _value:
@@ -59,7 +59,7 @@ def toRGBA(_value, _type = "undefined"):
             # "Number" type don't need normaliztion because tries to set the presition dinamically
             _value = normalize(_value, ranges[_type])
 
-    print "After clamping:", _value
+    # print "After clamping:", _value
 
     if _type == 'uchar' or _type == 'char': 
         _value *= 255
