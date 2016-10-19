@@ -3,6 +3,7 @@ import sys, time
 import requests
 import json, geojson, yaml, math
 from PIL import Image
+import encode
 
 max_points = 0
 trip_counter = 0
@@ -80,10 +81,6 @@ def parseAncester(url, people, places, features):
             trip_counter += 1
     return 
 
-def float2Color(_number):
-    value = _number * 16581375.
-    return (int(math.floor(value)%255), int(math.floor(value/255)%255), int(math.floor(value/(255*255))%255))
-
 # --------------------------------------- APP
 places = {}
 people = {}
@@ -99,16 +96,20 @@ parseAncester('ppl/dudley_sarsfield_brennan.yaml', people, places, features)
 
 print max_points, trip_counter
 
-img = Image.new('RGB', (max_points, trip_counter*2), "black")
+header = 1
+img = Image.new('RGBA', (max_points+header, trip_counter*2), (0,0,0,0))
 pixels = img.load()
 
 y = 0
 for trip in features:
     points = trip['geometry']['coordinates']
+
+    # pixels[0,y] = float2Color()
+
     x = 0
     for point in points:
-        pixels[x,y] = float2Color(point[0])
-        pixels[x,y+1] = float2Color(point[1])
+        pixels[x+header,y] = encode.toRGBA(point[0])
+        pixels[x+header,y+1] = encode.toRGBA(point[1])
         x += 1
     y += 2
 img.save(open('trips.png', 'w'))

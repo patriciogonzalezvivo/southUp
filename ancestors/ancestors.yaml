@@ -21,7 +21,7 @@ layers:
             lines:
                 style: trips
                 # width: [[0,.5px],[6,1px],[20,1m]]
-                width: 5px
+                width: 50px
                 order: 10001
                 # color: [[0,[.5,.5,.5]],[20,[0,0,0]]]
                 color: |
@@ -71,43 +71,46 @@ styles:
                 EARTH_RADIUS: 6378137.0
             uniforms:
                 u_data: trips
-                u_param: [1695, 18, 1, 1]
+                u_res: [1695, 18]
             blocks:
                 global: |
-                    float pulse(float x, float p, float w){
-                        return (smoothstep(p-w*.5,p,x) + smoothstep(p+w*.5,p,x))-1.0;
-                    }
                     float getIndex (vec2 encodedIndex) {
                         return (encodedIndex.x*65025.+encodedIndex.y*255.)+.5;
                     }
-                    float decode (vec3 value) {
-                        return ((value.x*255.)+(value.y*65025.)+(value.z*16581375.))/16581375.;
+                    vec3 getElements(sampler2D tex, vec2 coord) {
+                        highp vec4 value = texture2D(tex, coord);
+                        highp float uint = (value.x*255.)+(value.y*65025.)+(value.z*16581375.);
+                        float press = ceil(value.a*255.)-244.;
+                        return vec3(uint, abs(press), sign(press));
                     }
-                    vec2 getCoords (vec2 st) {
-                        float texWidth = (u_param.x*2.);
-                        float texHeigth = u_param.y;
-                        st.y = 1.-st.y/texHeigth;
-                        vec3 lon = texture2D(u_data,vec2(st.x/texWidth+.5,st.y)).xyz;
-                        vec3 lat = texture2D(u_data,vec2(st.x/texWidth,st.y)).xyz;
-                        return vec2(decode(lon), decode(lat));
+                    vec2 getCoord(vec2 res, float col, float row) {
+                        return fract(vec2(col/res.x,1.-row/res.y));
                     }
-                    // Return normalized values for lat, lon and height, and angle in radiants
-                    vec2 getPosFor (float index, float time) {
-                        float col = (time+u_param.w)/u_param.z;
-                        return vec2(getCoords(vec2(col,index)));
+                    float getNumber(sampler2D tex, vec2 res, float col, float row) {
+                        vec2 coord = getCoord(res, col, row);
+                        highp vec3 elements = getElements(tex, coord);
+                        return elements.x * pow(10.,-floor(elements.y)) * elements.z;
+                    }
+                    vec2 getCoords(float index, float offset) {
+                        float lon = getNumber(u_data, u_res, offset, index);
+                        float lat = getNumber(u_data, u_res, offset, index+1.);
+                        return vec2(lat, lon);
                     }
                 color: |
                     // Locate the satellite
                     //===============================
                     float index = getIndex(color.st);
-                    vec2 pos = getPosFor(index,u_time*.5);
+
+                    vec2 pos = getCoords(index, floor(u_time)*.1);
                     pos = (((pos*2.)-1.)*PI)*EARTH_RADIUS;
                     vec2 worldPos = u_map_position.xy+v_position.xy*-1.;
                     vec2 st = (worldPos-pos)*.0000002;
+
                     float z = map(u_map_position.z,0.,15.,0.,1.);
                     st *= 1.5+z*z*500.;
                     st = vec2(v_texcoord.x-.5, st.y);
-                    color = vec4(1.0,0.,0.,1.)*step(.5,1.-dot(st,st)*2.);
+                    color.rg = st;
+                    //color = vec4(1.0,0.,0.,1.)*step(.5,1.-dot(st,st)*2.);
                     
 
 
