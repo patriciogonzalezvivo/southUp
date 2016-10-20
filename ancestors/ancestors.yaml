@@ -1,5 +1,7 @@
 import:
-    - https://tangrams.github.io/blocks/functions/map.yaml
+    - https://tangrams.github.io/blocks/functions/zoom.yaml
+    - https://tangrams.github.io/blocks/functions/aastep.yaml
+    - https://tangrams.github.io/blocks/functions/decode.yaml
     - https://tangrams.github.io/blocks/geometry/matrices.yaml
     - https://tangrams.github.io/blocks/shapes/rect.yaml
     - https://tangrams.github.io/blocks/shapes/cross.yaml
@@ -22,29 +24,12 @@ layers:
             lines:
                 style: trips
                 # width: [[0,.5px],[6,1px],[20,1m]]
-                width: 50px
+                width: 10px
                 order: 10002
                 color: |
                     function(){
                         return [ ( Math.floor(feature.trip_id/255))/255, Math.floor(feature.trip_id%255)/255, 0 ]; 
                     }
-    # test:
-    #     data: { source: mapzen, layer: earth }
-    #     draw:
-    #         polygons:
-    #             style: test
-    #             # width: [[0,.5px],[6,1px],[20,1m]]
-    #             order: 10001
-    #             color: [0.,0.,0.]
-    # test2:
-    #     data: { source: mapzen, layer: water }
-    #     draw:
-    #         polygons:
-    #             style: test
-    #             # width: [[0,.5px],[6,1px],[20,1m]]
-    #             order: 10001
-    #             color: [0.,0.,0.]
-
     ancestors-places:
         data: { source: ancestors }
         filter: { kind: place }
@@ -65,22 +50,16 @@ layers:
 styles:
     trips:
         base: lines
-        mix: read
-
-
-    test:
-        base: polygons
-        mix: read
-
-    read:
-        mix: [lines-southup, geometry-matrices, functions-map, shapes-cross]
+        mix: [lines-southup, functions-decode, functions-zoom, functions-aastep]
         # dash: [4, 2]
         lighting: false
         texcoords: true
         animated: true
-        blend: overlay
+        blend: inlay
         shaders:
             defines:
+                ZOOM_START: 0
+                ZOOM_END: 22
                 PI: 3.1415926535897932384626433832795
                 HALF_PI: 1.5707963267948966192313216916398
                 QUATER_PI: .785398163
@@ -95,42 +74,6 @@ styles:
                         return (encodedIndex.x*65025.+encodedIndex.y*255.)+.5;
                     }
 
-                    vec2 getCoord(vec2 res, float col, float row) {
-                        vec2 st = fract(vec2(col,row)/res);
-                        st.y = 1.-st.y;
-                        return st+(vec2(.5)/res);
-                    }
-                    
-                    float getUInt(sampler2D tex, vec2 res, float col, float row) {
-                        highp vec4 value = texture2D(tex, getCoord(res,col,row));
-                        return (value.x*255.)+(value.y*65025.)+(value.z*16581375.);
-                    }
-
-                    float getInt(sampler2D tex, vec2 res, float col, float row) {
-                        return getUInt(tex,res,col,row)-8290688.;
-                    }
-
-                    float getUFloat(sampler2D tex, vec2 res, float col, float row) {
-                        highp vec4 value = texture2D(tex, getCoord(res,col,row));
-                        return ((value.x*255.)+(value.y*65025.)+(value.z*16581375.))/16581375.;
-                    }
-
-                    float getFloat(sampler2D tex, vec2 res, float col, float row) {
-                        return (getUFloat(tex,res,col,row)-.5)*2.;
-                    }
-
-                    vec3 getElements(sampler2D tex, vec2 coord) {
-                        highp vec4 value = texture2D(tex, coord);
-                        highp float uint = (value.x*255.)+(value.y*65025.)+(value.z*16581375.);
-                        float press = ceil(value.a*255.)-244.;
-                        return vec3(uint, abs(press), sign(press));
-                    }
-
-                    float getNumber(sampler2D tex, vec2 res, float col, float row) {
-                        highp vec3 elements = getElements(tex, getCoord(res,col,row));
-                        return elements.x * pow(10.,-floor(elements.y)) * elements.z;
-                    }
-
                     vec2 getPosition(float index, float pct) {
                         index *= 2.;
                         float limit = floor(getNumber(u_data, u_res, 0., index));
@@ -142,16 +85,16 @@ styles:
                     // Locate the satellite
                     //===============================
                     float index = getIndex(color.st);
-                    //color.r = index/18.;
-                    //color.r = getNumber(u_data, u_res, 0., index*2.)/1695.;
-
                     vec2 pos = getPosition(index, fract(u_time*.01));
                     pos = (((pos*2.)-1.)*PI)*EARTH_RADIUS;
                     vec2 worldPos = u_map_position.xy+v_position.xy*-1.;
                     vec2 st = (worldPos-pos)*.0000002;
-                    color.rg = st;
-                    st *= 1.5+pow(map(u_map_position.z,0.,15.,0.,1.),5.0)*2000.;
-                    color.rgb += vec3(1.0,0.,0.)*step(.5,1.-dot(st,st)*2.);
+
+                    float z = zoom();
+                    st *= 1.5+z*z*5000.;
+
+                    color = vec4(1.,0.,0.,1.)*step(.98,sin(v_texcoord.x*PI));
+                    color += vec4(1.0,.5,0.,1.)*aastep(.5,1.-dot(st,st)*2.);
                     
 
 
