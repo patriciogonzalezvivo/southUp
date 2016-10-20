@@ -12,6 +12,7 @@ sources:
 textures:
     trips:
         url: sources/trips.png
+        filtering: nearest
 
 layers:
     ancestors:
@@ -22,20 +23,28 @@ layers:
                 style: trips
                 # width: [[0,.5px],[6,1px],[20,1m]]
                 width: 50px
-                order: 10001
-                # color: [[0,[.5,.5,.5]],[20,[0,0,0]]]
+                order: 10002
                 color: |
                     function(){
-                        return [ ( Math.floor(feature.trip_id/255))/255, (feature.trip_id%255)/255, 0 ]; 
+                        return [ ( Math.floor(feature.trip_id/255))/255, Math.floor(feature.trip_id%255)/255, 0 ]; 
                     }
-            # text:
-            #     style: text-southup
-            #     priority: 1
-            #     font:
-            #         family: global.font_family
-            #         size: 8px
-            #         fill: black
-            #         stroke: { color: white, width: 2 }
+    # test:
+    #     data: { source: mapzen, layer: earth }
+    #     draw:
+    #         polygons:
+    #             style: test
+    #             # width: [[0,.5px],[6,1px],[20,1m]]
+    #             order: 10001
+    #             color: [0.,0.,0.]
+    # test2:
+    #     data: { source: mapzen, layer: water }
+    #     draw:
+    #         polygons:
+    #             style: test
+    #             # width: [[0,.5px],[6,1px],[20,1m]]
+    #             order: 10001
+    #             color: [0.,0.,0.]
+
     ancestors-places:
         data: { source: ancestors }
         filter: { kind: place }
@@ -56,6 +65,14 @@ layers:
 styles:
     trips:
         base: lines
+        mix: read
+
+
+    test:
+        base: polygons
+        mix: read
+
+    read:
         mix: [lines-southup, geometry-matrices, functions-map, shapes-cross]
         # dash: [4, 2]
         lighting: false
@@ -71,20 +88,35 @@ styles:
                 EARTH_RADIUS: 6378137.0
             uniforms:
                 u_data: trips
-                u_res: [1695, 18]
+                u_res: [1696, 36]
             blocks:
                 global: |
                     float getIndex (vec2 encodedIndex) {
                         return (encodedIndex.x*65025.+encodedIndex.y*255.)+.5;
                     }
+
+                    vec2 getCoord(vec2 res, float col, float row) {
+                        vec2 st = fract(vec2(col,row)/res);
+                        st.y = 1.-st.y;
+                        return st+(vec2(.5)/res);
+                    }
                     
                     float getUInt(sampler2D tex, vec2 res, float col, float row) {
-                        highp vec4 value = texture2D(tex, vec2(col/res.x,1.-row/res.y));
+                        highp vec4 value = texture2D(tex, getCoord(res,col,row));
                         return (value.x*255.)+(value.y*65025.)+(value.z*16581375.);
                     }
 
                     float getInt(sampler2D tex, vec2 res, float col, float row) {
                         return getUInt(tex,res,col,row)-8290688.;
+                    }
+
+                    float getUFloat(sampler2D tex, vec2 res, float col, float row) {
+                        highp vec4 value = texture2D(tex, getCoord(res,col,row));
+                        return ((value.x*255.)+(value.y*65025.)+(value.z*16581375.))/16581375.;
+                    }
+
+                    float getFloat(sampler2D tex, vec2 res, float col, float row) {
+                        return (getUFloat(tex,res,col,row)-.5)*2.;
                     }
 
                     vec3 getElements(sampler2D tex, vec2 coord) {
@@ -95,33 +127,31 @@ styles:
                     }
 
                     float getNumber(sampler2D tex, vec2 res, float col, float row) {
-                        highp vec3 elements = getElements(tex, vec2(col/res.x,1.-row/res.y));
+                        highp vec3 elements = getElements(tex, getCoord(res,col,row));
                         return elements.x * pow(10.,-floor(elements.y)) * elements.z;
                     }
 
-                    vec2 getCoords(float index, float pct) {
-                        float limit = getInt(u_data, u_res, .5, index);
-                        float lon = getNumber(u_data, u_res, pct*limit, index+.5);
-                        float lat = getNumber(u_data, u_res, pct*limit, index+1.5);
-                        return vec2(lat, lon);
+                    vec2 getPosition(float index, float pct) {
+                        index *= 2.;
+                        float limit = floor(getNumber(u_data, u_res, 0., index));
+                        float lon = getUFloat(u_data, u_res, 1.+floor(pct*limit), index);
+                        float lat = getUFloat(u_data, u_res, 1.+floor(pct*limit), index+1.);
+                        return vec2(lon,lat);
                     }
                 color: |
                     // Locate the satellite
                     //===============================
                     float index = getIndex(color.st);
+                    //color.r = index/18.;
+                    //color.r = getNumber(u_data, u_res, 0., index*2.)/1695.;
 
-                    color.r = getInt(u_data, u_res, .5, index);
-
-                    vec2 pos = getCoords(index, fract(u_time));
+                    vec2 pos = getPosition(index, fract(u_time*.01));
                     pos = (((pos*2.)-1.)*PI)*EARTH_RADIUS;
                     vec2 worldPos = u_map_position.xy+v_position.xy*-1.;
                     vec2 st = (worldPos-pos)*.0000002;
-
-                    float z = map(u_map_position.z,0.,15.,0.,1.);
-                    st *= 1.5+z*z*500.;
-                    st = vec2(v_texcoord.x-.5, st.y);
-                    //color.rg = st;
-                    //color = vec4(1.0,0.,0.,1.)*step(.5,1.-dot(st,st)*2.);
+                    color.rg = st;
+                    st *= 1.5+pow(map(u_map_position.z,0.,15.,0.,1.),5.0)*2000.;
+                    color.rgb += vec3(1.0,0.,0.)*step(.5,1.-dot(st,st)*2.);
                     
 
 

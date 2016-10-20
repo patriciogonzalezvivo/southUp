@@ -72,7 +72,7 @@ def toRGBA(_value, _type = "undefined"):
         d = fract(_value)+1.
         uint = abs(_value) * math.pow(10.,d) # transform the number into unsigned integers
         pres = 244 + d*s
-        print "_Value:",_value,"S:",s,"D:",d,"Uint:",uint,"Press:",pres
+        # print "_Value:",_value,"S:",s,"D:",d,"Uint:",uint,"Press:",pres
         return (int(math.floor(uint)%255), int(math.floor(uint/255)%255), int(math.floor(uint/65025)%255), int(math.floor(pres)%255))
     elif _type == 'position' or _type == 'vec2':           
         x = _value[0]*65025;

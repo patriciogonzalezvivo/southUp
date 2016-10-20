@@ -61,25 +61,30 @@ def parseAncester(url, people, places, features):
     global max_points
 
     for trip in yaml_file['legs']:
-        print '- trip from', trip['from']['city'], "to", trip['to']['city']
         if not places.has_key(trip['from']['city']):
             places[trip['from']['city']] = trip['from']['coord']
         if not places.has_key(trip['to']['city']):
             places[trip['to']['city']] = trip['to']['coord']
 
+        line = []
         if trip.has_key('url'):
             line = getRouteFromGeoJSON(trip['url'])
-            if len(line) > max_points:
-                max_points = len(line)
-            features.append(geojson.Feature(geometry=geojson.LineString(line),id=trip_counter,properties={"trip_id":trip_counter, "name": yaml_file['name'], "kind": "trip", "person_id": len(people.keys())}))
-            trip_counter += 1
         else:
             line = getRouteFromValhala(trip['from']['coord'],trip['to']['coord'])
-            if len(line) > max_points:
-                max_points = len(line)
-            features.append(geojson.Feature(geometry=geojson.LineString(line),id=trip_counter,properties={"trip_id":trip_counter, "name": yaml_file['name'], "kind": "trip", "person_id": len(people.keys())}))
-            trip_counter += 1
+             
+        if len(line) > max_points:
+            max_points = len(line)
+        features.append(geojson.Feature(geometry=geojson.LineString(line),id=trip_counter,properties={"trip_id":trip_counter, "name": yaml_file['name'], "kind": "trip", "person_id": len(people.keys())}))
+        
+        print '- trip from', trip['from']['city'], "to", trip['to']['city'], '(id:',trip_counter,',len:',len(line),')'
+
+        trip_counter += 1
     return 
+
+def y2lat(a):
+  return 180.0/math.pi*(2.0*math.atan(math.exp(a*math.pi/180.0))-math.pi/2.0)
+def lat2y(a):
+  return 180.0/math.pi*math.log(math.tan(math.pi/4.0+a*(math.pi/180.0)/2.0))
 
 # --------------------------------------- APP
 places = {}
@@ -104,12 +109,12 @@ y = 0
 for trip in features:
     points = trip['geometry']['coordinates']
 
-    pixels[0,y] = encode.toRGBA(len(points))
+    pixels[0,y] = encode.toRGBA(len(points), "number")
 
     x = 0
     for point in points:
-        pixels[x+header,y] = encode.toRGBA(point[0])
-        pixels[x+header,y+1] = encode.toRGBA(point[1])
+        pixels[x+header,y] = encode.toRGBA((180.0+point[0])/360.0,"ufloat")  # Lon
+        pixels[x+header,y+1] = encode.toRGBA((.5+(lat2y(point[1])/180.0)*.5),"ufloat") # Lat
         x += 1
     y += 2
 img.save(open('trips.png', 'w'))
