@@ -1,5 +1,5 @@
 import:
-    - https://tangrams.github.io/blocks/functions/zoom.yaml
+    - ../blocks/functions/zoom.yaml
 
 styles:
     southup:

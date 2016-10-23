@@ -1,10 +1,10 @@
 import:
-    - https://tangrams.github.io/blocks/functions/zoom.yaml
-    - https://tangrams.github.io/blocks/functions/aastep.yaml
-    - https://tangrams.github.io/blocks/functions/decode.yaml
-    - https://tangrams.github.io/blocks/geometry/matrices.yaml
-    - https://tangrams.github.io/blocks/shapes/rect.yaml
-    - https://tangrams.github.io/blocks/shapes/cross.yaml
+    - ../../blocks/functions/zoom.yaml
+    - ../../blocks/functions/aastep.yaml
+    - ../../blocks/functions/decode.yaml
+    - ../../blocks/geometry/matrices.yaml
+    - ../../blocks/shapes/rect.yaml
+    - ../../blocks/shapes/cross.yaml
 
 sources:
     ancestors:
@@ -74,6 +74,10 @@ styles:
                         return (encodedIndex.x*65025.+encodedIndex.y*255.)+.5;
                     }
 
+                    float normalizeTime(float time, float total) {
+                        return fract(floor(time)/total);
+                    }
+
                     vec2 getPosition(float index, float pct) {
                         index *= 2.;
                         float limit = floor(getNumber(u_data, u_res, 0., index));
@@ -84,9 +88,15 @@ styles:
                 color: |
                     // Locate the satellite
                     //===============================
+                    float time = u_time*0.001;
                     float index = getIndex(color.st);
-                    vec2 pos = getPosition(index, fract(u_time*.01));
-                    pos = (((pos*2.)-1.)*PI)*EARTH_RADIUS;
+                    float total_time = 10.;
+
+                    //vec2 posA = (((getPosition(index, normalizeTime(floor(time),total_time))*2.)-1.)*PI)*EARTH_RADIUS;
+                    //vec2 posB = (((getPosition(index, normalizeTime(floor(time+1.),total_time))*2.)-1.)*PI)*EARTH_RADIUS;
+                    //vec2 pos = mix(posA,posB,fract(time));
+
+                    vec2 pos = (((getPosition(index, normalizeTime(time,total_time))*2.)-1.)*PI)*EARTH_RADIUS;
                     vec2 worldPos = u_map_position.xy+v_position.xy*-1.;
                     vec2 st = (worldPos-pos)*.0000002;
 

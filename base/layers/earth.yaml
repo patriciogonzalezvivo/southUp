@@ -1,5 +1,5 @@
 import:
-    - https://tangrams.github.io/blocks/elevation/ramp.yaml
+    - ../../blocks/elevation/ramp.yaml
     
 layers:
     earth:

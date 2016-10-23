@@ -1,7 +1,7 @@
 import:
-    - https://tangrams.github.io/blocks/filter/grid.yaml
-    - https://tangrams.github.io/blocks/elevation/normal.yaml
-    - https://tangrams.github.io/blocks/generative/noise.yaml
+    - ../../blocks/filter/grid.yaml
+    - ../../blocks/elevation/normal.yaml
+    - ../../blocks/generative/noise.yaml
 
 layers:
     water:

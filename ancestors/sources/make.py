@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 import sys, time
 import requests
-import json, geojson, yaml, math
+import json, geojson, yaml
+
 from PIL import Image
 import encode
+import geo
 
 max_points = 0
 trip_counter = 0
@@ -81,10 +83,6 @@ def parseAncester(url, people, places, features):
         trip_counter += 1
     return 
 
-def y2lat(a):
-  return 180.0/math.pi*(2.0*math.atan(math.exp(a*math.pi/180.0))-math.pi/2.0)
-def lat2y(a):
-  return 180.0/math.pi*math.log(math.tan(math.pi/4.0+a*(math.pi/180.0)/2.0))
 
 # --------------------------------------- APP
 places = {}
@@ -114,7 +112,7 @@ for trip in features:
     x = 0
     for point in points:
         pixels[x+header,y] = encode.toRGBA((180.0+point[0])/360.0,"ufloat")  # Lon
-        pixels[x+header,y+1] = encode.toRGBA((.5+(lat2y(point[1])/180.0)*.5),"ufloat") # Lat
+        pixels[x+header,y+1] = encode.toRGBA((.5+(geo.lat2y(point[1])/180.0)*.5),"ufloat") # Lat
         x += 1
     y += 2
 img.save(open('trips.png', 'w'))
