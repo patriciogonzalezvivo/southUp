@@ -1,8 +1,0 @@
-import:
-    - base/base.yaml
-    - stars/stars.yaml
-    - ancestors/ancestors.yaml
-    
-scene:
-    background:
-        color: gray
