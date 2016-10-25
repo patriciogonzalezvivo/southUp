@@ -1,0 +1,120 @@
+layers:
+    roads:
+        draw:
+            text:
+                visible: false
+                style: text-southup
+                font:
+                    family: global.font_family
+                    fill: black
+                    size: [[8,8px],[16,10px]]
+                    weight: 100
+                    stroke: { color: white, width: 2 }
+
+        # highway:
+        #     filter: { kind: highway }
+        #     labels-highway-z8:
+        #         filter: { $zoom: { min: 8 }, $zoom: { max: 15 } }
+        #         draw:
+        #             text:
+        #                 visible: true
+        #                 priority: 50
+        #                 size: [[8,8px],[16,10px]]
+        #                 text_source: ref
+        #     labels-highway-z14:
+        #         filter: { $zoom: { min: 15 } }
+        #         draw:
+        #             text:
+        #                 size: [[15,12px],[20,14px]]
+        #                 text_source: global.ux_language_text_source
+
+        major_road:
+            filter: { kind: major_road }
+            trunk_primary:
+                filter: { kind_detail: [trunk, primary] }
+                routes:
+                    filter: { ref: true }
+                    labels-trunk-primary-route:
+                        filter: { $zoom: { min: 13 } }
+                        draw:
+                            text:
+                                visible: true
+                                priority: 50
+                                text_source: global.ux_language_text_source
+                                font:
+                                    size: [[13,10px],[15,12px],[19,14px]]
+                labels-trunk-primary-z14:
+                    filter: { $zoom: [13,14] }
+                    draw:
+                        text:
+                            visible: true
+                            priority: 53
+                            text_source: global.ux_language_text_source
+                            font:
+                                size: 10px
+
+                labels-trunk-primary-z16:
+                    filter: { $zoom: { min: 15 } }
+                    draw:
+                        text:
+                            visible: true
+                            priority: 53
+                            text_source: global.ux_language_text_source_road_ref_and_name_short
+                            font:
+                                size: [[15,13px],[18,14px]]
+            secondary:
+                filter: { kind_detail: secondary }
+                labels-secondary:
+                    draw:
+                        text:
+                            visible: true
+                            priority: 54
+                            text_source: global.ux_language_text_source_road_ref_and_name_short
+                            font:
+                                size: [[15,13px],[18,14px]]
+                    early-dont-draw:
+                        filter: { $zoom: { min: 11 }, $zoom: { max: 15 } }
+                        draw:
+                            text:
+                                visible: false
+                    routes:
+                        filter: { ref: true, $zoom: { min: 13 } }
+                        draw:
+                            text:
+                                visible: true
+                                priority: 54
+                                text_source: global.ux_language_text_source_road_ref_and_name_short
+                                font:
+                                    size: [[13,10px],[15,13px],[18,14px]]
+
+            tertiary:
+                filter: { kind_detail: [tertiary, tertiary_link] }
+                labels-tertiary:
+                    draw:
+                        text:
+                            visible: true
+                            priority: 55
+                            text_source: global.ux_language_text_source_road_ref_and_name_short
+                            font:
+                                size: [[15,10px],[18,14px]]
+                    early-dont-draw:
+                        filter: { $zoom: { min: 11 }, $zoom: { max: 15 } }
+                        draw:
+                            text: 
+                                visible: false
+
+        minor_road:
+            filter: { kind: minor_road, not: { kind_detail: service } }
+            labels-minor-road:
+                draw:
+                    text:
+                        visible: true
+                        priority: 56
+                        text_source: name
+                        font:
+                            size: [[15,10px],[18,14px]]
+                early-dont-draw:
+                    filter: { $zoom: { min: 11, max: 15 } }
+                    draw:
+                        text:
+                            visible: false
