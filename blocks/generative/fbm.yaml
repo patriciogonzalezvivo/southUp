@@ -1,0 +1,68 @@
+import: 
+    - noise.yaml
+
+styles:
+    generative-fbm:
+        doc:
+            author: 
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            version: 0.0.1
+            tangram-version: 0.0.7
+            licence: MIT
+            description: |
+                Set of Fractal Brownian Motion functions.
+                For more information on this theme read [this chapter of The Book of Shaders about fractal Brownian Motion](http://thebookofshaders.com/13/).
+        test:
+            fbm_float_5oct: { blocks: { color: "    color.rgb += fbm(v_texcoord.x);" } }
+            fbm_vec2_5oct: { blocks: { color: "    color.rgb += fbm(v_texcoord);" } }
+            fbm_vec3_5oct: { blocks: { color: "    color.rgb += fbm(vec3(v_texcoord,u_time));" } }
+            fbm_float_3oct: { defines: { NUM_OCTAVES: 3 }, blocks: { color: "    color.rgb += fbm(v_texcoord.x);" } }
+            fbm_vec2_3oct: { defines: { NUM_OCTAVES: 3 }, blocks: { color: "    color.rgb += fbm(v_texcoord);" } }
+            fbm_vec3_3oct: { defines: { NUM_OCTAVES: 3 }, blocks: { color: "    color.rgb += fbm(vec3(v_texcoord,u_time));" } }
+            fbm_float_8oct: { defines: { NUM_OCTAVES: 8 }, blocks: { color: "    color.rgb += fbm(v_texcoord.x);" } }
+            fbm_vec2_8oct: { defines: { NUM_OCTAVES: 8 }, blocks: { color: "    color.rgb += fbm(v_texcoord);" } }
+            fbm_vec3_8oct: { defines: { NUM_OCTAVES: 8 }, blocks: { color: "    color.rgb += fbm(vec3(v_texcoord,u_time));" } }
+
+        mix: generative-noise
+        shaders:
+            defines:
+                NUM_OCTAVES: 5
+            blocks:
+                global: |
+                    // Fractional Brownian motion for 1, 2 and 3 dimensions
+                    float fbm (in float x) {
+                        float v = 0.0;
+                        float a = 0.5;
+                        float shift = float(100.0);
+                        for (int i = 0; i < int(NUM_OCTAVES); ++i) {
+                            v += a * noise(x);
+                            x = x * 2.0 + shift;
+                            a *= 0.5;
+                        }
+                        return v;
+                    }
+                    float fbm (in vec2 xy) {
+                        float v = 0.0;
+                        float a = 0.5;
+                        vec2 shift = vec2(100.0);
+                        mat2 rot = mat2(cos(0.5), sin(0.5), 
+                                        -sin(0.5), cos(0.50));
+                        for (int i = 0; i < int(NUM_OCTAVES); ++i) {
+                            v += a * noise(xy);
+                            xy = rot * xy * 2.0 + shift;
+                            a *= 0.5;
+                        }
+                        return v;
+                    }
+                    float fbm (in vec3 xyz) {
+                        float v = 0.0;
+                        float a = 0.5;
+                        vec3 shift = vec3(100.0);
+                        for (int i = 0; i < int(NUM_OCTAVES); ++i) {
+                            v += a * noise(xyz);
+                            xyz = xyz * 2.0 + shift;
+                            a *= 0.5;
+                        }
+                        return v;
+                    }

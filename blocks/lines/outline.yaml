@@ -1,0 +1,49 @@
+import: 
+    - ../functions/aastep.yaml
+
+styles:
+    lines-outline:
+        doc:
+            author: 
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            version: 0.0.1
+            tangram-version: 0.0.7
+            licence: MIT
+            description: |
+                Apply an outline to a line
+            examples:
+                blueprint:
+                    url: https://tangrams.github.io/tangram-sandbox/styles/blueprint.yaml
+                    img: https://tangrams.github.io/tangram-sandbox/styles/blueprint.png
+                    lines: 116-120
+                callejas:
+                    url: https://tangrams.github.io/tangram-sandbox/styles/callejas.yaml
+                    img: https://tangrams.github.io/tangram-sandbox/styles/callejas.png
+                    lines: 116
+
+        ui:
+            shaders:
+                defines:
+                    OUTLINE_WIDTH:
+                        type: number
+                        label: Width
+                        range: 
+                            min: 0.
+                            max: 1.
+                            step: 0.01
+                    OUTLINE_COLOR: 
+                        type: color
+                        label: Color
+        base: lines
+        mix: [functions-aastep]
+        texcoords: true
+        shaders:
+            defines:
+                OUTLINE_WIDTH: 0.1
+                OUTLINE_COLOR: color.rgb*.5
+            blocks:
+                color: |
+                    color.rgb = mix(color.rgb,
+                                    OUTLINE_COLOR,
+                                    (1.0-(aastep(OUTLINE_WIDTH,v_texcoord.x)-step(1.0-OUTLINE_WIDTH,v_texcoord.x))));

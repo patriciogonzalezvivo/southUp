@@ -1,0 +1,60 @@
+sources:
+    mapzen:
+        type: MVT
+        url: https://tile.nextzen.org/tilezen/vector/v1/512/all/{z}/{x}/{y}.mvt
+        tile_size: 512
+        max_zoom: 16
+        rasters: [normals]
+        scripts: ['https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js']
+        transform: |
+            function(data, extra_data) {
+                var points = [];
+                
+                if (data.earth &&
+                    data.earth.features) {
+                    var earth_points = turf.explode(data.earth);
+                    points = points.concat(earth_points.features);
+                    
+                    //var units = 'miles';
+                    //var cellWidth = .1;
+                    
+                    //var buffed = turf.buffer(earth_points, cellWidth*.5, units)
+                    //var bbox = turf.extent(buffed);
+                    //var grid = turf.pointGrid(bbox, cellWidth, units);
+                    //points = points.concat(grid.features);
+                    
+                    if (data.roads && data.roads.features) {
+                        var roads_points = turf.explode(data.roads);
+                        points = points.concat(roads_points.features);
+                    }
+                    if (data.landuse && data.landuse.features) {
+                        var landuse_points = turf.explode(data.landuse);
+                        points = points.concat(landuse_points.features);
+                    }
+                    if (data.buildings && data.buildings.features) {
+                        var buildings_points = turf.explode(data.buildings);
+                        points = points.concat(buildings_points.features);
+                    }
+                    if (data.water && data.water.features) {
+                        var water_points = turf.explode(data.water);
+                        points = points.concat(water_points.features);
+                    }
+                } else if (data.water && data.water.features) {
+                    var water_points = turf.explode(data.water);
+                    points = points.concat(water_points.features);
+                }
+                
+                if (!data.terrain) {
+                    data.terrain = {};
+                    data.terrain = turf.tin(turf.featurecollection(points));
+                }
+                
+                return data;
+            }
+    normals:
+        type: Raster
+        url: https://tile.nextzen.org/tilezen/terrain/v1/512/normal/{z}/{x}/{y}.png
+        max_zoom: 14
+        tile_size: 512
+        url_params:
+            api_key: NaqqS33fTUmyQcvbuIUCKA

@@ -8,22 +8,19 @@
     <title>South Up</title>
     <!-- 3rd party libraries -->
         <!-- Leaflet -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.css" />
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.1/leaflet.js"></script>
+        <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+        <script type="text/javascript" src="vendor/leaflet/leaflet.js"></script>
         <!-- bog-standard leaflet URL hash -->
-        <script type="text/javascript" src="https://cdn.rawgit.com/mlevans/leaflet-hash/master/leaflet-hash.js"></script>
+        <script type="text/javascript" src="vendor/leaflet-hash/leaflet-hash.js"></script>
         <!-- Main tangram library -->
-        <script type="text/javascript" src="https://mapzen.com/tangram/0.10/tangram.min.js"></script>
-        <!-- Load geocoding plugin after Leaflet -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.1/leaflet-geocoder-mapzen.css">
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.4.1/leaflet-geocoder-mapzen.js"></script>
+        <script type="text/javascript" src="vendor/tangram/tangram.min.js"></script>
         <!-- Language Selector for Tangram -->
         <link rel="stylesheet" href="https://tangrams.github.io/ux_language/ux_language.css" />
         <script type="text/javascript" src="https://tangrams.github.io/ux_language/ux_language.js"></script>
     <!-- End of 3rd party libraries -->
 
     <!-- SouthUp the input controls of a leaflet map -->
-    <script type="text/javascript" src="./leaflet-southup.js"></script>
+    <script type="text/javascript" src="leaflet-southup.js"></script>
     
 
     <style>
@@ -90,16 +87,15 @@
 
                 /*** Map ***/
                 var map = L.map('map', {
-                    maxZoom: 20,
+                    maxZoom: 5,
                     trackResize: true,
                     keyboard: false
                 });
-                L.control.geocoder('mapzen-YoRQaZF',{pointIcon: false, markers: false}).addTo(map);
 
                 var layer = Tangram.leafletLayer({
                     scene: 'southup.yaml',
                     minZoom: 2,
-                    maxZoom: 18,
+                    maxZoom: 5,
                     introspection: true,
                     attribution: '<a href="http://jenlowe.net/" target="_blank">@datatelling</a> & <a href="http://patricio.io" target="_blank">@patriciogv</a>'
                 });

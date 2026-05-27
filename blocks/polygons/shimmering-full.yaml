@@ -1,0 +1,382 @@
+import:
+- random.yaml
+styles:
+    generative-noise:
+        doc:
+            author:
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            description: 'Set of Noise functions.
+
+                For more information on this theme read [this chapter of The Book
+                of Shaders about Noise](http://thebookofshaders.com/11/).
+
+                '
+            licence: MIT
+            tangram-version: 0.0.7
+            version: 0.0.1
+        mix: generative-random
+        shaders:
+            blocks:
+                global: "// Value Noise \nfloat noise (in float x) {\n    #ifdef NOISE_TEXSAMPLE\n\
+                    \    return texture2D(u_random, vec2(x*(1./NOISE_TEXSAMPLE_SIZE))).r;\n\
+                    \    #else\n    float i = floor(x);\n    float f = fract(x);\n\
+                    \    f = f * f * (3.0 - 2.0 * f);\n    return mix(random(i), random(i\
+                    \ + 1.0), f);\n    #endif\n}\n\n// Value Noise\nfloat noise (vec2\
+                    \ p) {\n    vec2 i = floor(p);\n    vec2 f = fract(p);\n    #ifdef\
+                    \ NOISE_TEXSAMPLE\n    vec2 uv = i.xy + f.xy*f.xy*(3.0-2.0*f.xy);\n\
+                    \    return texture2D(u_random, fract((uv+118.4)/NOISE_TEXSAMPLE_SIZE)\
+                    \ ).x;\n    #else\n    f = f * f * (3.0 - 2.0 * f);\n    float\
+                    \ a = random(i);\n    float b = random(i + vec2(1.0, 0.0));\n\
+                    \    float c = random(i + vec2(0.0, 1.0));\n    float d = random(i\
+                    \ + vec2(1.0, 1.0));\n    return mix(a, b, f.x) + (c - a) * f.y\
+                    \ * (1.0 - f.x) + (d - b) * f.x * f.y;\n    #endif\n}\n\n// Value\
+                    \ Noise\nfloat noise (vec3 p) {\n    vec3 i = floor(p);\n    vec3\
+                    \ f = fract(p);\n    f = f*f*(3.0-2.0*f);\n    #ifdef NOISE_TEXSAMPLE\n\
+                    \    vec2 uv = (i.xy+vec2(37.0,17.0)*i.z) + f.xy;\n    vec2 rg\
+                    \ = texture2D(u_random, fract((uv+.5)/NOISE_TEXSAMPLE_SIZE), -100.0\
+                    \ ).yx;\n    return mix( rg.x, rg.y, f.z );\n    #else\n    float\
+                    \ n = i.x + i.y*57.0 + 113.0*i.z;\n    return mix(mix(mix(random(n+0.0),random(n+1.0),f.x),mix(random(n+\
+                    \ 57.0),random(n+ 58.0),f.x),f.y),mix(mix(random(n+113.0),random(n+114.0),f.x),mix(random(n+170.0),random(n+171.0),f.x),f.y),f.z);\n\
+                    \    /*\n    const vec3 step = vec3(110.0, 241.0, 171.0);\n  \
+                    \  float n = dot(i, step);\n    return mix( mix(mix(random(n +\
+                    \ dot(step, vec3(0,0,0))),\n                        random(n +\
+                    \ dot(step, vec3(1,0,0))), f.x),\n                    mix(random(n\
+                    \ + dot(step, vec3(0,1,0))),\n                        random(n\
+                    \ + dot(step, vec3(1,1,0))), f.x),\n                    f.y),\n\
+                    \                mix(mix(random(n + dot(step, vec3(0,0,1))),\n\
+                    \                        random(n + dot(step, vec3(1,0,1))), f.x),\n\
+                    \                    mix(random(n + dot(step, vec3(0,1,1))),\n\
+                    \                        random(n + dot(step, vec3(1,1,1))), f.x),\n\
+                    \                f.y),\n            f.z);\n            */\n  \
+                    \  #endif\n}\n\n// Gradient Noise\n// From IQ (https://www.shadertoy.com/view/XdXGW8)\n\
+                    float gnoise (in vec2 p) {\n    vec2 i = floor( p );\n    vec2\
+                    \ f = fract( p );\n    \n    vec2 u = f*f*(3.0-2.0*f);\n\n   \
+                    \ return mix( mix( dot( random2( i + vec2(0.0,0.0) ), f - vec2(0.0,0.0)\
+                    \ ), \n                     dot( random2( i + vec2(1.0,0.0) ),\
+                    \ f - vec2(1.0,0.0) ), u.x),\n                mix( dot( random2(\
+                    \ i + vec2(0.0,1.0) ), f - vec2(0.0,1.0) ), \n               \
+                    \      dot( random2( i + vec2(1.0,1.0) ), f - vec2(1.0,1.0) ),\
+                    \ u.x), u.y);\n}\n\n// Gradient Noise\n// From IQ (https://www.shadertoy.com/view/Xsl3Dl)\n\
+                    float gnoise (in vec3 p) {\n    vec3 i = floor( p );\n    vec3\
+                    \ f = fract( p );\n    vec3 u = f*f*(3.0-2.0*f);\n\n    return\
+                    \ mix( mix( mix( dot( random3( i + vec3(0.0,0.0,0.0) ), f - vec3(0.0,0.0,0.0)\
+                    \ ), \n                          dot( random3( i + vec3(1.0,0.0,0.0)\
+                    \ ), f - vec3(1.0,0.0,0.0) ), u.x),\n                     mix(\
+                    \ dot( random3( i + vec3(0.0,1.0,0.0) ), f - vec3(0.0,1.0,0.0)\
+                    \ ), \n                          dot( random3( i + vec3(1.0,1.0,0.0)\
+                    \ ), f - vec3(1.0,1.0,0.0) ), u.x), u.y),\n                mix(\
+                    \ mix( dot( random3( i + vec3(0.0,0.0,1.0) ), f - vec3(0.0,0.0,1.0)\
+                    \ ), \n                          dot( random3( i + vec3(1.0,0.0,1.0)\
+                    \ ), f - vec3(1.0,0.0,1.0) ), u.x),\n                     mix(\
+                    \ dot( random3( i + vec3(0.0,1.0,1.0) ), f - vec3(0.0,1.0,1.0)\
+                    \ ), \n                          dot( random3( i + vec3(1.0,1.0,1.0)\
+                    \ ), f - vec3(1.0,1.0,1.0) ), u.x), u.y), u.z );\n}\n\nvec3 mod289(vec3\
+                    \ x) { \n    return x - floor(x * (1.0 / 289.0)) * 289.0; \n}\n\
+                    vec2 mod289(vec2 x) { \n    return x - floor(x * (1.0 / 289.0))\
+                    \ * 289.0; \n}\nvec3 permute(vec3 x) { \n    return mod289(((x*34.0)+1.0)*x);\
+                    \ \n}\n\n// Simplex Noise\n// from Ian McEwan, Ashima Arts\nfloat\
+                    \ snoise(vec2 v) {\n\n    // Precompute values for skewed triangular\
+                    \ grid\n    const vec4 C = vec4(0.211324865405187,\n         \
+                    \               // (3.0-sqrt(3.0))/6.0\n                     \
+                    \   0.366025403784439,  \n                        // 0.5*(sqrt(3.0)-1.0)\n\
+                    \                        -0.577350269189626,  \n             \
+                    \           // -1.0 + 2.0 * C.x\n                        0.024390243902439);\
+                    \ \n                        // 1.0 / 41.0\n\n    // First corner\
+                    \ (x0)\n    vec2 i  = floor(v + dot(v, C.yy));\n    vec2 x0 =\
+                    \ v - i + dot(i, C.xx);\n\n    // Other two corners (x1, x2)\n\
+                    \    vec2 i1 = vec2(0.0);\n    i1 = (x0.x > x0.y)? vec2(1.0, 0.0):vec2(0.0,\
+                    \ 1.0);\n    vec2 x1 = x0.xy + C.xx - i1;\n    vec2 x2 = x0.xy\
+                    \ + C.zz;\n\n    // Do some permutations to avoid\n    // truncation\
+                    \ effects in permutation\n    i = mod289(i);\n    vec3 p = permute(\n\
+                    \            permute( i.y + vec3(0.0, i1.y, 1.0))\n          \
+                    \      + i.x + vec3(0.0, i1.x, 1.0 ));\n\n    vec3 m = max(0.5\
+                    \ - vec3(\n                        dot(x0,x0), \n            \
+                    \            dot(x1,x1), \n                        dot(x2,x2)\n\
+                    \                        ), 0.0);\n\n    m = m*m ;\n    m = m*m\
+                    \ ;\n\n    // Gradients: \n    //  41 pts uniformly over a line,\
+                    \ mapped onto a diamond\n    //  The ring size 17*17 = 289 is\
+                    \ close to a multiple \n    //      of 41 (41*7 = 287)\n\n   \
+                    \ vec3 x = 2.0 * fract(p * C.www) - 1.0;\n    vec3 h = abs(x)\
+                    \ - 0.5;\n    vec3 ox = floor(x + 0.5);\n    vec3 a0 = x - ox;\n\
+                    \n    // Normalise gradients implicitly by scaling m\n    // Approximation\
+                    \ of: m *= inversesqrt(a0*a0 + h*h);\n    m *= 1.79284291400159\
+                    \ - 0.85373472095314 * (a0*a0+h*h);\n\n    // Compute final noise\
+                    \ value at P\n    vec3 g = vec3(0.0);\n    g.x  = a0.x  * x0.x\
+                    \  + h.x  * x0.y;\n    g.yz = a0.yz * vec2(x1.x,x2.x) + h.yz *\
+                    \ vec2(x1.y,x2.y);\n    return 130.0 * dot(m, g);\n}\n\n// Simplex\
+                    \ Noise\n// from Ian McEwan, Ashima Arts\nconst float F3 =  0.3333333;\n\
+                    const float G3 =  0.1666667;\nfloat snoise (vec3 p) {\n    vec3\
+                    \ s = floor(p + dot(p, vec3(F3)));\n    vec3 x = p - s + dot(s,\
+                    \ vec3(G3));\n    vec3 e = step(vec3(0.0), x - x.yzx);\n    vec3\
+                    \ i1 = e*(1.0 - e.zxy);\n    vec3 i2 = 1.0 - e.zxy*(1.0 - e);\n\
+                    \    vec3 x1 = x - i1 + G3;\n    vec3 x2 = x - i2 + 2.0*G3;\n\
+                    \    vec3 x3 = x - 1.0 + 3.0*G3;\n    vec4 w, d;\n    w.x = dot(x,\
+                    \ x);\n    w.y = dot(x1, x1);\n    w.z = dot(x2, x2);\n    w.w\
+                    \ = dot(x3, x3);\n    w = max(0.6 - w, 0.0);\n    d.x = dot(random3(s),\
+                    \ x);\n    d.y = dot(random3(s + i1), x1);\n    d.z = dot(random3(s\
+                    \ + i2), x2);\n    d.w = dot(random3(s + 1.0), x3);\n    w *=\
+                    \ w;\n    w *= w;\n    d *= w;\n    return dot(d, vec4(52.0));\n\
+                    }"
+            defines:
+                NOISE_TEXSAMPLE_SIZE: 256.0
+        test:
+            gnoise_vec2:
+                blocks:
+                    color: '    color.rgb += gnoise(v_texcoord.xy*2.);'
+            gnoise_vec3:
+                blocks:
+                    color: '    color.rgb += gnoise(vec3(v_texcoord.xy*2.,u_time));'
+            noise_float:
+                blocks:
+                    color: '    color.rgb += noise(v_texcoord.x*2.);'
+            noise_float_t:
+                blocks:
+                    color: '    color.rgb += noise(v_texcoord.x*2.);'
+                defines:
+                    NOISE_TEXSAMPLE: 1
+            noise_vec2:
+                blocks:
+                    color: '    color.rgb += noise(v_texcoord.xy*2.);'
+            noise_vec2_t:
+                blocks:
+                    color: '    color.rgb += noise(v_texcoord.xy*2.);'
+                defines:
+                    NOISE_TEXSAMPLE: 1
+            noise_vec3:
+                blocks:
+                    color: '    color.rgb += noise(vec3(v_texcoord.xy*2.,u_time));'
+            noise_vec3_t:
+                blocks:
+                    color: '    color.rgb += noise(vec3(v_texcoord.xy,u_time)*2.);'
+                defines:
+                    NOISE_TEXSAMPLE: 1
+            snoise_vec2:
+                blocks:
+                    color: '    color.rgb += snoise(v_texcoord.xy*2.);'
+            snoise_vec3:
+                blocks:
+                    color: '    color.rgb += snoise(vec3(v_texcoord.xy*2.,u_time));'
+    generative-random:
+        doc:
+            author:
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            description: 'Set of functions about random.
+
+                For more information on this theme read [this chapter of The Book
+                of Shaders about Random](http://thebookofshaders.com/10/).
+
+                '
+            licence: MIT
+            tangram-version: 0.0.7
+            version: 0.0.1
+        shaders:
+            blocks:
+                global: "vec3 random3 (vec2 p) {\n    #ifdef RANDOM_TEXSAMPLE\n  \
+                    \  return texture2D(u_random,fract(p*2.),-100.).rgb;\n    #else\n\
+                    \    return fract(sin(vec3( dot(p,vec2(127.1,311.7)), dot(p,vec2(269.5,183.3)),\
+                    \ dot(p,vec2(419.2,371.9)) ))*43758.5453); \n    #endif\n}\nvec3\
+                    \ random3 (vec3 p) {\n    #ifdef RANDOM_TEXSAMPLE\n    vec2 uv\
+                    \ = fract(p.xy+vec2(37.0,17.0)*p.z);\n    return texture2D(u_random,\
+                    \ fract(uv*2.), -100.0).rgb;\n    #else\n    float j = 4096.0*sin(dot(p,vec3(17.0,\
+                    \ 59.4, 15.0)));\n    vec3 r;\n    r.z = fract(512.0*j);\n   \
+                    \ j *= .125;\n    r.x = fract(512.0*j);\n    j *= .125;\n    r.y\
+                    \ = fract(512.0*j);\n    return r-0.5;\n    #endif\n}\nvec2 random2\
+                    \ (vec2 p) { \n    #ifdef RANDOM_TEXSAMPLE\n    return random3(p).rg;\n\
+                    \    #else\n    return fract(sin(vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3))))*43758.5453);\
+                    \ \n    #endif\n}\nfloat random (float x) { \n    return fract(sin(x)*43758.5453);\n\
+                    }\nfloat random (vec2 p) { \n    #ifdef RANDOM_TEXSAMPLE\n   \
+                    \ return random3(p).r;\n    #else\n    return fract(1e4 * sin(17.0\
+                    \ * p.x + p.y * 0.1) * (0.1 + abs(sin(p.y * 13.0 + p.x)))); \n\
+                    \    #endif\n}\nfloat random (vec3 p) { \n    #ifdef RANDOM_TEXSAMPLE\n\
+                    \    return random3(p).r;\n    #else\n    return fract(sin(dot(p.xyz,\
+                    \ vec3(70.9898,78.233,32.4355)))* 43758.5453123); \n    #endif\n\
+                    }"
+            uniforms:
+                u_random: https://tangrams.github.io/blocks/generative/imgs/tex16.png
+        test:
+            random2_vec2:
+                blocks:
+                    color: '    color.rg += random2(v_texcoord.xy*2.);'
+            random2_vec2_t:
+                blocks:
+                    color: '    color.rg += random2(v_texcoord.xy*2.);'
+                defines:
+                    RANDOM_TEXSAMPLE: 1
+            random3_vec2:
+                blocks:
+                    color: '    color.rgb += random3(v_texcoord.xy*2.);'
+            random3_vec2_t:
+                blocks:
+                    color: '    color.rgb += random3(v_texcoord.xy*2.);'
+                defines:
+                    RANDOM_TEXSAMPLE: 1
+            random3_vec3:
+                blocks:
+                    color: '    color.rgb += random3(vec3(v_texcoord.xy*2.,u_time));'
+            random3_vec3_t:
+                blocks:
+                    color: '    color.rgb += random3(vec3(v_texcoord.xy*2.,u_time));'
+                defines:
+                    RANDOM_TEXSAMPLE: 1
+            random_float:
+                blocks:
+                    color: '    color.rgb += random(v_texcoord.x*2.);'
+            random_float_t:
+                blocks:
+                    color: '    color.rgb += random(v_texcoord.x*2.);'
+                defines:
+                    RANDOM_TEXSAMPLE: 1
+            random_vec2:
+                blocks:
+                    color: '    color.rgb += random(v_texcoord.xy*2.);'
+            random_vec2_t:
+                blocks:
+                    color: '    color.rgb += random(v_texcoord.xy*2.);'
+                defines:
+                    RANDOM_TEXSAMPLE: 1
+            random_vec3:
+                blocks:
+                    color: '    color.rgb += random(vec3(v_texcoord.xy*2.,u_time));'
+            random_vec3_t:
+                blocks:
+                    color: '    color.rgb += random(vec3(v_texcoord.xy*2.,u_time));'
+                defines:
+                    RANDOM_TEXSAMPLE: 1
+    polygons-shimmering:
+        animated: true
+        base: polygons
+        doc:
+            author:
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            description: 'Apply a shimmering radom pattern of simplex grid triangles
+                to the polygon style. To learn more about noise and simplex grid check
+                [this chapter from the Book of Shaders](https://thebookofshaders.com/11/)
+
+                '
+            licence: MIT
+            tangram-version: 0.0.7
+            version: 0.0.1
+        mix:
+        - tiling-simplex
+        - generative-noise
+        - space-constant
+        shaders:
+            blocks:
+                color: "vec2 st = getConstantCoords()*SHIMMERING_SCALE;\nvec2 s =\
+                    \ skew(st);\nvec2 s_f = fract(s);\n#ifdef SHIMMERING_ANIMATED\n\
+                    float n = snoise(vec3(floor(s+step(s_f.x,s_f.y)*5.),u_time*SHIMMERING_SPEED));\n\
+                    #else\nfloat n = snoise(floor(s+step(s_f.x,s_f.y)*5.));\n#endif\n\
+                    color.rgb = mix(SHIMMERING_COLOR,\n                mix(SHIMMERING_BACKGROUND_COLOR,SHIMMERING_COLOR,n),\n\
+                    \                SHIMMERING_AMOUNT);"
+            defines:
+                SHIMMERING_AMOUNT: 1.0
+                SHIMMERING_ANIMATED: true
+                SHIMMERING_BACKGROUND_COLOR: color.rgb*.5
+                SHIMMERING_COLOR: color.rgb
+                SHIMMERING_SCALE: 10.0
+                SHIMMERING_SPEED: 0.1
+        ui:
+            shaders:
+                defines:
+                    SHIMMERING_AMOUNT:
+                        label: Amount
+                        range:
+                            max: 1.0
+                            min: 0.0
+                            step: 0.01
+                        type: number
+                    SHIMMERING_ANIMATED:
+                        label: Animate
+                        type: boolean
+                    SHIMMERING_BACKGROUND_COLOR:
+                        label: Background color
+                        type: color
+                    SHIMMERING_COLOR:
+                        label: Color
+                        type: color
+                    SHIMMERING_SCALE:
+                        label: Scale
+                        range:
+                            max: 1000.0
+                            min: 1.0
+                            step: 1.0
+                        type: number
+                    SHIMMERING_SPEED:
+                        label: Speed
+                        range:
+                            max: 1.0
+                            min: 0.0
+                            step: 0.01
+                        type: number
+    space-constant:
+        doc:
+            author:
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            description: 'Get the constant coordinates **(warning: could glitch on
+                zooms)**
+
+                '
+            examples:
+                grain-area:
+                    img: https://tangrams.github.io/tangram-sandbox/styles/grain-area.png
+                    lines: 26
+                    url: https://tangrams.github.io/tangram-sandbox/styles/grain-area.yaml
+            licence: MIT
+            tangram-version: 0.0.7
+            version: 0.0.1
+        shaders:
+            blocks:
+                global: "vec2 getConstantCoords () {\n    #ifdef TANGRAM_FRAGMENT_SHADER\n\
+                    \    const float pixel_scale = 695.;\n    float meter_pixels =\
+                    \ u_meters_per_pixel / u_device_pixel_ratio;\n    vec2 st = gl_FragCoord.xy/pixel_scale;\n\
+                    \    const float dot_wrap = 1000.;\n    st += mod(u_map_position.xy\
+                    \ / meter_pixels, dot_wrap)/pixel_scale;\n    return st;\n   \
+                    \ #else\n    return vec2(0.0,0.0);\n    #endif\n}"
+        test:
+            constant:
+                blocks:
+                    color: 'vec2 st = getConstantCoords();
+
+                        color.rg += fract(st*3.);
+
+                        '
+    tiling-simplex:
+        doc:
+            author:
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            description: 'Repeats a coordinate space (`vec2 st`) in diferent simplex
+                tiles. To learn more about simplex grids check [this chapter about
+                noise from the Book of Shaders](https://thebookofshaders.com/11/)
+
+                '
+            licence: MIT
+            tangram-version: 0.0.7
+            version: 0.0.1
+        shaders:
+            blocks:
+                global: "// \n// ================================\nvec2 skew (vec2\
+                    \ st) {\n    st *= 1.733;\n    vec2 r = vec2(1.1547*st.x);\n \
+                    \   r.y = st.y+0.5*r.x;\n    return r;\n}\n\nvec3 simplexCoord\
+                    \ (vec2 st, float td) {\n    return 1.0-mix(vec3(st.x,1.0-vec2(st.x-st.y,st.y)),vec3(1.0-vec2(st.x,st.y-st.x),st.y),td);\n\
+                    }\n\nvec3 simplexGrid (vec2 st) {\n    vec3 xyz = vec3(0.0);\n\
+                    \    \n    vec2 p = fract(skew(st));\n    if (p.x > p.y) {\n \
+                    \       xyz.xy = 1.0-vec2(p.x,p.y-p.x);\n        xyz.z = p.y;\n\
+                    \    } else {\n        xyz.yz = 1.0-vec2(p.x-p.y,p.y);\n     \
+                    \   xyz.x = p.x;\n    }\n    \n    return fract(xyz);\n}\n\nvec3\
+                    \ simplexRotatedGrid (vec2 st) {\n    vec3 xyz = vec3(0.0);\n\
+                    \    \n    vec2 p = fract(skew(st));\n    if (p.x > p.y) {\n \
+                    \       xyz.xy = 1.-vec2(p.x,p.y-p.x);\n        xyz.z = p.y;\n\
+                    \    } else {\n        xyz.zx = 1.-vec2(p.x-p.y,p.y);\n      \
+                    \  xyz.y = p.x;\n    }\n    \n    return fract(xyz);\n}"
+        test:
+            rotatedSimplex:
+                blocks:
+                    color: '    color.rgb += simplexRotatedGrid(v_texcoord.xy*5.);'
+            simplex:
+                blocks:
+                    color: '    color.rgb += simplexGrid(v_texcoord.xy*5.);'

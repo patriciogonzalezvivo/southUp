@@ -1,0 +1,44 @@
+styles:
+    lines-stripes:
+        base: lines
+        doc:
+            author:
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            description: 'Apply a stripe pattern to a line
+
+                '
+            examples:
+                sandbox:
+                    img: https://tangrams.github.io/tangram-sandbox/styles/grain-roads.png
+                    lines: 35
+                    url: https://tangrams.github.io/tangram-sandbox/styles/grain-roads.yaml
+            licence: MIT
+            tangram-version: 0.0.7
+            version: 0.0.1
+        shaders:
+            blocks:
+                color: "color.rgb = mix(STRIPES_BACKGROUND_COLOR,\n              \
+                    \  STRIPES_COLOR,\n                step(STRIPES_WIDTH, sin((fract(v_texcoord).x+fract(v_texcoord).y)\
+                    \ * 6.283)));"
+            defines:
+                STRIPES_BACKGROUND_COLOR: color.rgb
+                STRIPES_COLOR: color.rgb*.5
+                STRIPES_WIDTH: 0.1
+        texcoords: true
+        ui:
+            shaders:
+                defines:
+                    STRIPES_BACKGROUND_COLOR:
+                        label: Background Color
+                        type: color
+                    STRIPES_COLOR:
+                        label: Color
+                        type: color
+                    STRIPES_WIDTH:
+                        label: Width
+                        range:
+                            max: 1.0
+                            min: 0.0
+                            step: 0.01
+                        type: number

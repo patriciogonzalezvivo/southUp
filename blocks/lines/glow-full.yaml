@@ -1,0 +1,84 @@
+import:
+- ../block.yaml
+- ../functions/aastep.yaml
+styles:
+    block:
+        shaders:
+            defines:
+                ADD: +
+                EPSILON: 1.0e-07
+                HALF_PI: 1.5707963267948966
+                MULTIPLY: '*'
+                PI: 3.141592653589793
+                QUATER_PI: 0.785398163
+                SUBTRACT: '-'
+                TWO_PI: 6.283185307179586
+                deg2rad(d): (((d)*3.1415926535897932384626433832795)/180.0)
+                rad2deg(d): (((d)*180.0)/3.1415926535897932384626433832795)
+    functions-aastep:
+        doc:
+            author:
+                name: Matt DesLauriers
+                twitter: mattdesl
+            description: 'AnitAliased ```step()``` function implemented by [Matt DesLauriers](https://twitter.com/mattdesl)
+                in this module <https://github.com/stackgl/glsl-aastep>
+
+                '
+            licence: MIT
+            tangram-version: 0.0.7
+            version: 0.0.1
+        shaders:
+            blocks:
+                global: "// AntiAliased Step function\n//=============================\n\
+                    float aastep(float threshold, float value) {\n    #ifdef TANGRAM_FRAGMENT_SHADER\n\
+                    \        #ifdef TANGRAM_EXTENSION_OES_standard_derivatives\n \
+                    \           float afwidth = length(vec2(dFdx(value), dFdy(value)))\
+                    \ * 0.70710678118654757;\n            return smoothstep(threshold-afwidth,\
+                    \ threshold+afwidth, value);\n        #else\n            return\
+                    \ step(threshold, value);\n        #endif  \n    #else\n     \
+                    \   return step(threshold, value);\n    #endif\n}"
+            extensions: OES_standard_derivatives
+    lines-glow:
+        base: lines
+        blend: add
+        doc:
+            author:
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            description: 'Add an exciting glow effect to your
+
+                '
+            licence: MIT
+            tangram-version: 0.0.7
+            version: 0.0.1
+        mix:
+        - block
+        - functions-aastep
+        shaders:
+            blocks:
+                color: 'vec4 glow_tmp_color = color;
+
+                    color = glow_tmp_color*(aastep(GLOW_WIDTH,1.-v_texcoord.x)*aastep(GLOW_WIDTH,v_texcoord.x));
+
+                    color += glow_tmp_color*(sin(v_texcoord.x*PI)*GLOW_BRIGHTNESS);'
+            defines:
+                GLOW_BRIGHTNESS: 0.25
+                GLOW_WIDTH: 0.4
+        texcoords: true
+        ui:
+            shaders:
+                defines:
+                    GLOW_BRIGHTNESS:
+                        label: Glow Brightness
+                        range:
+                            max: 1.0
+                            min: 0.0
+                            step: 0.01
+                        type: number
+                    GLOW_WIDTH:
+                        label: Solid width
+                        range:
+                            max: 1.0
+                            min: 0.0
+                            step: 0.01
+                        type: number

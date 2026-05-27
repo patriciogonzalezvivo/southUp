@@ -1,0 +1,79 @@
+styles:
+    filter-lut:
+        doc:
+            author:
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            description: "Maybe you don't know what a LUT is but I am sure you have\
+                \ use it. For example in instagram. Look Up Tables is a fast and cheap\
+                \ way to style an image using another image as a reference. Yes, like\
+                \ filters. Like Instagram filters. \nThe reference image needs to\
+                \ have a particular structure and is pass as uniform texture (```u_lut```).\n"
+            examples:
+                sandbox-lut:
+                    img: https://tangrams.github.io/tangram-sandbox/styles/sandbox-lut.png
+                    url: https://tangrams.github.io/tangram-sandbox/styles/sandbox-lut.yaml
+            licence: MIT
+            tangram-version: 0.0.7
+            version: 0.0.1
+        shaders:
+            blocks:
+                filter: "color.rgb = mix(color.rgb,\n                getLut(color.rgb),\n\
+                    \                LUT_AMOUNT);"
+                global: "// Apply Look up table on a color\n// The user need to provide\
+                    \ a valid url to the uniform \"u_lut\"\n// ================================\n\
+                    vec3 getLut (vec3 textureColor, sampler2D lookupTable) {\n   \
+                    \ textureColor.g = 1.-textureColor.g;\n    textureColor = clamp(textureColor,\
+                    \ 0.0, 1.0);\n    float blueColor = textureColor.b * 63.0;\n \
+                    \   vec2 quad1 = vec2(0.0);\n    quad1.y = floor(floor(blueColor)\
+                    \ / 8.0);\n    quad1.x = floor(blueColor) - (quad1.y * 8.0);\n\
+                    \    vec2 quad2 = vec2(0.0);\n    quad2.y = floor(ceil(blueColor)\
+                    \ / 8.0);\n    quad2.x = ceil(blueColor) - (quad2.y * 8.0);\n\
+                    \    vec2 texPos1 = vec2(0.0);\n    texPos1.x = (quad1.x * 0.125)\
+                    \ + 0.5/512.0 + ((0.125 - 1.0/512.0) * textureColor.r);\n    texPos1.y\
+                    \ = (quad1.y * 0.125) + 0.5/512.0 + ((0.125 - 1.0/512.0) * textureColor.g);\n\
+                    \    vec2 texPos2 = vec2(0.0);\n    texPos2.x = (quad2.x * 0.125)\
+                    \ + 0.5/512.0 + ((0.125 - 1.0/512.0) * textureColor.r);\n    texPos2.y\
+                    \ = (quad2.y * 0.125) + 0.5/512.0 + ((0.125 - 1.0/512.0) * textureColor.g);\n\
+                    \    vec3 newColor1 = texture2D(lookupTable, texPos1).rgb;\n \
+                    \   vec3 newColor2 = texture2D(lookupTable, texPos2).rgb;\n  \
+                    \  vec3 newColor = mix(newColor1, newColor2, fract(blueColor));\n\
+                    \    return newColor;\n}\n//\nvec3 getLut (vec3 textureColor)\
+                    \ {\n    return getLut(textureColor, u_lut);\n}\n"
+            defines:
+                LUT_AMOUNT: 0.5
+            uniforms:
+                u_lut: https://tangrams.github.io/blocks/filter/imgs/lut-0001.png
+        test:
+            lut:
+                blocks:
+                    color: '    color = texture2D(u_tex0,v_texcoord.xy);'
+                uniforms:
+                    u_tex0: https://tangrams.github.io/blocks/test.jpg
+        ui:
+            shaders:
+                defines:
+                    LUT_AMOUNT:
+                        label: Amount
+                        range:
+                            max: 1.0
+                            min: 0.0
+                            step: 0.01
+                        type: number
+                uniforms:
+                    u_lut:
+                        label: Filter type
+                        type: dropdownList
+                        values:
+                            Brannan: https://tangrams.github.io/blocks/filter/imgs/lut-0013.png
+                            EarlyBird: https://tangrams.github.io/blocks/filter/imgs/lut-0011.png
+                            Gotham: https://tangrams.github.io/blocks/filter/imgs/lut-0010.png
+                            Hefe: https://tangrams.github.io/blocks/filter/imgs/lut-0009.png
+                            InkWell: https://tangrams.github.io/blocks/filter/imgs/lut-0008.png
+                            LomoFi: https://tangrams.github.io/blocks/filter/imgs/lut-0007.png
+                            LordKelvin: https://tangrams.github.io/blocks/filter/imgs/lut-0006.png
+                            Nashville: https://tangrams.github.io/blocks/filter/imgs/lut-0005.png
+                            Sutro: https://tangrams.github.io/blocks/filter/imgs/lut-0004.png
+                            Toaster: https://tangrams.github.io/blocks/filter/imgs/lut-0003.png
+                            Walden: https://tangrams.github.io/blocks/filter/imgs/lut-0002.png
+                            XPro: https://tangrams.github.io/blocks/filter/imgs/lut-0001.png

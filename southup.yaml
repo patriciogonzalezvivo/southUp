@@ -2,7 +2,7 @@ import:
     - https://tangrams.github.io/ux_language/ux_language.yaml
 
     # Common styles
-    - https://tangrams.github.io/blocks/functions/zoom.yaml
+    - blocks/functions/zoom.yaml
     
     # Layers
     - layers/water.yaml
@@ -19,13 +19,15 @@ import:
 sources:
     mapzen:
         type: TopoJSON
-        url: https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson?api_key=mapzen-YoRQaZF
+        # url: https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson?api_key=mapzen-YoRQaZF
+        url: ../tiles/{z}/{x}/{y}.topojson
         rasters: [normals-elevation]
-        max_zoom: 16
+        max_zoom: 5
     normals-elevation:
         type: Raster
-        url: https://tile.mapzen.com/mapzen/terrain/v1/normal/{z}/{x}/{y}.png?api_key=mapzen-YoRQaZF
-        max_zoom: 15
+        # url: https://tile.mapzen.com/mapzen/terrain/v1/normal/{z}/{x}/{y}.png?api_key=mapzen-YoRQaZF
+        url: ../tiles/{z}/{x}/{y}.png
+        max_zoom: 5
         
 global:
     font_family: Helvetica

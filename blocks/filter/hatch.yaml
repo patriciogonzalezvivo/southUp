@@ -1,0 +1,47 @@
+styles:
+    filter-hatch:
+        doc:
+            author: 
+                name: Jaume's Sanchez
+                twitter: thespite
+            version: 0.0.1
+            tangram-version: 0.0.7
+            description: |
+                Hatching filter based on [Jaume's Sanchez](https://twitter.com/thespite?lang=en) [Cross-hatching GLSL shader](https://www.clicktorelease.com/code/cross-hatching/).
+            examples:
+                crosshatch:
+                    url: https://tangrams.github.io/tangram-sandbox/styles/crosshatch.yaml
+                    img: https://tangrams.github.io/tangram-sandbox/styles/crosshatch.png
+                    lines: 111 
+                pericoli:
+                    url: https://tangrams.github.io/tangram-sandbox/styles/pericoli.yaml
+                    img: https://tangrams.github.io/tangram-sandbox/styles/pericoli.png
+                    lines: 157
+
+        test:
+            hatch:
+                uniforms:
+                    u_tex0: "https://tangrams.github.io/blocks/test.jpg"
+                blocks:
+                    color: |
+                        float brightness = texture2D(u_tex0,v_texcoord.xy).r;
+                        color.rgb = vec3(1.);
+                        color.rgb -= getHatch(v_texcoord.xy*10., brightness);
+
+        shaders:
+            uniforms:
+                u_hatchmap: "https://tangrams.github.io/blocks/filter/imgs/hatch.png"
+            blocks:
+                global: |
+                    float getHatch (vec2 st, float brightness) {
+                        st  = fract(st)/3.;
+                        brightness = clamp(brightness,0.,0.9999999);
+                        vec2 pos1 = vec2(floor(brightness*9.0)/3.,
+                                         floor(brightness*3.0)/3.) + st;
+                        float minBrightness = clamp(brightness-0.111111111,0.,1.0);
+                        vec2 pos2 = vec2(floor(minBrightness*9.0)/3.,
+                                         floor(minBrightness*3.0)/3.)+st;
+                        return mix(texture2D(u_hatchmap, fract(pos1) ).a,
+                                   texture2D(u_hatchmap, fract(pos2) ).a,
+                                   1.0-fract(brightness*9.0));
+                    }

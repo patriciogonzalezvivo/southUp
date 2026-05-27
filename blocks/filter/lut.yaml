@@ -1,0 +1,86 @@
+styles:
+    filter-lut:
+        doc:
+            author: 
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            version: 0.0.1
+            tangram-version: 0.0.7
+            licence: MIT
+            description: |
+                Maybe you don't know what a LUT is but I am sure you have use it. For example in instagram. Look Up Tables is a fast and cheap way to style an image using another image as a reference. Yes, like filters. Like Instagram filters. 
+                The reference image needs to have a particular structure and is pass as uniform texture (```u_lut```).
+            examples:
+                sandbox-lut:
+                    url: https://tangrams.github.io/tangram-sandbox/styles/sandbox-lut.yaml
+                    img: https://tangrams.github.io/tangram-sandbox/styles/sandbox-lut.png
+        ui:
+            shaders:
+                defines:
+                    LUT_AMOUNT: 
+                        type: number
+                        label: Amount
+                        range: 
+                            min: 0.
+                            max: 1.
+                            step: 0.01
+                uniforms:
+                    u_lut: 
+                        type: dropdownList
+                        label: 'Filter type'
+                        values:
+                            XPro: 'https://tangrams.github.io/blocks/filter/imgs/lut-0001.png'
+                            Walden: 'https://tangrams.github.io/blocks/filter/imgs/lut-0002.png'
+                            Toaster: 'https://tangrams.github.io/blocks/filter/imgs/lut-0003.png'
+                            Sutro: 'https://tangrams.github.io/blocks/filter/imgs/lut-0004.png'
+                            Nashville: 'https://tangrams.github.io/blocks/filter/imgs/lut-0005.png'
+                            LordKelvin: 'https://tangrams.github.io/blocks/filter/imgs/lut-0006.png'
+                            LomoFi: 'https://tangrams.github.io/blocks/filter/imgs/lut-0007.png'
+                            InkWell: 'https://tangrams.github.io/blocks/filter/imgs/lut-0008.png'
+                            Hefe: 'https://tangrams.github.io/blocks/filter/imgs/lut-0009.png'
+                            Gotham: 'https://tangrams.github.io/blocks/filter/imgs/lut-0010.png'
+                            EarlyBird: 'https://tangrams.github.io/blocks/filter/imgs/lut-0011.png'
+                            Brannan: 'https://tangrams.github.io/blocks/filter/imgs/lut-0013.png'
+
+        test:
+            lut: { uniforms: { u_tex0: "https://tangrams.github.io/blocks/test.jpg" }, blocks: { color: "    color = texture2D(u_tex0,v_texcoord.xy);" } }
+
+        shaders:
+            defines:
+                LUT_AMOUNT: .5
+            uniforms:
+                u_lut: https://tangrams.github.io/blocks/filter/imgs/lut-0001.png
+            blocks:
+                global: |
+                    // Apply Look up table on a color
+                    // The user need to provide a valid url to the uniform "u_lut"
+                    // ================================
+                    vec3 getLut (vec3 textureColor, sampler2D lookupTable) {
+                        textureColor.g = 1.-textureColor.g;
+                        textureColor = clamp(textureColor, 0.0, 1.0);
+                        float blueColor = textureColor.b * 63.0;
+                        vec2 quad1 = vec2(0.0);
+                        quad1.y = floor(floor(blueColor) / 8.0);
+                        quad1.x = floor(blueColor) - (quad1.y * 8.0);
+                        vec2 quad2 = vec2(0.0);
+                        quad2.y = floor(ceil(blueColor) / 8.0);
+                        quad2.x = ceil(blueColor) - (quad2.y * 8.0);
+                        vec2 texPos1 = vec2(0.0);
+                        texPos1.x = (quad1.x * 0.125) + 0.5/512.0 + ((0.125 - 1.0/512.0) * textureColor.r);
+                        texPos1.y = (quad1.y * 0.125) + 0.5/512.0 + ((0.125 - 1.0/512.0) * textureColor.g);
+                        vec2 texPos2 = vec2(0.0);
+                        texPos2.x = (quad2.x * 0.125) + 0.5/512.0 + ((0.125 - 1.0/512.0) * textureColor.r);
+                        texPos2.y = (quad2.y * 0.125) + 0.5/512.0 + ((0.125 - 1.0/512.0) * textureColor.g);
+                        vec3 newColor1 = texture2D(lookupTable, texPos1).rgb;
+                        vec3 newColor2 = texture2D(lookupTable, texPos2).rgb;
+                        vec3 newColor = mix(newColor1, newColor2, fract(blueColor));
+                        return newColor;
+                    }
+                    //
+                    vec3 getLut (vec3 textureColor) {
+                        return getLut(textureColor, u_lut);
+                    }
+                filter: |
+                    color.rgb = mix(color.rgb,
+                                    getLut(color.rgb),
+                                    LUT_AMOUNT);

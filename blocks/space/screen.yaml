@@ -1,0 +1,51 @@
+styles:
+    space-screen:
+        doc:
+            author: 
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            version: 0.0.1
+            tangram-version: 0.0.7
+            licence: MIT
+            description: |
+                Get the coordinates in screen space streaching the proportion ('vec2 getScreenCoords ()') or non-streatching the proportion ('getScreenNonStretchCoords ()')
+            examples:
+                press:
+                    url: https://tangrams.github.io/tangram-sandbox/styles/press.yaml
+                    img: https://tangrams.github.io/tangram-sandbox/styles/press.png
+                    lines: 136-145
+                radar:
+                    url: https://tangrams.github.io/tangram-sandbox/styles/radar.yaml
+                    img: https://tangrams.github.io/tangram-sandbox/styles/radar.png
+                    lines: 0-143
+        test:
+            screen:
+                blocks:
+                    color: |
+                        vec2 st = getScreenCoords();
+                        color.rg += fract(st*3.);
+            screen_nonstretch:
+                blocks:
+                    color: |
+                        vec2 st = getScreenNonStretchCoords();
+                        color.rg += fract(st*3.);
+        shaders:
+            blocks:
+                global: |
+                    #ifdef TANGRAM_FRAGMENT_SHADER
+                    vec2 getScreenCoords () {
+                        return gl_FragCoord.xy / u_resolution.xy;
+                    }
+
+                    vec2 getScreenNonStretchCoords () {
+                        vec2 st = getScreenCoords();
+                        if (u_resolution.y > u_resolution.x ) {
+                            st.y *= u_resolution.y/u_resolution.x;
+                            st.y -= (u_resolution.y*.5-u_resolution.x*.5)/u_resolution.x;
+                        } else {
+                            st.x *= u_resolution.x/u_resolution.y;
+                            st.x -= (u_resolution.x*.5-u_resolution.y*.5)/u_resolution.y;
+                        } 
+                        return st;
+                    }
+                    #endif

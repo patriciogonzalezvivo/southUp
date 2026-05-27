@@ -1,0 +1,17 @@
+styles:
+    color-palette:
+        doc:
+            author: 
+                name: Inigo Quiles
+                twitter: iquilezles
+            version: 0.0.1
+            tangram-version: 0.0.7
+            licence: MIT
+            description: |
+                Procedural generation of color palettes implemented by [Inigo Quiles](https://twitter.com/iquilezles) (1999) explained in [this article](http://www.iquilezles.org/www/articles/palettes/palettes.htm)
+        shaders:
+            blocks:
+                global: |
+                    vec3 palette (float t, vec3 a, vec3 b, vec3 c, vec3 d) {
+                        return a + b*cos( 6.28318*(c*t+d) );
+                    }

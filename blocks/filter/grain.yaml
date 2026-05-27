@@ -1,0 +1,55 @@
+import: 
+    - ../block.yaml
+    - ../generative/fbm.yaml
+
+styles:
+    filter-grain:
+        mix: [block, generative-fbm]
+        doc:
+            author: 
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            version: 0.0.1
+            tangram-version: 0.0.7
+            licence: MIT
+            description: |
+                Apply a lens grain effect to the scene.
+            examples:
+                grain:
+                    url: https://tangrams.github.io/tangram-sandbox/styles/grain.yaml
+                    img: https://tangrams.github.io/tangram-sandbox/styles/grain.png
+                    lines: 29
+        ui:
+            shaders:
+                defines:
+                    GRAIN_AMOUNT: 
+                        type: number
+                        label: Amount
+                        range: 
+                            min: 0.
+                            max: 1.
+                            step: 0.01
+                    GRAIN_BLEND: 
+                        type: dropdownArray
+                        label: 'Blend mode'
+                        values: ['ADD', 'SUBTRACT', 'MULTIPLY']
+
+        test:
+            grain: { uniforms: { u_tex0: "https://tangrams.github.io/blocks/test.jpg" }, blocks: { color: "    color = texture2D(u_tex0,v_texcoord.xy);" } }
+
+        shaders:
+            defines:
+                GRAIN_AMOUNT: .3
+                GRAIN_BLEND: 'SUBTRACT'
+            blocks:
+                global: |
+                    #ifdef TANGRAM_FRAGMENT_SHADER
+                    float grain () {
+                        vec2 pos = gl_FragCoord.xy;
+                        vec2 st = pos/u_resolution.xy-vec2(.5);
+                        return dot(st,st)+(fbm(pos*0.6)*0.1);
+                    }
+                    #endif
+                filter: |
+                    // Apply the grain in the amount defined on GRAIN_AMOUNT
+                    color.rgb = color.rgb GRAIN_BLEND (grain()*GRAIN_AMOUNT);

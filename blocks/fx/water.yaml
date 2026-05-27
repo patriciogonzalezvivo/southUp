@@ -1,0 +1,34 @@
+import: 
+    - ../generative/noise.yaml
+
+styles:
+    fx-water:
+        doc:
+            author: 
+                name: Patricio Gonzalez Vivo
+                twitter: patriciogv
+            version: 0.0.1
+            tangram-version: 0.0.7
+            licence: MIT
+            description: |
+                Water effect, made by altering the normal map of a surface and applying a sky spherical map to the surface. 
+                The result looks like moving water.
+            examples:
+                sandbox:
+                    url: https://tangrams.github.io/tangram-sandbox/styles/sandbox.yaml
+                    img: https://tangrams.github.io/tangram-sandbox/styles/sandbox.png
+        animated: true
+        mix: [generative-noise]
+        material:
+            ambient: .7
+            diffuse:
+                texture: ./imgs/sem-sky-0001.jpg
+                mapping: spheremap
+        shaders:
+            defines:
+                FX_WATER_SCALE: .08
+                FX_WATER_SPEED: .5
+                FX_WATER_AMOUNT: .02
+            blocks:
+                normal: |
+                    normal += snoise(vec3(worldPosition().xy*FX_WATER_SCALE,u_time*FX_WATER_SPEED))*FX_WATER_AMOUNT;
