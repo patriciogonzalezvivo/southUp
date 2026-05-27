@@ -1,6 +1,6 @@
 import:
-    - blocks/filter/height.yaml
-    - blocks/geometry/dynamic-height.yaml
+    - ../blocks/filter/height.yaml
+    - ../blocks/geometry/dynamic-height.yaml
 
 layers:
     buildings:

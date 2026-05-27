@@ -1,5 +1,5 @@
 import:
-    - blocks/elevation/ramp.yaml
+    - ../blocks/elevation/ramp.yaml
     
 layers:
     earth:

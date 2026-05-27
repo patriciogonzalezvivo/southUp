@@ -1,5 +1,5 @@
 import:
-    - blocks/elevation/stripes.yaml
+    - ../blocks/elevation/stripes.yaml
     
 layers:
     landuse:

@@ -1,5 +1,5 @@
 import:
-    - https://tangrams.github.io/ux_language/ux_language.yaml
+    - vendor/ux_language/ux_language.yaml
 
     # Common styles
     - blocks/functions/zoom.yaml

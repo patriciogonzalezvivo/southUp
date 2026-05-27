@@ -1,0 +1,90 @@
+global:
+    ux_language: false             # l10n language code, trusting OSM in v0.10 tiles, fixed in v1.0 tiles
+    ux_language_fallback: false    # l10n language code, trusting OSM in v0.10 tiles, fixed in v1.0 tiles
+    ux_language_text_source: |
+        function() {
+            // if a ux_langauge has been defined use that, else if there is feature name in the fallback_ux_language then use that, else use the feature's default name in the local language
+            return (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature.name;
+        }
+    ux_language_text_source_short: |
+        function() {
+            return (global.ux_language && feature['name:short:'+global.ux_language]) || (global.ux_language_fallback && feature['name:short:'+global.ux_language_fallback]) || feature['name:short'];
+        }
+    ux_language_text_source_short_proxy_name: |
+        function() {
+            var name  = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'] || '';
+            var short = (global.ux_language && feature['name:short:'+global.ux_language]) || (global.ux_language_fallback && feature['name:short:'+global.ux_language_fallback]) || feature['name:short'];
+            return short ? name : '';
+        }
+    ux_language_text_source_abbreviation: |
+        function() {
+            var name  = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'] || '';
+            var abbrev = (global.ux_language && feature['name:abbreviation:'+global.ux_language]) || (global.ux_language_fallback && feature['name:abbreviation:'+global.ux_language_fallback]) || feature['name:abbreviation'];
+            return abbrev || name;
+        }
+    ux_language_text_source_iata: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'];
+            if(feature.iata) {
+                if (name) {
+                    return name + ' (' + feature.iata + ')';
+                }
+                else {
+                    return feature.iata;
+                }
+            } else {
+                return name;
+            }
+        }
+    ux_language_text_source_ocean: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'] || '';
+            return name.split('').join('  ');
+        }
+    ux_language_text_source_sea: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'] || '';
+            return name.split('').join(' ');
+        }
+    ux_language_text_source_continent: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'] || '';
+            return name.split('').join(' ');
+        }
+    ux_language_text_source_road_ref_and_name: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'];
+            if(feature.ref && name) {
+                return (feature.ref + ' ' + name);
+            } else {
+                return name;
+            }
+        }
+    ux_language_text_source_road_ref_and_name_short: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'];
+            if (feature.ref && (feature.ref.length < 6) && name) {
+                return feature.ref + ' ' + name;
+            } else {
+                return name;
+            }
+        }
+    ux_language_text_source_piste_advanced: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'];
+            return name ? ('◆ ' + name) : '◆';
+        }
+    ux_language_text_source_piste_expert: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'];
+            return name ? ('◆◆ ' + name) : '◆◆';
+        }
+    ux_language_text_source_building_and_address: |
+        function() {
+            var name = (global.ux_language && feature['name:'+global.ux_language]) || (global.ux_language_fallback && feature['name:'+global.ux_language_fallback]) || feature['name'];
+            if (name && feature.addr_housenumber) {
+                return name + '\n' + feature.addr_housenumber;
+            } else {
+                return name;
+            }
+        }

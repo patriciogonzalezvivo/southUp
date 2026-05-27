@@ -1,0 +1,38 @@
+.ux_language-container {
+    width: 50px;
+    height: 30px;
+    background-color: white;
+}
+
+.ux_language-selector {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 22px;
+    height: 26px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    text-overflow: '';
+    text-indent: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    background-color: white;
+    z-index: 10000000;
+    white-space: nowrap;
+}
+
+.ux_language-option {
+    white-space: nowrap;
+}
+
+.ux_language-icon {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    z-index: 100;
+    text-overflow: '';
+}

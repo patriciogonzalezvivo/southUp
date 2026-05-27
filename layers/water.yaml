@@ -1,6 +1,6 @@
 import:
-    - blocks/filter/grid.yaml
-    - blocks/elevation/normal.yaml
+    - ../blocks/filter/grid.yaml
+    - ../blocks/elevation/normal.yaml
 
 layers:
     water:
